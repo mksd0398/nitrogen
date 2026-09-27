@@ -12,6 +12,11 @@
 npx @mksd0398/nitrogen my-app
 ```
 
+> [!NOTE]
+> **Previously `create-shopify-firebase-app`.** That command still works — it
+> forwards here — but it no longer receives updates. See
+> [Migrating](#migrating-from-create-shopify-firebase-app).
+
 <p align="center">
   <img src="https://img.shields.io/badge/Shopify-2026--07-7AB55C?logo=shopify&logoColor=white" />
   <img src="https://img.shields.io/badge/Firebase-v2%20Functions-FFCA28?logo=firebase&logoColor=black" />
@@ -29,6 +34,7 @@ npx @mksd0398/nitrogen my-app
 - [What's Inside](#whats-inside)
 - [Architecture](#architecture)
 - [CLI Usage](#cli-usage)
+- [Migrating from create-shopify-firebase-app](#migrating-from-create-shopify-firebase-app)
 - [Development](#development)
 - [Extending Your App](#extending-your-app)
 - [How Many Stores Can You Run for Free?](#how-many-stores-can-you-run-for-free)
@@ -344,6 +350,46 @@ npx @mksd0398/nitrogen --help
 
 ---
 
+## Migrating from create-shopify-firebase-app
+
+Nitrogen was published as `create-shopify-firebase-app` up to 2.2.2. Only the
+command changed — **nothing inside a generated project is affected**, and there
+is no migration to run in apps you already scaffolded.
+
+```bash
+# before
+npx create-shopify-firebase-app my-app
+
+# now
+npx @mksd0398/nitrogen my-app
+```
+
+The old package name is still published as a forwarding shim, so existing
+scripts and CI jobs keep working — they print a notice and hand off to
+Nitrogen unchanged. The shim is frozen at 3.0.0 and will not track future
+releases, so switch when convenient.
+
+If you installed the old package globally, replace it:
+
+```bash
+npm uninstall -g create-shopify-firebase-app
+npm install -g @mksd0398/nitrogen
+```
+
+### Why the rename
+
+The old name described the stack instead of naming the tool, ran to 28
+characters, and put "shopify" inside a third-party package name. Nitrogen
+follows the element naming of Shopify's own developer products — Hydrogen,
+Oxygen — and reads as the inert 78% of the atmosphere that everything else
+runs inside, which is what a zero-framework scaffolder is.
+
+It ships scoped because the bare `nitrogen` name on npm belongs to an
+unrelated, actively maintained project. Scoping also matches how Shopify
+publishes its own packages: `@shopify/polaris`, `@shopify/app-bridge`.
+
+---
+
 ## Development
 
 ### Local with Firebase Emulators
@@ -571,8 +617,8 @@ These are **required** for Shopify App Store listing.
 Contributions welcome! Please open an issue or PR.
 
 ```bash
-git clone https://github.com/mksd0398/create-shopify-firebase-app.git
-cd create-shopify-firebase-app
+git clone https://github.com/mksd0398/nitrogen.git
+cd nitrogen
 npm install
 npm link  # Test locally: nitrogen test-app
 ```

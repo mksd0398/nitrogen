@@ -25,10 +25,10 @@
     "express",
     "typescript"
   ],
-  "homepage": "https://github.com/mksd0398/create-shopify-firebase-app#readme",
+  "homepage": "https://github.com/mksd0398/nitrogen#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mksd0398/create-shopify-firebase-app.git"
+    "url": "https://github.com/mksd0398/nitrogen.git"
   },
   "license": "MIT",
   "author": "Mayank Khan Singh DeSouza <mayank@kloctechnologies.com>",
