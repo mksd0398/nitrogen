@@ -1,8 +1,9 @@
 {
-  "name": "create-shopify-firebase-app",
-  "version": "2.2.2",
-  "description": "Create Shopify apps powered by Firebase \u2014 multi-page dashboard, App Bridge, Polaris components, TypeScript or JavaScript. Deploy for free.",
+  "name": "@mksd0398/nitrogen",
+  "version": "3.0.0",
+  "description": "Nitrogen — scaffold a Shopify app on Firebase. Multi-page dashboard, App Bridge, Polaris, TypeScript or JavaScript. Serverless, zero-framework, free to run. Not affiliated with or endorsed by Shopify.",
   "keywords": [
+    "nitrogen",
     "shopify",
     "firebase",
     "shopify-app",
@@ -33,7 +34,10 @@
   "author": "Mayank Khan Singh DeSouza <mayank@kloctechnologies.com>",
   "type": "module",
   "bin": {
-    "create-shopify-firebase-app": "bin/create.js"
+    "nitrogen": "bin/create.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "files": [
     "bin",

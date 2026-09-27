@@ -1,13 +1,15 @@
-# create-shopify-firebase-app
+# Nitrogen
 
-> Build and run Shopify apps for free. Pay nothing until you have real traffic. One command. Zero framework. Fully serverless.
+> Shopify apps on Firebase. Inert by design — no framework, no server, no bill until you have real traffic.
+>
+> Hydrogen is the fuel. Oxygen is the oxidiser. **Nitrogen is the 78% of the atmosphere that everything else just runs inside.**
 
-[![npm version](https://img.shields.io/npm/v/create-shopify-firebase-app.svg)](https://www.npmjs.com/package/create-shopify-firebase-app)
-[![Downloads](https://img.shields.io/npm/dm/create-shopify-firebase-app.svg)](https://www.npmjs.com/package/create-shopify-firebase-app)
+[![npm version](https://img.shields.io/npm/v/%40mksd0398%2Fnitrogen.svg)](https://www.npmjs.com/package/@mksd0398/nitrogen)
+[![Downloads](https://img.shields.io/npm/dm/%40mksd0398%2Fnitrogen.svg)](https://www.npmjs.com/package/@mksd0398/nitrogen)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ```bash
-npx create-shopify-firebase-app my-app
+npx @mksd0398/nitrogen my-app
 ```
 
 <p align="center">
@@ -81,13 +83,13 @@ you in to both; you don't need to open either dashboard first.
 ### 1. Run the scaffold
 
 ```bash
-npx create-shopify-firebase-app my-app
+npx @mksd0398/nitrogen my-app
 ```
 
 The CLI walks the entire flow. This is a real run:
 
 ```
-  🛍️  +  🔥  create-shopify-firebase-app
+  🛍️  +  🔥  Nitrogen
 
   === Environment Check ===
 
@@ -194,7 +196,7 @@ shopify app dev
 
 Most Shopify app developers pay for hosting before they even have users. With Firebase, you deploy for free and only start paying when your app serves thousands of stores daily. Even at 50,000 installed stores, you're looking at ~$5/month. Try getting that from Vercel or Heroku.
 
-| | `shopify app init` (Remix) | `create-shopify-firebase-app` |
+| | `shopify app init` (Remix) | **Nitrogen** |
 |---|---|---|
 | **Backend** | Remix server (monolith) | Firebase v2 Cloud Functions (4 independent functions) |
 | **Database** | Prisma + PostgreSQL | Cloud Firestore (NoSQL, auto-scaling) |
@@ -317,19 +319,19 @@ Each function scales independently on Cloud Run (Firebase v2 / gen 2):
 
 ```bash
 # Interactive (recommended)
-npx create-shopify-firebase-app
+npx @mksd0398/nitrogen
 
 # With project name
-npx create-shopify-firebase-app my-app
+npx @mksd0398/nitrogen my-app
 
 # Skip the deploy steps (scaffold only)
-npx create-shopify-firebase-app my-app --no-deploy
+npx @mksd0398/nitrogen my-app --no-deploy
 
 # Auto-install any missing CLI tools without asking
-npx create-shopify-firebase-app my-app --yes
+npx @mksd0398/nitrogen my-app --yes
 
 # Non-interactive (CI/CD)
-npx create-shopify-firebase-app my-app \
+npx @mksd0398/nitrogen my-app \
   --api-key=abc123 \
   --api-secret=secret \
   --project-id=my-firebase-project \
@@ -337,7 +339,7 @@ npx create-shopify-firebase-app my-app \
   --scopes=read_products,write_products
 
 # Help
-npx create-shopify-firebase-app --help
+npx @mksd0398/nitrogen --help
 ```
 
 ---
@@ -572,7 +574,7 @@ Contributions welcome! Please open an issue or PR.
 git clone https://github.com/mksd0398/create-shopify-firebase-app.git
 cd create-shopify-firebase-app
 npm install
-npm link  # Test locally: create-shopify-firebase-app test-app
+npm link  # Test locally: nitrogen test-app
 ```
 
 ---
@@ -595,5 +597,7 @@ MIT
 
 <p align="center">
   <strong>Build Shopify apps with Firebase — serverless, lightweight, and fully yours.</strong><br/>
-  <sub>An alternative to the official Remix template for developers who want simplicity and control.</sub>
+  <sub>An alternative to the official Remix template for developers who want simplicity and control.</sub><br/>
+  <sub>Nitrogen is an independent community project. Not affiliated with, authorised by, or endorsed by Shopify Inc.<br/>
+  Shopify, Hydrogen, Oxygen, Polaris and App Bridge are trademarks of Shopify Inc.</sub>
 </p>

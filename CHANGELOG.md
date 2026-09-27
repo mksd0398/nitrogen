@@ -1,5 +1,37 @@
 # Changelog
 
+## 3.0.0
+
+### Changed
+
+- Renamed to **Nitrogen**. The package is now `@mksd0398/nitrogen`, and the
+  command it installs is `nitrogen`. The old name described the stack instead
+  of naming the tool, ran to 28 characters, and put "shopify" inside a
+  third-party package name. Nitrogen follows the element naming of Shopify's
+  own developer products - Hydrogen, Oxygen - and reads as the inert 78% of
+  the atmosphere that everything else runs inside, which is what a
+  zero-framework scaffolder is.
+- Published under a scope because the bare `nitrogen` name on npm belongs to
+  an actively maintained React Native project. Scoping also matches how
+  Shopify ships its own packages: `@shopify/polaris`, `@shopify/app-bridge`.
+- Added an explicit statement that Nitrogen is an independent community
+  project, not affiliated with or endorsed by Shopify Inc.
+- No functional changes. Every flag, prompt and generated file is identical to
+  2.2.2; only the package name, binary name and branding differ.
+
+### Migrating
+
+`create-shopify-firebase-app` is deprecated. Nothing changes inside a
+generated project - only the command you scaffold with:
+
+```bash
+# before
+npx create-shopify-firebase-app my-app
+
+# now
+npx @mksd0398/nitrogen my-app
+```
+
 ## 2.2.2
 
 ### Fixed
