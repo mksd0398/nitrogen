@@ -10,13 +10,13 @@
   <script src="https://cdn.shopify.com/shopifycloud/polaris.js"></script>
 </head>
 <body>
-  <ui-nav-menu>
-    <a href="/" rel="home">Dashboard</a>
-    <a href="/products">Products</a>
-    <a href="/settings">Settings</a>
-    <a href="/keys">API keys</a>
-    <a href="/polaris">Components</a>
-  </ui-nav-menu>
+  <s-app-nav>
+    <s-link href="/" rel="home">Dashboard</s-link>
+    <s-link href="/products">Products</s-link>
+    <s-link href="/settings">Settings</s-link>
+    <s-link href="/keys">API keys</s-link>
+    <s-link href="/polaris">Components</s-link>
+  </s-app-nav>
 
   <s-page heading="Polaris Web Components Reference">
     <s-link slot="breadcrumb-actions" href="/">Dashboard</s-link>
@@ -30,7 +30,7 @@
 
     <!-- Table of contents -->
     <s-section heading="Quick Navigation">
-      <s-stack direction="inline" gap="small-200" wrap>
+      <s-stack direction="inline" gap="small-200">
         <s-button href="#section-page" variant="tertiary">Page</s-button>
         <s-button href="#section-box" variant="tertiary">Box</s-button>
         <s-button href="#section-stack" variant="tertiary">Stack</s-button>
@@ -226,7 +226,7 @@
           <s-box border="base" borderRadius="base" padding="base">
             <s-heading>Wrapping Stack</s-heading>
             <s-box paddingBlockStart="small-200">
-              <s-stack direction="inline" gap="small-200" wrap>
+              <s-stack direction="inline" gap="small-200">
                 <s-badge>One</s-badge>
                 <s-badge>Two</s-badge>
                 <s-badge>Three</s-badge>
@@ -259,7 +259,7 @@
 &lt;/s-stack&gt;
 
 &lt;!-- Wrapping --&gt;
-&lt;s-stack direction="inline" gap="small-200" wrap&gt;
+&lt;s-stack direction="inline" gap="small-200"&gt;
   &lt;s-badge&gt;Wraps on overflow&lt;/s-badge&gt;
 &lt;/s-stack&gt;
 
@@ -361,9 +361,9 @@
               <s-heading fontSize="large">Heading Md</s-heading>
               <s-heading>Heading Sm</s-heading>
               <s-heading fontSize="small">Heading Xs</s-heading>
-              <s-text variant="bodyLg">Body Large text</s-text>
-              <s-text variant="bodyMd">Body Medium text (default)</s-text>
-              <s-text variant="bodySm">Body Small text</s-text>
+              <s-text fontSize="large">Body Large text</s-text>
+              <s-text>Body Medium text (default)</s-text>
+              <s-text fontSize="small">Body Small text</s-text>
             </s-stack>
           </s-box>
         </s-box>
@@ -414,7 +414,7 @@
 
 &lt;!-- Body text --&gt;
 &lt;s-text&gt;Default body text&lt;/s-text&gt;
-&lt;s-text variant="bodySm"&gt;Small body text&lt;/s-text&gt;
+&lt;s-text fontSize="small"&gt;Small body text&lt;/s-text&gt;
 
 &lt;!-- Colors --&gt;
 &lt;s-text color="subdued"&gt;Muted text&lt;/s-text&gt;
@@ -446,7 +446,7 @@
           <s-box border="base" borderRadius="base" padding="base">
             <s-heading>Button Variants</s-heading>
             <s-box paddingBlockStart="small-200">
-              <s-stack direction="inline" gap="small-200" wrap>
+              <s-stack direction="inline" gap="small-200">
                 <s-button variant="primary">Primary</s-button>
                 <s-button>Secondary (default)</s-button>
                 <s-button variant="tertiary">Tertiary</s-button>
@@ -462,7 +462,7 @@
           <s-box border="base" borderRadius="base" padding="base">
             <s-heading>States</s-heading>
             <s-box paddingBlockStart="small-200">
-              <s-stack direction="inline" gap="small-200" wrap>
+              <s-stack direction="inline" gap="small-200">
                 <s-button variant="primary" disabled>Disabled Primary</s-button>
                 <s-button disabled>Disabled</s-button>
                 <s-button variant="primary" loading>Loading</s-button>
@@ -523,7 +523,7 @@
           <s-box border="base" borderRadius="base" padding="base">
             <s-heading>Badge Tones</s-heading>
             <s-box paddingBlockStart="small-200">
-              <s-stack direction="inline" gap="small-200" wrap>
+              <s-stack direction="inline" gap="small-200">
                 <s-badge>Default</s-badge>
                 <s-badge tone="info">Info</s-badge>
                 <s-badge tone="success">Success</s-badge>
@@ -647,35 +647,35 @@
               <s-text-field
                 label="Store name"
                 placeholder="My Awesome Store"
-                helpText="The public-facing name of your store."
+                details="The public-facing name of your store."
               ></s-text-field>
 
-              <s-text-field
+              <s-email-field
                 label="Email address"
-                type="email"
+               
                 placeholder="merchant@example.com"
-              ></s-text-field>
+              ></s-email-field>
 
-              <s-text-field
+              <s-password-field
                 label="Password"
-                type="password"
+               
                 placeholder="Enter password"
-              ></s-text-field>
+              ></s-password-field>
 
-              <s-text-field
+              <s-number-field
                 label="Product count"
-                type="number"
+               
                 placeholder="0"
                 min="0"
                 max="10000"
-              ></s-text-field>
+              ></s-number-field>
 
-              <s-text-field
+              <s-text-area
                 label="Description"
-                multiline="4"
+                rows="4"
                 placeholder="Enter a detailed description..."
-                helpText="Supports multiline input."
-              ></s-text-field>
+                details="Supports multiline input."
+              ></s-text-area>
 
               <s-text-field
                 label="Invalid field"
@@ -694,7 +694,7 @@
               <s-url-field
                 label="Website URL"
                 placeholder="https://example.com"
-                helpText="Enter a valid URL."
+                details="Enter a valid URL."
               ></s-url-field>
             </s-box>
           </s-box>
@@ -708,7 +708,7 @@
               <s-color-field
                 label="Brand color"
                 value="#008060"
-                helpText="Pick your brand's primary color."
+                details="Pick your brand's primary color."
               ></s-color-field>
             </s-box>
           </s-box>
@@ -724,16 +724,16 @@
 &lt;s-text-field
   label="Store name"
   placeholder="My Store"
-  helpText="Help text below."
+  details="Help text below."
 &gt;&lt;/s-text-field&gt;
 
 &lt;!-- Email / Password / Number --&gt;
-&lt;s-text-field label="Email" type="email"&gt;&lt;/s-text-field&gt;
-&lt;s-text-field label="Password" type="password"&gt;&lt;/s-text-field&gt;
-&lt;s-text-field label="Count" type="number" min="0"&gt;&lt;/s-text-field&gt;
+&lt;s-email-field label="Email"&gt;&lt;/s-email-field&gt;
+&lt;s-password-field label="Password"&gt;&lt;/s-password-field&gt;
+&lt;s-number-field label="Count" min="0"&gt;&lt;/s-number-field&gt;
 
 &lt;!-- Multiline (textarea) --&gt;
-&lt;s-text-field label="Notes" multiline="4"&gt;&lt;/s-text-field&gt;
+&lt;s-text-area label="Notes" rows="4"&gt;&lt;/s-text-area&gt;
 
 &lt;!-- Error state --&gt;
 &lt;s-text-field label="Field"
@@ -747,11 +747,11 @@
 &lt;s-color-field label="Color" value="#008060"&gt;&lt;/s-color-field&gt;
 
 &lt;!-- Hidden label --&gt;
-&lt;s-text-field label="Search" labelHidden
+&lt;s-text-field label="Search" labelAccessibilityVisibility="exclusive"
   placeholder="Search..."&gt;&lt;/s-text-field&gt;
 
 &lt;!-- Clear button --&gt;
-&lt;s-text-field label="Search" clearButton&gt;&lt;/s-text-field&gt;</code></pre>
+&lt;s-search-field label="Search"&gt;&lt;/s-search-field&gt;</code></pre>
           </div>
         </s-box>
       </s-section>
@@ -770,7 +770,7 @@
               <s-switch label="Enable feature" checked></s-switch>
               <s-switch label="Disabled feature (off)"></s-switch>
               <s-switch label="Disabled toggle" disabled></s-switch>
-              <s-switch label="With help text" helpText="This setting controls notification preferences." checked></s-switch>
+              <s-switch label="With help text" details="This setting controls notification preferences." checked></s-switch>
             </s-stack>
           </s-box>
         </s-box>
@@ -785,7 +785,7 @@
 &lt;s-switch label="Feature off"&gt;&lt;/s-switch&gt;
 &lt;s-switch label="Cannot change" disabled&gt;&lt;/s-switch&gt;
 &lt;s-switch label="With help"
-  helpText="Description text."
+  details="Description text."
   checked&gt;&lt;/s-switch&gt;</code></pre>
           </div>
         </s-box>
@@ -802,7 +802,7 @@
         <s-box paddingBlockStart="base">
           <s-box border="base" borderRadius="base" padding="base">
             <s-stack gap="base">
-              <s-select label="Country" helpText="Select your country.">
+              <s-select label="Country" details="Select your country.">
                 <s-option value="">Select a country</s-option>
                 <s-option value="us">United States</s-option>
                 <s-option value="ca">Canada</s-option>
@@ -827,7 +827,7 @@
               <span>HTML</span>
               <button class="btn-copy" onclick="copyCode(this)">Copy</button>
             </div>
-            <pre><code>&lt;s-select label="Country" helpText="Select country."&gt;
+            <pre><code>&lt;s-select label="Country" details="Select country."&gt;
   &lt;s-option value=""&gt;Select a country&lt;/s-option&gt;
   &lt;s-option value="us"&gt;United States&lt;/s-option&gt;
   &lt;s-option value="ca"&gt;Canada&lt;/s-option&gt;
@@ -918,11 +918,11 @@
             <s-stack direction="inline" gap="large-400" alignItems="center">
               <s-stack alignItems="center" gap="small-200">
                 <s-spinner></s-spinner>
-                <s-text color="subdued" variant="bodySm">Default</s-text>
+                <s-text color="subdued" fontSize="small">Default</s-text>
               </s-stack>
               <s-stack alignItems="center" gap="small-200">
                 <s-spinner size="large"></s-spinner>
-                <s-text color="subdued" variant="bodySm">Large</s-text>
+                <s-text color="subdued" fontSize="small">Large</s-text>
               </s-stack>
             </s-stack>
           </s-box>
@@ -1001,13 +1001,13 @@
     <!-- ═══════════════════════════════════════════════════════════ -->
       <s-section heading="Modals">
         <span id="section-modals" class="anchor"></span>
-        <s-text color="subdued">App Bridge modals rendered by Shopify outside your iframe for a native feel. Uses <code>&lt;ui-modal&gt;</code>.</s-text>
+        <s-text color="subdued">Overlays for confirmations, forms and details. Uses <code>&lt;s-modal&gt;</code>, opened by any button with <code>commandFor</code>.</s-text>
 
         <s-box paddingBlockStart="base">
           <s-box border="base" borderRadius="base" padding="base">
             <s-heading>Basic Modal</s-heading>
             <s-box paddingBlockStart="small-200">
-              <s-button variant="primary" onclick="document.getElementById('demo-modal-basic').show()">Open Modal</s-button>
+              <s-button variant="primary" commandFor="demo-modal-basic">Open Modal</s-button>
             </s-box>
           </s-box>
         </s-box>
@@ -1017,7 +1017,7 @@
             <s-heading>Confirmation Dialog</s-heading>
             <s-text color="subdued">Use before destructive actions like deleting records.</s-text>
             <s-box paddingBlockStart="small-200">
-              <s-button tone="critical" onclick="document.getElementById('demo-modal-confirm').show()">Delete Item</s-button>
+              <s-button tone="critical" commandFor="demo-modal-confirm">Delete Item</s-button>
             </s-box>
           </s-box>
         </s-box>
@@ -1029,68 +1029,60 @@
               <button class="btn-copy" onclick="copyCode(this)">Copy</button>
             </div>
             <pre><code>&lt;!-- Basic modal --&gt;
-&lt;ui-modal id="my-modal"&gt;
-  &lt;div style="padding: 16px;"&gt;
-    &lt;s-text&gt;Modal content here.&lt;/s-text&gt;
-  &lt;/div&gt;
-  &lt;ui-title-bar title="Modal Title"&gt;
-    &lt;button variant="primary"
-      onclick="document.getElementById('my-modal').hide()"&gt;
-      Done
-    &lt;/button&gt;
-  &lt;/ui-title-bar&gt;
-&lt;/ui-modal&gt;
+&lt;s-modal id="my-modal" heading="Modal title"&gt;
+  &lt;s-paragraph&gt;Modal content here.&lt;/s-paragraph&gt;
+  &lt;s-button slot="primary-action" variant="primary"
+    commandFor="my-modal" command="--hide"&gt;
+    Done
+  &lt;/s-button&gt;
+&lt;/s-modal&gt;
 
-&lt;!-- Trigger --&gt;
-&lt;s-button onclick="document.getElementById('my-modal').show()"&gt;
-  Open Modal
-&lt;/s-button&gt;
+&lt;!-- Trigger: no JavaScript needed --&gt;
+&lt;s-button commandFor="my-modal"&gt;Open Modal&lt;/s-button&gt;
 
 &lt;!-- Confirmation dialog --&gt;
-&lt;ui-modal id="confirm-delete"&gt;
-  &lt;div style="padding: 16px;"&gt;
-    &lt;s-text&gt;Are you sure? This cannot be undone.&lt;/s-text&gt;
-  &lt;/div&gt;
-  &lt;ui-title-bar title="Confirm Deletion"&gt;
-    &lt;button onclick="document.getElementById('confirm-delete').hide()"&gt;
-      Cancel
-    &lt;/button&gt;
-    &lt;button variant="primary" tone="critical"
-      onclick="handleDelete()"&gt;
-      Delete
-    &lt;/button&gt;
-  &lt;/ui-title-bar&gt;
-&lt;/ui-modal&gt;
+&lt;s-modal id="confirm-delete" heading="Confirm deletion"&gt;
+  &lt;s-paragraph&gt;Are you sure? This cannot be undone.&lt;/s-paragraph&gt;
+  &lt;s-button slot="secondary-actions"
+    commandFor="confirm-delete" command="--hide"&gt;
+    Cancel
+  &lt;/s-button&gt;
+  &lt;s-button slot="primary-action" variant="primary" tone="critical"
+    commandFor="confirm-delete" command="--hide"
+    onclick="handleDelete()"&gt;
+    Delete
+  &lt;/s-button&gt;
+&lt;/s-modal&gt;
 
-&lt;!-- Large variant --&gt;
-&lt;ui-modal id="my-modal" variant="large"&gt;...&lt;/ui-modal&gt;</code></pre>
+&lt;!-- Sizes: small-100, small, base, large, large-100 --&gt;
+&lt;s-modal id="my-modal" heading="Details" size="large"&gt;...&lt;/s-modal&gt;
+
+&lt;!-- From JavaScript --&gt;
+document.getElementById("my-modal").showOverlay();
+document.getElementById("my-modal").hideOverlay();</code></pre>
           </div>
         </s-box>
       </s-section>
 
     <!-- Demo modals -->
-    <ui-modal id="demo-modal-basic">
-      <div style="padding: 16px;">
+    <s-modal id="demo-modal-basic" heading="Basic Modal">
+      <div>
         <s-stack gap="base">
           <s-heading fontSize="large">Hello from a modal!</s-heading>
-          <s-text>This is an App Bridge modal rendered by Shopify. It appears outside your app's iframe for a seamless, native experience.</s-text>
+          <s-text>This is a Polaris modal. In the Shopify admin it is rendered over the whole page, not just your app's frame.</s-text>
           <s-text color="subdued">Modals are great for forms, confirmations, and displaying details without navigating away.</s-text>
         </s-stack>
       </div>
-      <ui-title-bar title="Basic Modal">
-        <button variant="primary" onclick="document.getElementById('demo-modal-basic').hide()">Done</button>
-      </ui-title-bar>
-    </ui-modal>
+      <s-button slot="primary-action" variant="primary" commandFor="demo-modal-basic" command="--hide">Done</s-button>
+    </s-modal>
 
-    <ui-modal id="demo-modal-confirm">
-      <div style="padding: 16px;">
+    <s-modal id="demo-modal-confirm" heading="Confirm Deletion">
+      <div>
         <s-text>Are you sure you want to delete this item? This action cannot be undone.</s-text>
       </div>
-      <ui-title-bar title="Confirm Deletion">
-        <button onclick="document.getElementById('demo-modal-confirm').hide()">Cancel</button>
-        <button variant="primary" tone="critical" onclick="demoConfirmDelete()">Delete</button>
-      </ui-title-bar>
-    </ui-modal>
+      <s-button slot="secondary-actions" commandFor="demo-modal-confirm" command="--hide">Cancel</s-button>
+      <s-button slot="primary-action" variant="primary" tone="critical" commandFor="demo-modal-confirm" command="--hide" onclick="demoConfirmDelete()">Delete</s-button>
+    </s-modal>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
@@ -1183,7 +1175,7 @@ shopify.toast.show("Error!", { isError: true });</code></pre>
     <!-- ═══════════════════════════════════════════════════════════ -->
       <s-section heading="Navigation">
         <span id="section-navigation" class="anchor"></span>
-        <s-text color="subdued">App navigation in the Shopify admin sidebar. Uses <code>&lt;ui-nav-menu&gt;</code> (App Bridge) or <code>&lt;s-app-nav&gt;</code> (Polaris).</s-text>
+        <s-text color="subdued">App navigation in the Shopify admin sidebar. Uses <code>&lt;s-app-nav&gt;</code> with <code>&lt;s-link&gt;</code> children.</s-text>
 
         <s-box paddingBlockStart="base">
           <div class="demo-code">
@@ -1191,19 +1183,13 @@ shopify.toast.show("Error!", { isError: true });</code></pre>
               <span>HTML</span>
               <button class="btn-copy" onclick="copyCode(this)">Copy</button>
             </div>
-            <pre><code>&lt;!-- Option 1: App Bridge nav (used in this template) --&gt;
-&lt;ui-nav-menu&gt;
-  &lt;a href="/" rel="home"&gt;Dashboard&lt;/a&gt;
-  &lt;a href="/products"&gt;Products&lt;/a&gt;
-  &lt;a href="/settings"&gt;Settings&lt;/a&gt;
-&lt;/ui-nav-menu&gt;
-
-&lt;!-- Option 2: Polaris nav --&gt;
+            <pre><code>&lt;!-- The link with rel="home" sets the landing page and is hidden from the menu --&gt;
 &lt;s-app-nav&gt;
   &lt;s-link href="/" rel="home"&gt;Dashboard&lt;/s-link&gt;
   &lt;s-link href="/products"&gt;Products&lt;/s-link&gt;
   &lt;s-link href="/settings"&gt;Settings&lt;/s-link&gt;
-&lt;/s-app-nav&gt;</code></pre>
+&lt;/s-app-nav&gt;
+</code></pre>
           </div>
         </s-box>
       </s-section>
@@ -1265,28 +1251,28 @@ if (selected &amp;&amp; selected.length &gt; 0) {
                   <s-stack gap="small-200">
                     <s-text color="subdued">Total Sales</s-text>
                     <s-heading fontSize="large-200">$12,450</s-heading>
-                    <s-text color="success" variant="bodySm">+12.5%</s-text>
+                    <s-text color="success" fontSize="small">+12.5%</s-text>
                   </s-stack>
                 </s-box>
                 <s-box border="base" borderRadius="base" padding="base">
                   <s-stack gap="small-200">
                     <s-text color="subdued">Orders</s-text>
                     <s-heading fontSize="large-200">156</s-heading>
-                    <s-text color="success" variant="bodySm">+8.2%</s-text>
+                    <s-text color="success" fontSize="small">+8.2%</s-text>
                   </s-stack>
                 </s-box>
                 <s-box border="base" borderRadius="base" padding="base">
                   <s-stack gap="small-200">
                     <s-text color="subdued">Visitors</s-text>
                     <s-heading fontSize="large-200">3,842</s-heading>
-                    <s-text color="critical" variant="bodySm">-2.1%</s-text>
+                    <s-text color="critical" fontSize="small">-2.1%</s-text>
                   </s-stack>
                 </s-box>
                 <s-box border="base" borderRadius="base" padding="base">
                   <s-stack gap="small-200">
                     <s-text color="subdued">Conversion</s-text>
                     <s-heading fontSize="large-200">4.1%</s-heading>
-                    <s-text color="success" variant="bodySm">+0.3%</s-text>
+                    <s-text color="success" fontSize="small">+0.3%</s-text>
                   </s-stack>
                 </s-box>
               </s-grid>

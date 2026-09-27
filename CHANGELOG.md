@@ -1,5 +1,32 @@
 # Changelog
 
+## 3.2.1
+
+Brings the dashboard pages in line with the current Polaris web components
+and App Bridge. Every tag and attribute the pages use was checked against the
+live library.
+
+### Changed
+
+- Navigation is `<s-app-nav>` with `<s-link>` children, replacing
+  `<ui-nav-menu>`.
+- Modals are `<s-modal>`, opened by any button with `commandFor`, replacing
+  `<ui-modal>` and `<ui-title-bar>`. From JavaScript they open with
+  `showOverlay()`.
+- Product search is an `<s-search-field>`, which has its own clear button.
+- Email, password and number inputs are `<s-email-field>`,
+  `<s-password-field>` and `<s-number-field>`. Multi-line input is
+  `<s-text-area>`.
+
+### Fixed
+
+- Help text under fields never showed: the attribute is `details`, not
+  `helpText`.
+- A visually hidden label is `labelAccessibilityVisibility="exclusive"`;
+  `labelHidden` did nothing.
+- `wrap` on `<s-stack>` and `variant="body…"` on `<s-text>` did nothing and
+  are gone.
+
 ## 3.2.0
 
 ### Added

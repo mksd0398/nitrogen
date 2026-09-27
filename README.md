@@ -854,7 +854,7 @@ handler in `webhooks.ts` so it is deleted when Shopify asks.
 ### Add frontend pages
 
 Copy `web/keys.html` and `web/js/pages/keys.js`, and add the link to the
-`<ui-nav-menu>` of every page.
+`<s-app-nav>` of every page.
 
 ### Add Shopify billing
 

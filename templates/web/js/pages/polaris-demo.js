@@ -56,7 +56,7 @@
   // ── Confirmation delete demo ───────────────────────────────────
   window.demoConfirmDelete = function () {
     var modal = document.getElementById("demo-modal-confirm");
-    if (modal && modal.hide) modal.hide();
+    if (modal && modal.hideOverlay) modal.hideOverlay();
     showToast("Item deleted (demo only)");
   };
 
