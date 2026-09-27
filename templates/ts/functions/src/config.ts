@@ -50,7 +50,9 @@ export function apps(): ShopifyApp[] {
     key: app.key,
     clientId: process.env[app.clientIdEnv] || "",
     appUrl: process.env[app.appUrlEnv] || "",
-    secret: app.secret.value(),
+    // A secret set from a file often carries the file's trailing newline,
+    // and one stray byte fails every signature check
+    secret: app.secret.value().trim(),
   })).filter((app) => app.clientId && app.secret);
 }
 

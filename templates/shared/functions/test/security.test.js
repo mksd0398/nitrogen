@@ -69,6 +69,17 @@ test("shop/redact deletes the tenant's data", async () => {
   assert.ok(!h.store.has(`appSettings/${h.SHOP}`));
 });
 
+test("a secret stored with a trailing newline still verifies", async () => {
+  const stored = process.env.SHOPIFY_API_SECRET;
+  process.env.SHOPIFY_API_SECRET = stored + "\r\n";
+  try {
+    const res = await webhook("orders/create", { hmac: h.webhookHmac({ id: 1 }) });
+    assert.equal(res.statusCode, 200);
+  } finally {
+    process.env.SHOPIFY_API_SECRET = stored;
+  }
+});
+
 // ─── Session tokens ──────────────────────────────────────────────────────
 test("valid session token resolves shop and app", () => {
   const verified = verify.verifySessionToken(h.sessionToken());
