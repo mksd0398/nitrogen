@@ -1,76 +1,86 @@
 import crypto from "crypto";
-import { getConfig } from "./config";
-import { db } from "./firebase";
+import type { Response } from "express";
 import { Timestamp } from "firebase-admin/firestore";
 import type { Request } from "firebase-functions/v2/https";
-
-// ─── Shop domain validation ──────────────────────────────────────────────
-// The shop param is attacker-controlled and ends up in a redirect Location
-// and in outbound API URLs. Shopify shop domains are always
-// "<store-handle>.myshopify.com" — reject anything else outright.
-const SHOP_DOMAIN_PATTERN = /^[a-zA-Z0-9][a-zA-Z0-9-]*\.myshopify\.com$/;
-
-function isValidShopDomain(shop: unknown): shop is string {
-  return typeof shop === "string" && SHOP_DOMAIN_PATTERN.test(shop);
-}
+import { apps, getConfig, ShopifyApp, tenantId } from "./config";
+import { db } from "./firebase";
+import { HttpError } from "./http";
+import { isValidShopDomain, verifyOAuth } from "./verify";
 
 // OAuth state nonces are single-use and short-lived.
 const NONCE_TTL_MS = 10 * 60 * 1000; // 10 minutes
 
+// The state nonce is 16 random bytes hex-encoded (see handleStart).
+const NONCE_PATTERN = /^[a-f0-9]{32}$/;
+
+interface Session {
+  accessToken: string;
+  scope: string;
+  expiresAt: string | null;
+  isOnline: boolean;
+  source: "oauth" | "token-exchange";
+}
+
 /**
- * Standalone OAuth handler — no Express, no middleware overhead.
+ * Standalone OAuth handler — no routing table, two fixed paths.
  *
  * Routes:
  *   GET /auth           → Start OAuth (redirect to Shopify consent screen)
  *   GET /auth/callback  → Handle callback (exchange code, store session)
  */
-export async function authHandler(req: Request, res: any): Promise<void> {
-  const urlPath = req.path;
-
+export async function authHandler(req: Request, res: Response): Promise<void> {
   if (req.method !== "GET") {
     res.status(405).send("Method not allowed");
     return;
   }
 
-  if (urlPath === "/auth/callback") {
-    await handleCallback(req, res);
-  } else {
-    await handleStart(req, res);
+  try {
+    if (req.path === "/auth/callback") await handleCallback(req, res);
+    else await handleStart(req, res);
+  } catch (err) {
+    console.error("OAuth error:", err);
+    res.status(500).send("OAuth error");
   }
 }
 
 // ─── Step 1: Start OAuth ─────────────────────────────────────────────────
 // Merchant clicks "Install" → redirect to Shopify consent screen.
-async function handleStart(req: Request, res: any): Promise<void> {
+async function handleStart(req: Request, res: Response): Promise<void> {
   const { shop } = req.query;
   if (!isValidShopDomain(shop)) {
-    res.status(400).send("Invalid or missing shop parameter");
+    res.status(400).send("Invalid shop parameter");
     return;
   }
 
-  const config = getConfig();
-  const nonce = crypto.randomBytes(16).toString("hex");
-  const redirectUri = `${config.appUrl}/auth/callback`;
+  // Which app to install is the one thing a caller may choose: the client id
+  // in an install link is public. The callback then proves it (see below).
+  const configured = apps();
+  const app = req.query.app
+    ? configured.find((a) => a.key === req.query.app)
+    : configured[0];
+  if (!app) {
+    res.status(400).send("Unknown app");
+    return;
+  }
 
-  // Store nonce for CSRF protection. This MUST be awaited — the function
-  // instance can be frozen the moment we respond, so a pending write may
-  // never land and the callback would have nothing to verify against.
-  // expiresAt is a Timestamp so you can attach a Firestore TTL policy to
-  // this collection and have stale nonces purged automatically.
-  await db
-    .collection("authNonces")
-    .doc(nonce)
-    .set({
-      shop,
-      createdAt: new Date().toISOString(),
-      expiresAt: Timestamp.fromMillis(Date.now() + NONCE_TTL_MS),
-    });
+  const nonce = crypto.randomBytes(16).toString("hex");
+
+  // Store nonce for CSRF protection. Must be awaited — Cloud Functions may
+  // freeze the instance once the response is sent, dropping in-flight writes.
+  // expiresAt is a Timestamp so a Firestore TTL policy on this collection
+  // purges stale nonces automatically.
+  await db.collection("authNonces").doc(nonce).set({
+    shop,
+    app: app.key,
+    createdAt: new Date().toISOString(),
+    expiresAt: Timestamp.fromMillis(Date.now() + NONCE_TTL_MS),
+  });
 
   const authUrl =
     `https://${shop}/admin/oauth/authorize` +
-    `?client_id=${config.apiKey}` +
-    `&scope=${config.scopes}` +
-    `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+    `?client_id=${encodeURIComponent(app.clientId)}` +
+    `&scope=${encodeURIComponent(getConfig().scopes)}` +
+    `&redirect_uri=${encodeURIComponent(`${app.appUrl}/auth/callback`)}` +
     `&state=${nonce}`;
 
   res.redirect(authUrl);
@@ -78,49 +88,29 @@ async function handleStart(req: Request, res: any): Promise<void> {
 
 // ─── Step 2: OAuth Callback ──────────────────────────────────────────────
 // Shopify redirects back with code + HMAC. Verify, exchange, store session.
-async function handleCallback(req: Request, res: any): Promise<void> {
-  const { shop, code, hmac, state } = req.query;
+async function handleCallback(req: Request, res: Response): Promise<void> {
+  const { shop, code, state } = req.query;
 
   if (!isValidShopDomain(shop)) {
-    res.status(400).send("Invalid or missing shop parameter");
+    res.status(400).send("Invalid shop parameter");
     return;
   }
-
-  if (!code || !hmac) {
+  if (typeof code !== "string" || !code) {
     res.status(400).send("Missing required parameters");
     return;
   }
 
-  const config = getConfig();
-
-  // Verify HMAC (timing-safe comparison)
-  const queryParams = { ...req.query };
-  delete queryParams.hmac;
-  delete queryParams.signature;
-  const message = Object.keys(queryParams)
-    .sort()
-    .map((key) => `${key}=${queryParams[key]}`)
-    .join("&");
-  const generatedHmac = crypto
-    .createHmac("sha256", config.apiSecret)
-    .update(message)
-    .digest("hex");
-
-  const hmacBuffer = Buffer.from(hmac as string);
-  const generatedBuffer = Buffer.from(generatedHmac);
-  if (
-    hmacBuffer.length !== generatedBuffer.length ||
-    !crypto.timingSafeEqual(generatedBuffer, hmacBuffer)
-  ) {
+  // The app is whichever one's secret signed this callback
+  const app = verifyOAuth(req.query);
+  if (!app) {
     res.status(403).send("HMAC verification failed");
     return;
   }
 
-  // ─── Verify state nonce (CSRF) ─────────────────────────────────────────
-  // A callback we did not initiate has no matching nonce, so an absent or
+  // A callback we did not start has no matching nonce, so an absent or
   // unknown state must be rejected — not merely skipped.
-  if (!state || typeof state !== "string") {
-    res.status(403).send("Missing state parameter");
+  if (typeof state !== "string" || !NONCE_PATTERN.test(state)) {
+    res.status(403).send("Missing or malformed state parameter");
     return;
   }
 
@@ -135,86 +125,100 @@ async function handleCallback(req: Request, res: any): Promise<void> {
   // whatever the outcome below.
   await nonceRef.delete();
 
-  const nonceData = nonceDoc.data() ?? {};
-  const expiresAt = nonceData.expiresAt as Timestamp | undefined;
-
-  // The nonce must still be fresh AND belong to the shop calling back,
-  // otherwise a nonce issued for one store could authorize another.
+  // The nonce must be fresh AND belong to this shop and this app, otherwise
+  // a nonce issued for one tenant could authorize another.
+  const nonce = nonceDoc.data() ?? {};
+  const expiresAt = nonce.expiresAt as Timestamp | undefined;
   if (!expiresAt || expiresAt.toMillis() < Date.now()) {
     res.status(403).send("Expired state parameter");
     return;
   }
-  if (nonceData.shop !== shop) {
-    res.status(403).send("State parameter does not match shop");
+  if (nonce.shop !== shop || nonce.app !== app.key) {
+    res.status(403).send("State parameter does not match");
     return;
   }
 
-  // Exchange code for access token
-  try {
-    const tokenResponse = await fetch(
-      `https://${shop}/admin/oauth/access_token`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          client_id: config.apiKey,
-          client_secret: config.apiSecret,
-          code,
-        }),
-      },
-    );
+  const tokenResponse = await fetch(`https://${shop}/admin/oauth/access_token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      client_id: app.clientId,
+      client_secret: app.secret,
+      code,
+    }),
+  });
 
-    if (!tokenResponse.ok) {
-      const errorText = await tokenResponse.text();
-      console.error("Token exchange failed:", errorText);
-      res.status(500).send("Token exchange failed");
-      return;
-    }
-
-    const tokenData = (await tokenResponse.json()) as {
-      access_token: string;
-      scope: string;
-      // Present only for online (per-user) tokens, which expire
-      expires_in?: number;
-      associated_user?: unknown;
-    };
-
-    // Offline tokens (shpat_) do not expire; online ones (expires_in set) do.
-    // Record the expiry so a stale token is treated as "not installed" and the
-    // merchant is sent back through OAuth, instead of hitting confusing 401s
-    // from the Admin API.
-    const expiresAt = tokenData.expires_in
-      ? new Date(Date.now() + tokenData.expires_in * 1000).toISOString()
-      : null;
-
-    if (expiresAt) {
-      console.warn(
-        `Received an online access token for ${shop} (expires ${expiresAt}). ` +
-          "Offline tokens are expected for background work.",
-      );
-    }
-
-    // Store session in Firestore
-    await db
-      .collection("shopSessions")
-      .doc(shop)
-      .set({
-        shop,
-        accessToken: tokenData.access_token,
-        scope: tokenData.scope,
-        expiresAt,
-        isOnline: !!tokenData.associated_user,
-        installedAt: new Date().toISOString(),
-      });
-
-    console.log(`App installed for shop: ${shop}`);
-    res.redirect(`https://${shop}/admin/apps/${config.apiKey}`);
-  } catch (err: any) {
-    console.error("OAuth error:", err);
-    res.status(500).send("OAuth error");
+  if (!tokenResponse.ok) {
+    console.error("Token exchange failed:", await tokenResponse.text());
+    res.status(500).send("Token exchange failed");
+    return;
   }
+
+  const tokenData = (await tokenResponse.json()) as {
+    access_token: string;
+    scope: string;
+    // Present only for online (per-user) tokens, which expire
+    expires_in?: number;
+    associated_user?: unknown;
+  };
+
+  // Offline tokens (shpat_) do not expire; online ones (expires_in set) do.
+  // Record the expiry so a stale token is replaced rather than producing
+  // confusing 401s from the Admin API.
+  const tokenExpiresAt = tokenData.expires_in
+    ? new Date(Date.now() + tokenData.expires_in * 1000).toISOString()
+    : null;
+
+  if (tokenExpiresAt) {
+    console.warn(
+      `Received an online access token for ${shop} (expires ${tokenExpiresAt}). ` +
+        "Offline tokens are expected for background work.",
+    );
+  }
+
+  await saveSession(app, shop, {
+    accessToken: tokenData.access_token,
+    scope: tokenData.scope,
+    expiresAt: tokenExpiresAt,
+    isOnline: !!tokenData.associated_user,
+    source: "oauth",
+  });
+
+  console.log(`App installed for shop: ${shop}`);
+  res.redirect(`https://${shop}/admin/apps/${app.clientId}`);
 }
 
+// ─── Sessions ────────────────────────────────────────────────────────────
+// One document per tenant (a shop under one app) — see tenantId().
+function sessionRef(app: ShopifyApp, shop: string) {
+  return db.collection("shopSessions").doc(tenantId(app, shop));
+}
+
+function saveSession(app: ShopifyApp, shop: string, session: Session) {
+  return sessionRef(app, shop).set({
+    shop,
+    app: app.key,
+    clientId: app.clientId,
+    installedAt: new Date().toISOString(),
+    ...session,
+  });
+}
+
+export function deleteSession(app: ShopifyApp, shop: string) {
+  tokens.delete(tenantId(app, shop));
+  return sessionRef(app, shop).delete();
+}
+
+// Access tokens held in the instance, so a busy tenant costs one Firestore
+// read every few minutes instead of one per request. A revoked token is
+// dropped by deleteSession() the moment Shopify refuses it.
+const TOKEN_CACHE_MS = 5 * 60 * 1000;
+const tokens = new Map<string, { accessToken: string; until: number }>();
+
+function remember(app: ShopifyApp, shop: string, accessToken: string): string {
+  tokens.set(tenantId(app, shop), { accessToken, until: Date.now() + TOKEN_CACHE_MS });
+  return accessToken;
+}
 
 // ─── Token exchange ──────────────────────────────────────────────────────
 // Apps built with the Shopify CLI use managed installation by default:
@@ -224,23 +228,23 @@ async function handleCallback(req: Request, res: any): Promise<void> {
 // token becomes an Admin API access token.
 // Docs: https://shopify.dev/docs/apps/build/authentication-authorization/access-tokens
 
-/** Thrown when Shopify rejects the ID token as stale — routine, not a fault. */
-export class StaleIdTokenError extends Error {
-  readonly staleIdToken = true;
-  constructor() {
-    super("ID token is expired or invalid");
-  }
+/**
+ * A 401 App Bridge answers by fetching a fresh ID token and retrying.
+ * Routine, not a fault: an ID token lives about a minute.
+ */
+export function staleToken(): HttpError {
+  return new HttpError(401, "Stale ID token", {
+    "X-Shopify-Retry-Invalid-Session-Request": "1",
+  });
 }
 
-async function exchangeIdToken(shop: string, idToken: string): Promise<string> {
-  const config = getConfig();
-
+async function exchangeIdToken(app: ShopifyApp, shop: string, idToken: string): Promise<string> {
   const response = await fetch(`https://${shop}/admin/oauth/access_token`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      client_id: config.apiKey,
-      client_secret: config.apiSecret,
+      client_id: app.clientId,
+      client_secret: app.secret,
       grant_type: "urn:ietf:params:oauth:grant-type:token-exchange",
       subject_token: idToken,
       subject_token_type: "urn:ietf:params:oauth:token-type:id_token",
@@ -249,10 +253,7 @@ async function exchangeIdToken(shop: string, idToken: string): Promise<string> {
     }),
   });
 
-  // An ID token lives about a minute, so 400 here is expected rather than
-  // broken. The caller answers it with a 401 + retry header and App Bridge
-  // fetches a fresh one.
-  if (response.status === 400) throw new StaleIdTokenError();
+  if (response.status === 400) throw staleToken();
 
   if (!response.ok) {
     throw new Error(
@@ -260,44 +261,44 @@ async function exchangeIdToken(shop: string, idToken: string): Promise<string> {
     );
   }
 
-  const data: any = await response.json();
+  const data = (await response.json()) as { access_token?: string; scope: string };
   if (!data.access_token) throw new Error("Token exchange returned no token");
 
-  await db.collection("shopSessions").doc(shop).set({
-    shop,
+  await saveSession(app, shop, {
     accessToken: data.access_token,
     scope: data.scope,
     expiresAt: null,
     isOnline: false,
-    installedAt: new Date().toISOString(),
     source: "token-exchange",
   });
 
   console.log(`Access token obtained via token exchange for ${shop}`);
-  return data.access_token;
+  return remember(app, shop, data.access_token);
 }
 
-// Helper: get an access token for a shop.
-// Reads the stored one; falls back to token exchange when an ID token is
-// supplied, which is the path a managed install takes.
+/**
+ * Get an access token for a tenant. Reads the stored one; falls back to token
+ * exchange when an ID token is supplied, which is the path a managed install
+ * takes. Returns null when there is neither.
+ */
 export async function getAccessToken(
+  app: ShopifyApp,
   shop: string,
   idToken?: string,
 ): Promise<string | null> {
-  const doc = await db.collection("shopSessions").doc(shop).get();
-  if (!doc.exists) {
-    return idToken ? await exchangeIdToken(shop, idToken) : null;
-  }
+  const cached = tokens.get(tenantId(app, shop));
+  if (cached && cached.until > Date.now()) return cached.accessToken;
 
-  const data = doc.data();
+  const data = (await sessionRef(app, shop).get()).data();
 
   // An expired online token is worse than no token: it produces 401s from
-  // Shopify rather than a clean "reinstall me" signal.
-  if (data?.expiresAt && new Date(data.expiresAt).getTime() <= Date.now()) {
-    console.warn(`Access token for ${shop} expired at ${data.expiresAt}`);
-    return idToken ? await exchangeIdToken(shop, idToken) : null;
-  }
+  // Shopify rather than a clean signal.
+  const expired =
+    data?.expiresAt && new Date(data.expiresAt).getTime() <= Date.now();
 
-  if (data?.accessToken) return data.accessToken;
-  return idToken ? await exchangeIdToken(shop, idToken) : null;
+  // Only offline tokens are cached: an online one can expire mid-cache
+  if (data?.accessToken && !expired) {
+    return data.expiresAt ? data.accessToken : remember(app, shop, data.accessToken);
+  }
+  return idToken ? await exchangeIdToken(app, shop, idToken) : null;
 }

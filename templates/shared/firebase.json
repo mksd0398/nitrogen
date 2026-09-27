@@ -2,23 +2,71 @@
   "hosting": {
     "public": "web",
     "cleanUrls": true,
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Content-Security-Policy",
+            "value": "frame-ancestors https://*.myshopify.com https://admin.shopify.com"
+          },
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      }
+    ],
     "rewrites": [
-      { "source": "/auth", "run": { "serviceId": "auth", "region": "us-central1" } },
-      { "source": "/auth/**", "run": { "serviceId": "auth", "region": "us-central1" } },
-      { "source": "/api", "run": { "serviceId": "api", "region": "us-central1" } },
-      { "source": "/api/**", "run": { "serviceId": "api", "region": "us-central1" } },
-      { "source": "/proxy", "run": { "serviceId": "proxy", "region": "us-central1" } },
-      { "source": "/proxy/**", "run": { "serviceId": "proxy", "region": "us-central1" } },
-      { "source": "/webhooks", "run": { "serviceId": "webhooks", "region": "us-central1" } },
-      { "source": "/webhooks/**", "run": { "serviceId": "webhooks", "region": "us-central1" } }
+      { "source": "/auth", "run": { "serviceId": "auth", "region": "{{REGION}}" } },
+      { "source": "/auth/**", "run": { "serviceId": "auth", "region": "{{REGION}}" } },
+      { "source": "/webhooks", "run": { "serviceId": "webhooks", "region": "{{REGION}}" } },
+      { "source": "/webhooks/**", "run": { "serviceId": "webhooks", "region": "{{REGION}}" } },
+      { "source": "/proxy", "run": { "serviceId": "proxy", "region": "{{REGION}}" } },
+      { "source": "/proxy/**", "run": { "serviceId": "proxy", "region": "{{REGION}}" } },
+      { "source": "/api/shop", "run": { "serviceId": "shop", "region": "{{REGION}}" } },
+      { "source": "/api/products", "run": { "serviceId": "products", "region": "{{REGION}}" } },
+      { "source": "/api/products/**", "run": { "serviceId": "products", "region": "{{REGION}}" } },
+      { "source": "/api/settings", "run": { "serviceId": "settings", "region": "{{REGION}}" } },
+      { "source": "/api/keys", "run": { "serviceId": "keys", "region": "{{REGION}}" } },
+      { "source": "/api/keys/**", "run": { "serviceId": "keys", "region": "{{REGION}}" } },
+      { "source": "/api/status", "run": { "serviceId": "status", "region": "{{REGION}}" } }
     ]
   },
   "functions": [
     {
       "source": "functions",
       "codebase": "default",
-      "runtime": "nodejs22"
+      "runtime": "nodejs22",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local",
+        "test",
+        "*firebase-adminsdk*.json",
+        "*.pem",
+        "*.p12"
+      ]
     }
   ],
   "firestore": {

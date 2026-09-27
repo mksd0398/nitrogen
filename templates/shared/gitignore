@@ -14,6 +14,7 @@ functions/lib/
 # Secrets
 .env
 functions/.env
+*.local
 .runtimeconfig.json
 functions/.runtimeconfig.json
 

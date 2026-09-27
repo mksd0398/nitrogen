@@ -1,93 +1,95 @@
 /**
- * Cloud Function exports — each function scales independently.
+ * Cloud Function exports — THIS FILE IS YOUR API SURFACE.
  *
- * Firebase v2 (gen 2) functions run on Cloud Run with per-function
- * concurrency, memory, timeout, and min-instance settings.
+ * Every export below is one Cloud Function: its own Cloud Run service, with
+ * its own scaling, memory, timeout, logs and deploy. An API exists because
+ * it is exported here and has a rewrite in firebase.json.
  *
- * Architecture:
- *   auth      — OAuth 2.0 install + callback (standalone, no Express)
- *   api       — Admin dashboard API routes (Express + JWT middleware)
- *   webhooks  — Webhook handlers (standalone, no Express — fast cold starts)
- *   proxy     — Storefront App Proxy routes (Express + HMAC verification)
+ *   auth      /auth, /auth/callback     OAuth install + callback
+ *   webhooks  /webhooks                 Shopify webhooks (HMAC)
+ *   proxy     /proxy/**                 Storefront App Proxy (signature)
+ *   shop      /api/shop                 ┐
+ *   products  /api/products/**          ├ Admin API, one function per resource
+ *   settings  /api/settings             │ (session token)
+ *   keys      /api/keys/**              ┘
+ *   status    /api/status               session token OR an API key
  *
- * Adding a new function:
- *   1. Create a new file in src/ (e.g. src/cron.ts)
- *   2. Export a handler from it
- *   3. Import and re-export here with desired options
- *   4. Add a rewrite in firebase.json if it needs an HTTP endpoint
- *   5. Run: firebase deploy --only functions:yourFunction
+ * ── Adding an API ─────────────────────────────────────────────────────────
+ * Three things must agree. Say the resource is "orders":
+ *
+ *   1. src/api/orders.ts — the routes:
+ *        export default endpoint({
+ *          "GET /api/orders": async (ctx) => ({ orders: [] }),
+ *        });
+ *
+ *   2. An export here:
+ *        import ordersApi from "./api/orders";
+ *        export const orders = onRequest(base, ordersApi);
+ *
+ *   3. A rewrite in firebase.json, in the same region as the others:
+ *        { "source": "/api/orders", "run": { "serviceId": "orders", "region": "..." } },
+ *        { "source": "/api/orders/**", "run": { "serviceId": "orders", "region": "..." } }
+ *
+ * `npm test` checks that 2 and 3 agree, so run it before you deploy.
+ *
+ * ── Traps ─────────────────────────────────────────────────────────────────
+ * - serviceId is the export name LOWERCASED (orderSync -> "ordersync").
+ * - Keep `invoker: "public"`: without it an update serves Google's own 403
+ *   page, which reads exactly like a CORS bug.
+ * - Firebase Hosting cuts a rewritten request at 60 seconds whatever
+ *   timeoutSeconds says. Long work has to be chunked by the client.
+ * - Shared modules (http, verify, config…) are bundled into every function.
+ *   After changing one, deploy them all: firebase deploy --only functions
+ *
+ * ── Who may call it ───────────────────────────────────────────────────────
+ * endpoint(routes)                        the embedded admin (session token)
+ * endpoint(routes, { apiKey: "read" })    ...and outside systems with a key
+ * endpoint(routes, { auth: "proxy" })     the storefront, via the App Proxy
+ * endpoint(routes, { rateLimit: { max: 30, windowSeconds: 60 } })
+ *
+ * ── A route that needs more ───────────────────────────────────────────────
+ * Give a heavy resource its own options and it cannot starve the rest:
+ *   export const imports = onRequest(
+ *     { ...base, memory: "1GiB", timeoutSeconds: 60 },
+ *     importsApi,
+ *   );
  *
  * Docs: https://firebase.google.com/docs/functions/http-events?gen=2nd
  */
 
 import "./firebase"; // Initialize Firebase Admin SDK — must be first
 
-import { onRequest } from "firebase-functions/v2/https";
-import express from "express";
-import cors from "cors";
+import { setGlobalOptions } from "firebase-functions/v2";
+import { HttpsOptions, onRequest } from "firebase-functions/v2/https";
+import keysApi from "./api/keys";
+import productsApi from "./api/products";
+import settingsApi from "./api/settings";
+import shopApi from "./api/shop";
+import statusApi from "./api/status";
 import { authHandler } from "./auth";
-import { adminApiRouter } from "./admin-api";
-import { proxyRouter } from "./proxy";
+import { REGION, secrets } from "./config";
+import proxyApi from "./proxy";
 import { webhookHandler } from "./webhooks";
 
-// ─── auth: OAuth 2.0 install + callback ──────────────────────────────────
-// Standalone handler (no Express overhead). Handles:
-//   GET /auth         → redirect to Shopify consent screen
-//   GET /auth/callback → exchange code for access token
-export const auth = onRequest(
-  { memory: "256MiB", timeoutSeconds: 30, invoker: "public" },
-  authHandler,
-);
+// maxInstances is a spending cap: a traffic spike or a retry storm cannot
+// scale past it. Raise it when real traffic needs more.
+setGlobalOptions({ region: REGION, maxInstances: 10 });
 
-// ─── api: Admin dashboard API ────────────────────────────────────────────
-// Express app with JWT session token middleware on all routes.
-// Add routes in src/admin-api.ts.
-const apiApp = express();
-apiApp.use(cors({ origin: true }));
-apiApp.use(express.json());
-apiApp.use("/api", adminApiRouter);
+const base: HttpsOptions = {
+  secrets: secrets(),
+  invoker: "public",
+  memory: "256MiB",
+  timeoutSeconds: 30,
+};
 
-export const api = onRequest(
-  { memory: "256MiB", timeoutSeconds: 60, invoker: "public" },
-  apiApp,
-);
+// ─── Shopify plumbing ────────────────────────────────────────────────────
+export const auth = onRequest(base, authHandler);
+export const webhooks = onRequest({ ...base, timeoutSeconds: 10 }, webhookHandler);
+export const proxy = onRequest(base, proxyApi);
 
-// ─── webhooks: Shopify webhook handlers ──────────────────────────────────
-// Standalone handler for maximum speed. Must respond 200 within 5 seconds.
-// No Express, no CORS, no JSON parsing — just raw body HMAC verification.
-export const webhooks = onRequest(
-  { memory: "256MiB", timeoutSeconds: 10, invoker: "public" },
-  webhookHandler,
-);
-
-// ─── proxy: Storefront App Proxy routes ──────────────────────────────────
-// Express app for storefront-facing endpoints.
-// Add routes in src/proxy.ts. Enable App Proxy in shopify.app.toml.
-const proxyApp = express();
-proxyApp.use(cors({ origin: true }));
-proxyApp.use(express.json());
-proxyApp.use("/proxy", proxyRouter);
-
-export const proxy = onRequest(
-  { memory: "256MiB", timeoutSeconds: 30, invoker: "public" },
-  proxyApp,
-);
-
-// ──────────────────────────────────────────────────────────────────────────
-// HOW TO ADD A NEW FUNCTION:
-//
-//   // 1. Create src/my-feature.ts with your handler
-//   import { myFeatureHandler } from "./my-feature";
-//
-//   // 2. Export it here with desired options
-//   export const myFeature = onRequest(
-//     { memory: "256MiB", timeoutSeconds: 60, invoker: "public" },
-//     myFeatureHandler,
-//   );
-//
-//   // 3. Add rewrite in firebase.json:
-//   //    { "source": "/my-feature/**", "run": { "serviceId": "myFeature", "region": "us-central1" } }
-//
-//   // 4. Deploy only your function:
-//   //    firebase deploy --only functions:myFeature
-// ──────────────────────────────────────────────────────────────────────────
+// ─── Admin API — one function per resource ───────────────────────────────
+export const shop = onRequest(base, shopApi);
+export const products = onRequest(base, productsApi);
+export const settings = onRequest(base, settingsApi);
+export const keys = onRequest(base, keysApi);
+export const status = onRequest(base, statusApi);

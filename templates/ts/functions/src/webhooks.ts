@@ -1,43 +1,31 @@
-import crypto from "crypto";
-import { getConfig } from "./config";
-import { db } from "./firebase";
+import type { Response } from "express";
 import type { Request } from "firebase-functions/v2/https";
-
-// ─── Verify Shopify Webhook HMAC ─────────────────────────────────────────
-function verifyWebhookHmac(rawBody: Buffer, hmacHeader: string): boolean {
-  const config = getConfig();
-  const hash = crypto
-    .createHmac("sha256", config.apiSecret)
-    .update(rawBody)
-    .digest("base64");
-
-  try {
-    return crypto.timingSafeEqual(Buffer.from(hash), Buffer.from(hmacHeader));
-  } catch {
-    return false;
-  }
-}
+import { deleteSession } from "./auth";
+import { tenantId } from "./config";
+import { db } from "./firebase";
+import { API_VERSION } from "./shopify";
+import { isValidShopDomain, verifyWebhook } from "./verify";
 
 /**
- * Standalone webhook handler — no Express, no middleware.
+ * Standalone webhook handler.
  *
- * Why standalone? Webhooks must respond 200 within 5 seconds.
- * Skipping Express middleware means faster cold starts and less overhead.
- * Uses req.rawBody (provided natively by Firebase v2) for HMAC verification.
+ * Webhooks must respond 200 within 5 seconds. Uses req.rawBody (provided
+ * natively by Firebase v2) for HMAC verification: the signature covers the
+ * exact bytes Shopify sent, not a re-serialized body.
  */
-export async function webhookHandler(req: Request, res: any): Promise<void> {
-  // Only accept POST
+export async function webhookHandler(req: Request, res: Response): Promise<void> {
   if (req.method !== "POST") {
     res.status(405).send("Method not allowed");
     return;
   }
 
-  const hmac = req.headers["x-shopify-hmac-sha256"] as string;
-  const topic = req.headers["x-shopify-topic"] as string;
-  const shop = req.headers["x-shopify-shop-domain"] as string;
+  const topic = req.headers["x-shopify-topic"];
+  const shop = req.headers["x-shopify-shop-domain"];
 
-  // Verify HMAC using rawBody (Buffer, provided by Firebase v2)
-  if (req.rawBody && hmac && !verifyWebhookHmac(req.rawBody, hmac)) {
+  // A missing header or body means NO. The app that signed the webhook is
+  // the tenant, so one app's webhook can never touch another app's data.
+  const app = verifyWebhook(req.rawBody, req.headers["x-shopify-hmac-sha256"]);
+  if (!app || !isValidShopDomain(shop)) {
     console.error("Webhook HMAC verification failed");
     res.status(401).send("Unauthorized");
     return;
@@ -45,10 +33,17 @@ export async function webhookHandler(req: Request, res: any): Promise<void> {
 
   console.log(`Webhook: ${topic} from ${shop}`);
 
-  // Parse body
+  // Payloads arrive in the api_version of shopify.app.toml. When that version
+  // is retired Shopify silently moves them to a newer schema, and this header
+  // is the only symptom.
+  const version = req.headers["x-shopify-api-version"];
+  if (version && version !== API_VERSION) {
+    console.warn(`Webhooks arrive as ${version}, but the app is built for ${API_VERSION}`);
+  }
+
   let body: any = {};
   try {
-    body = JSON.parse(req.rawBody?.toString("utf8") || "{}");
+    body = JSON.parse(req.rawBody.toString("utf8") || "{}");
   } catch {
     // Non-JSON webhook payloads are rare but valid
   }
@@ -56,7 +51,7 @@ export async function webhookHandler(req: Request, res: any): Promise<void> {
   switch (topic) {
     // ── App lifecycle ──────────────────────────────────────────────────
     case "app/uninstalled": {
-      await db.collection("shopSessions").doc(shop).delete();
+      await deleteSession(app, shop);
       console.log(`Session cleaned up for ${shop}`);
       break;
     }
@@ -77,14 +72,20 @@ export async function webhookHandler(req: Request, res: any): Promise<void> {
     }
 
     case "shop/redact": {
-      // 48h after uninstall. Delete ALL shop data.
-      console.log(`Shop redact: ${shop}`);
-      // TODO: delete all data for this shop from Firestore
+      // 48h after uninstall. Delete ALL of this tenant's data — add every
+      // collection you create to this list.
+      const id = tenantId(app, shop);
+      await Promise.all(
+        ["shopSessions", "appSettings"].map((name) =>
+          db.collection(name).doc(id).delete(),
+        ),
+      );
+      console.log(`Shop redacted: ${shop}`);
       break;
     }
 
     default:
-      console.log(`Unhandled webhook: ${topic}`);
+      console.log(`Unhandled webhook: ${topic}`, Object.keys(body));
   }
 
   // Always respond 200 quickly — do heavy work asynchronously
