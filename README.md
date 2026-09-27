@@ -8,7 +8,6 @@ Cloud Functions, Firestore and Hosting. Polaris web components and App Bridge. N
 > Hydrogen is the fuel. Oxygen is the oxidiser. **Nitrogen is the 78% of the atmosphere that everything else just runs inside.**
 
 [![npm version](https://img.shields.io/npm/v/%40mksd0398%2Fnitrogen.svg)](https://www.npmjs.com/package/@mksd0398/nitrogen)
-[![Downloads](https://img.shields.io/npm/dm/%40mksd0398%2Fnitrogen.svg)](https://www.npmjs.com/package/@mksd0398/nitrogen)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ```bash

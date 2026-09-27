@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nitrogen: Shopify apps on Firebase, in one command</title>
+  <meta name="description" content="Nitrogen scaffolds a Shopify app, deploys it to Firebase, and hands you an install link. Cloud Functions, Firestore and Hosting. Polaris web components and App Bridge. No framework, no server.">
+  <meta property="og:title" content="Nitrogen: Shopify apps on Firebase, in one command">
+  <meta property="og:description" content="One command scaffolds a Shopify app, deploys it to Firebase, and hands you an install link. No framework, no server.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mksd0398.github.io/nitrogen/">
+  <link rel="canonical" href="https://mksd0398.github.io/nitrogen/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1220'/%3E%3Ctext x='32' y='45' font-family='system-ui,sans-serif' font-size='38' font-weight='700' text-anchor='middle' fill='%237dd3fc'%3EN%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f5f7fa;
+      --border: #e2e6ec;
+      --text: #0f1729;
+      --muted: #5a6478;
+      --accent: #0369a1;
+      --accent-soft: #e0f2fe;
+      --code-bg: #0b1220;
+      --code-text: #dbe4f3;
+      --code-dim: #8b98b0;
+      --code-accent: #7dd3fc;
+      --good: #047857;
+      --radius: 12px;
+      --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1220;
+        --surface: #121b2e;
+        --border: #24304a;
+        --text: #e8eef9;
+        --muted: #9aa7bf;
+        --accent: #7dd3fc;
+        --accent-soft: #10263d;
+        --code-bg: #060b16;
+        --good: #6ee7b7;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+    code { font-family: var(--mono); font-size: 0.9em; }
+    p code, li code, td code {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1px 6px;
+    }
+
+    header { border-bottom: 1px solid var(--border); }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); }
+    .brand:hover { text-decoration: none; }
+    .element {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: var(--code-bg); color: var(--code-accent);
+      display: grid; place-items: center; font-weight: 700;
+    }
+    nav { display: flex; gap: 22px; font-size: 15px; }
+    nav a { color: var(--muted); }
+    nav a:hover { color: var(--text); text-decoration: none; }
+
+    .hero { padding-top: 84px; padding-bottom: 64px; }
+    .eyebrow {
+      display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+      color: var(--accent); background: var(--accent-soft);
+      padding: 5px 12px; border-radius: 999px; margin-bottom: 22px;
+    }
+    h1 { font-size: clamp(36px, 6vw, 60px); line-height: 1.08; letter-spacing: -0.025em; margin: 0 0 20px; max-width: 16ch; }
+    .lede { font-size: clamp(18px, 2.3vw, 21px); color: var(--muted); max-width: 60ch; margin: 0 0 32px; }
+
+    .command {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      background: var(--code-bg); color: var(--code-text);
+      border-radius: var(--radius); padding: 16px 18px; max-width: 520px;
+      font-family: var(--mono); font-size: 16px;
+    }
+    .command .prompt { color: var(--code-dim); margin-right: 10px; user-select: none; }
+    button.copy {
+      font: inherit; font-size: 13px; cursor: pointer;
+      color: var(--code-text); background: transparent;
+      border: 1px solid #34425f; border-radius: 8px; padding: 6px 12px;
+    }
+    button.copy:hover { border-color: var(--code-accent); color: var(--code-accent); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+    .button {
+      display: inline-block; padding: 11px 20px; border-radius: 10px; font-weight: 600; font-size: 15px;
+      border: 1px solid var(--border); color: var(--text);
+    }
+    .button:hover { text-decoration: none; border-color: var(--accent); }
+    .button.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .note { font-size: 14px; color: var(--muted); margin-top: 18px; }
+
+    section { padding: 64px 0; border-top: 1px solid var(--border); }
+    h2 { font-size: clamp(26px, 3.6vw, 34px); letter-spacing: -0.02em; line-height: 1.2; margin: 0 0 12px; }
+    .sub { color: var(--muted); max-width: 64ch; margin: 0 0 36px; }
+
+    .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: step; }
+    .steps li {
+      counter-increment: step; position: relative;
+      padding: 16px 18px 16px 62px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius);
+    }
+    .steps li::before {
+      content: counter(step); position: absolute; left: 18px; top: 16px;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--text); color: var(--bg);
+      display: grid; place-items: center; font-size: 14px; font-weight: 700;
+    }
+    .steps strong { display: block; }
+    .steps span { color: var(--muted); font-size: 15.5px; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; }
+    .card { padding: 22px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+    .card h3 { margin: 0 0 8px; font-size: 18px; }
+    .card p { margin: 0; color: var(--muted); font-size: 15.5px; }
+
+    pre {
+      margin: 0; padding: 20px; overflow-x: auto;
+      background: var(--code-bg); color: var(--code-text);
+      border-radius: var(--radius); font: 14.5px/1.65 var(--mono);
+    }
+    pre .c { color: var(--code-dim); }
+    pre .k { color: var(--code-accent); }
+    pre .s { color: #a7f3d0; }
+    .split { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px; align-items: start; }
+    .split ul { margin: 0; padding-left: 20px; color: var(--muted); }
+    .split li { margin-bottom: 10px; }
+    .split li strong { color: var(--text); }
+
+    .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+    table { width: 100%; border-collapse: collapse; font-size: 15.5px; min-width: 560px; }
+    th, td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { background: var(--surface); font-size: 13px; letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted); }
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { font-weight: 600; white-space: nowrap; }
+    .num { font-variant-numeric: tabular-nums; }
+
+    .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .stat { padding: 20px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+    .stat b { display: block; font-size: 30px; letter-spacing: -0.02em; line-height: 1.1; }
+    .stat span { color: var(--muted); font-size: 14.5px; }
+
+    footer { border-top: 1px solid var(--border); padding: 36px 0 56px; color: var(--muted); font-size: 14px; }
+    footer .wrap { display: grid; gap: 10px; }
+    @media (max-width: 640px) {
+      nav a.optional { display: none; }
+      .hero { padding-top: 56px; padding-bottom: 44px; }
+      section { padding: 48px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="#top"><span class="element">N</span>Nitrogen</a>
+      <nav>
+        <a class="optional" href="#get">What you get</a>
+        <a class="optional" href="#api">Writing an API</a>
+        <a class="optional" href="#cost">Cost</a>
+        <a href="https://github.com/mksd0398/nitrogen">GitHub</a>
+        <a href="https://www.npmjs.com/package/@mksd0398/nitrogen">npm</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <span class="eyebrow">Open source · MIT</span>
+      <h1>Shopify apps on Firebase, in one command.</h1>
+      <p class="lede">
+        Nitrogen scaffolds a Shopify app, deploys it to Firebase, and hands you an
+        install link. No framework to learn and no server to keep running.
+      </p>
+      <div class="command">
+        <span><span class="prompt">$</span><span id="command">npx @mksd0398/nitrogen my-app</span></span>
+        <button class="copy" type="button" id="copy">Copy</button>
+      </div>
+      <div class="actions">
+        <a class="button primary" href="https://github.com/mksd0398/nitrogen#quick-start">Read the quick start</a>
+        <a class="button" href="https://github.com/mksd0398/nitrogen">View on GitHub</a>
+      </div>
+      <p class="note">Needs Node.js 20 or newer, a Shopify Partner account, and a Firebase project on the Blaze plan.</p>
+    </div>
+
+    <section id="how">
+      <div class="wrap">
+        <h2>What the command does</h2>
+        <p class="sub">You answer a few questions. It does the rest, in this order, and stops to tell you if something needs your attention.</p>
+        <ol class="steps">
+          <li><strong>Signs you in to Shopify and creates the app</strong><span>Your client id and secret are read from the Shopify CLI. You never paste them.</span></li>
+          <li><strong>Creates and provisions the Firebase project</strong><span>Firestore, Hosting and Functions, in the region you choose.</span></li>
+          <li><strong>Stores the client secret in Secret Manager</strong><span>It never sits in a file that ships with your code.</span></li>
+          <li><strong>Deploys, then registers the live URLs with Shopify</strong><span>When it finishes, the app is installable.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="get">
+      <div class="wrap">
+        <h2>What you get</h2>
+        <p class="sub">A working app you can read end to end, in TypeScript or JavaScript.</p>
+        <div class="grid">
+          <div class="card"><h3>One function per API resource</h3><p>Each scales, times out and deploys on its own, so a slow import cannot starve the routes merchants are waiting on.</p></div>
+          <div class="card"><h3>Verification that fails closed</h3><p>Webhooks, session tokens, the App Proxy and OAuth all refuse a request when a signature is missing, not only when it is wrong.</p></div>
+          <div class="card"><h3>Single- or multi-tenant</h3><p>Lock the app to one store, open it to many, or run several Shopify apps on one backend. The tenant always comes from a verified signature.</p></div>
+          <div class="card"><h3>Installs the way Shopify installs</h3><p>Works from the App Store or the admin with no install link, using token exchange. Uninstall and reinstall are handled.</p></div>
+          <div class="card"><h3>API keys for outside callers</h3><p>Let a mobile app or a script call your API. Keys are hashed at rest, scoped, and owned by one store.</p></div>
+          <div class="card"><h3>Rate limits and a spending cap</h3><p>A per-caller request limit, Shopify's own throttling passed through, and a ceiling on instances.</p></div>
+          <div class="card"><h3>A reference inside your app</h3><p>All 50 Polaris web components and all 26 App Bridge APIs, each with a working example to copy.</p></div>
+          <div class="card"><h3>Tests included</h3><p>Every project ships with a test suite that needs no emulator or network. It also checks your routes match your deploy config.</p></div>
+          <div class="card"><h3>No build step on the frontend</h3><p>Plain HTML with Polaris web components and App Bridge. No React, no bundler.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="api">
+      <div class="wrap">
+        <h2>Writing an API</h2>
+        <p class="sub">A route is one entry in a table. Authentication, rate limiting, routing and errors are handled before your code runs.</p>
+        <div class="split">
+<pre><code><span class="c">// functions/src/api/orders.ts</span>
+<span class="k">export default</span> endpoint({
+  <span class="s">"GET /api/orders"</span>: <span class="k">async</span> (ctx) =&gt; {
+    <span class="k">const</span> data = <span class="k">await</span> graphql(ctx,
+      <span class="s">`{ orders(first: 10) { nodes { id name } } }`</span>);
+    <span class="k">return</span> { orders: data.orders.nodes };
+  },
+
+  <span class="s">"GET /api/orders/:id"</span>: <span class="k">async</span> (ctx) =&gt; {
+    <span class="c">// ctx.shop comes from the verified token,</span>
+    <span class="c">// never from the request</span>
+    <span class="k">return</span> { id: ctx.params.id, shop: ctx.shop };
+  },
+});
+
+<span class="c">// functions/src/index.ts</span>
+<span class="k">export const</span> orders = onRequest(base, ordersApi);</code></pre>
+          <ul>
+            <li><strong>Return</strong> the JSON to send, or <strong>throw</strong> an <code>HttpError</code>. Anything else becomes a 500 whose detail stays in the logs.</li>
+            <li><strong><code>index</code> is the whole API surface.</strong> If a function is not exported there, it does not exist.</li>
+            <li><strong>Open a route to API keys</strong> with <code>{ apiKey: "read" }</code>, or to the storefront with <code>{ auth: "proxy" }</code>.</li>
+            <li><strong><code>npm test</code></strong> fails if an export and its rewrite in <code>firebase.json</code> disagree, before you deploy.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="cost">
+      <div class="wrap">
+        <h2>What it costs</h2>
+        <p class="sub">Everything scales to zero, so an app nobody is using costs nothing. Firebase's Blaze plan is pay-as-you-go with a free tier, and needs a billing account.</p>
+        <div class="stat-row">
+          <div class="stat"><b>$0</b><span>while the app is idle</span></div>
+          <div class="stat"><b class="num">~1,200</b><span>daily active stores inside the free tier</span></div>
+          <div class="stat"><b class="num">~$32</b><span>a month at 10,000 daily active stores</span></div>
+        </div>
+        <p class="note">
+          Estimates, assuming 10 API calls per store per day at 0.5 seconds each, at Google's US list prices.
+          Function compute is what runs out first. The
+          <a href="https://github.com/mksd0398/nitrogen#what-it-costs">README shows the arithmetic</a> so you can redo it with your own numbers.
+        </p>
+      </div>
+    </section>
+
+    <section id="compare">
+      <div class="wrap">
+        <h2>Nitrogen or the official template</h2>
+        <p class="sub">Shopify's own template is built on React Router. Both are good choices for different apps.</p>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th></th><th>Official template</th><th>Nitrogen</th></tr></thead>
+            <tbody>
+              <tr><td>Backend</td><td>One React Router server</td><td>Cloud Functions, one per API resource</td></tr>
+              <tr><td>Database</td><td>Prisma with SQL</td><td>Cloud Firestore</td></tr>
+              <tr><td>Frontend</td><td>React</td><td>Polaris web components, no build step</td></tr>
+              <tr><td>When idle</td><td>A server stays on</td><td>Nothing runs</td></tr>
+              <tr><td>Deploy</td><td>You choose and set up a host</td><td>Done by the command</td></tr>
+              <tr><td>Best for</td><td>Rich admin interfaces, teams already on React</td><td>Custom apps, small public apps, teams on Google Cloud</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="start">
+      <div class="wrap">
+        <h2>Start</h2>
+        <p class="sub">The quick start walks through the prerequisites and a full run of the wizard.</p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/mksd0398/nitrogen#quick-start">Quick start</a>
+          <a class="button" href="https://github.com/mksd0398/nitrogen/issues">Report a problem</a>
+          <a class="button" href="https://github.com/mksd0398/nitrogen/blob/master/CHANGELOG.md">Changelog</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>Nitrogen is an independent community project. Not affiliated with, authorised by, or endorsed by Shopify Inc. or Google.</span>
+      <span>Shopify, Polaris and App Bridge are trademarks of Shopify Inc. Firebase is a trademark of Google LLC. MIT licensed.</span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("copy").addEventListener("click", function () {
+      var button = this;
+      navigator.clipboard.writeText(document.getElementById("command").textContent).then(function () {
+        button.textContent = "Copied";
+        setTimeout(function () { button.textContent = "Copy"; }, 2000);
+      });
+    });
+  </script>
+</body>
+</html>
