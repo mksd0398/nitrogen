@@ -58,15 +58,15 @@
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: PAGE                                               -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-page">
       <s-section heading="Page">
+        <span id="section-page" class="anchor"></span>
         <s-text color="subdued">The top-level container for any admin page. Provides heading, breadcrumbs, and primary actions.</s-text>
 
         <s-box paddingBlockStart="base">
           <!-- Basic page -->
           <s-box border="base" borderRadius="base" padding="base">
             <s-stack gap="base">
-              <s-text variant="headingSm">Basic Page</s-text>
+              <s-heading>Basic Page</s-heading>
               <s-text color="subdued">Every page starts with <code>&lt;s-page&gt;</code>. Set the <code>heading</code> attribute for the title.</s-text>
               <div class="demo-code">
                 <div class="code-block-header">
@@ -85,7 +85,7 @@
           <!-- Page with breadcrumbs + primary action -->
           <s-box border="base" borderRadius="base" padding="base">
             <s-stack gap="base">
-              <s-text variant="headingSm">Page with Breadcrumbs &amp; Actions</s-text>
+              <s-heading>Page with Breadcrumbs &amp; Actions</s-heading>
               <s-text color="subdued">Use <code>slot="breadcrumb-actions"</code> for back navigation and <code>slot="primary-action"</code> for the main CTA.</s-text>
               <div class="demo-code">
                 <div class="code-block-header">
@@ -109,7 +109,7 @@
           <!-- Page sizes -->
           <s-box border="base" borderRadius="base" padding="base">
             <s-stack gap="base">
-              <s-text variant="headingSm">Page Width</s-text>
+              <s-heading>Page Width</s-heading>
               <s-text color="subdued">Control page width with the <code>inlineSize</code> attribute.</s-text>
               <div class="demo-code">
                 <div class="code-block-header">
@@ -126,14 +126,13 @@
           </s-box>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: BOX                                                -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-box">
       <s-section heading="Box">
+        <span id="section-box" class="anchor"></span>
         <s-text color="subdued">A flexible container with padding, borders, and background. The building block for cards and custom layouts.</s-text>
 
         <s-box paddingBlockStart="base">
@@ -143,7 +142,7 @@
               <s-text>Basic box with border, radius, and padding.</s-text>
             </s-box>
 
-            <s-box border="base" borderRadius="base" padding="large-400" background="bg-surface-secondary">
+            <s-box border="base" borderRadius="base" padding="large-400" background="subdued">
               <s-text>Box with secondary background and large padding.</s-text>
             </s-box>
 
@@ -174,7 +173,7 @@
 
 &lt;!-- Box with background --&gt;
 &lt;s-box border="base" borderRadius="base" padding="large-400"
-  background="bg-surface-secondary"&gt;
+  background="subdued"&gt;
   &lt;s-text&gt;Secondary background.&lt;/s-text&gt;
 &lt;/s-box&gt;
 
@@ -184,20 +183,19 @@
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: STACK                                              -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-stack">
       <s-section heading="Stack">
+        <span id="section-stack" class="anchor"></span>
         <s-text color="subdued">Flexbox-based layout component. Vertical by default, horizontal with <code>direction="inline"</code>.</s-text>
 
         <s-box paddingBlockStart="base">
           <!-- Vertical stack -->
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Vertical Stack (default)</s-text>
+            <s-heading>Vertical Stack (default)</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-stack gap="base">
                 <s-box border="base" borderRadius="base" padding="small-200"><s-text>Item 1</s-text></s-box>
@@ -211,7 +209,7 @@
         <s-box paddingBlockStart="base">
           <!-- Horizontal stack -->
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Inline Stack (horizontal)</s-text>
+            <s-heading>Inline Stack (horizontal)</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-stack direction="inline" gap="base" alignItems="center">
                 <s-badge tone="info">Tag 1</s-badge>
@@ -226,7 +224,7 @@
         <s-box paddingBlockStart="base">
           <!-- Wrapping stack -->
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Wrapping Stack</s-text>
+            <s-heading>Wrapping Stack</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-stack direction="inline" gap="small-200" wrap>
                 <s-badge>One</s-badge>
@@ -270,29 +268,28 @@
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: GRID                                               -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-grid">
       <s-section heading="Grid">
+        <span id="section-grid" class="anchor"></span>
         <s-text color="subdued">CSS Grid container with responsive column support using container queries.</s-text>
 
         <s-box paddingBlockStart="base">
           <!-- 3-column grid -->
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Responsive Grid</s-text>
+            <s-heading>Responsive Grid</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-grid gridTemplateColumns="@container (inline-size <= 400px) 1fr, 1fr 1fr 1fr" gap="base">
-                <s-box border="base" borderRadius="base" padding="base" background="bg-surface-secondary">
+                <s-box border="base" borderRadius="base" padding="base" background="subdued">
                   <s-text>Column A</s-text>
                 </s-box>
-                <s-box border="base" borderRadius="base" padding="base" background="bg-surface-secondary">
+                <s-box border="base" borderRadius="base" padding="base" background="subdued">
                   <s-text>Column B</s-text>
                 </s-box>
-                <s-box border="base" borderRadius="base" padding="base" background="bg-surface-secondary">
+                <s-box border="base" borderRadius="base" padding="base" background="subdued">
                   <s-text>Column C</s-text>
                 </s-box>
               </s-grid>
@@ -303,15 +300,15 @@
         <s-box paddingBlockStart="base">
           <!-- 2-column with sidebar -->
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Sidebar Layout</s-text>
+            <s-heading>Sidebar Layout</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-grid gridTemplateColumns="@container (inline-size <= 500px) 1fr, 2fr 1fr" gap="base">
                 <s-box border="base" borderRadius="base" padding="base">
-                  <s-text variant="headingSm">Main Content</s-text>
+                  <s-heading>Main Content</s-heading>
                   <s-text color="subdued">Takes up 2/3 of the width.</s-text>
                 </s-box>
-                <s-box border="base" borderRadius="base" padding="base" background="bg-surface-secondary">
-                  <s-text variant="headingSm">Sidebar</s-text>
+                <s-box border="base" borderRadius="base" padding="base" background="subdued">
+                  <s-heading>Sidebar</s-heading>
                   <s-text color="subdued">Takes up 1/3.</s-text>
                 </s-box>
               </s-grid>
@@ -346,25 +343,24 @@
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: TEXT & HEADING                                      -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-text">
       <s-section heading="Text &amp; Heading">
+        <span id="section-text" class="anchor"></span>
         <s-text color="subdued">Typography components for headings, body text, and paragraphs.</s-text>
 
         <s-box paddingBlockStart="base">
           <s-box border="base" borderRadius="base" padding="base">
             <s-stack gap="base">
-              <s-text variant="heading2xl">Heading 2XL</s-text>
-              <s-text variant="headingXl">Heading XL</s-text>
-              <s-text variant="headingLg">Heading Lg</s-text>
-              <s-text variant="headingMd">Heading Md</s-text>
-              <s-text variant="headingSm">Heading Sm</s-text>
-              <s-text variant="headingXs">Heading Xs</s-text>
+              <s-heading fontSize="large-400">Heading 2XL</s-heading>
+              <s-heading fontSize="large-300">Heading XL</s-heading>
+              <s-heading fontSize="large-200">Heading Lg</s-heading>
+              <s-heading fontSize="large">Heading Md</s-heading>
+              <s-heading>Heading Sm</s-heading>
+              <s-heading fontSize="small">Heading Xs</s-heading>
               <s-text variant="bodyLg">Body Large text</s-text>
               <s-text variant="bodyMd">Body Medium text (default)</s-text>
               <s-text variant="bodySm">Body Small text</s-text>
@@ -375,7 +371,7 @@
         <s-box paddingBlockStart="base">
           <!-- Text colors & weights -->
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Colors &amp; Weights</s-text>
+            <s-heading>Colors &amp; Weights</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-stack gap="small-200">
                 <s-text>Default color</s-text>
@@ -394,7 +390,7 @@
         <s-box paddingBlockStart="base">
           <!-- Heading & Paragraph -->
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Heading &amp; Paragraph Elements</s-text>
+            <s-heading>Heading &amp; Paragraph Elements</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-stack gap="base">
                 <s-heading>This is an &lt;s-heading&gt;</s-heading>
@@ -412,9 +408,9 @@
               <button class="btn-copy" onclick="copyCode(this)">Copy</button>
             </div>
             <pre><code>&lt;!-- Heading variants --&gt;
-&lt;s-text variant="headingLg"&gt;Large Heading&lt;/s-text&gt;
-&lt;s-text variant="headingMd"&gt;Medium Heading&lt;/s-text&gt;
-&lt;s-text variant="headingSm"&gt;Small Heading&lt;/s-text&gt;
+&lt;s-heading fontSize="large-200"&gt;Large Heading&lt;/s-heading&gt;
+&lt;s-heading fontSize="large"&gt;Medium Heading&lt;/s-heading&gt;
+&lt;s-heading&gt;Small Heading&lt;/s-heading&gt;
 
 &lt;!-- Body text --&gt;
 &lt;s-text&gt;Default body text&lt;/s-text&gt;
@@ -436,20 +432,19 @@
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: BUTTONS                                            -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-buttons">
       <s-section heading="Buttons">
+        <span id="section-buttons" class="anchor"></span>
         <s-text color="subdued">Interactive buttons with variants, tones, loading, and disabled states.</s-text>
 
         <s-box paddingBlockStart="base">
           <!-- Button variants -->
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Button Variants</s-text>
+            <s-heading>Button Variants</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-stack direction="inline" gap="small-200" wrap>
                 <s-button variant="primary">Primary</s-button>
@@ -465,7 +460,7 @@
         <s-box paddingBlockStart="base">
           <!-- States -->
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">States</s-text>
+            <s-heading>States</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-stack direction="inline" gap="small-200" wrap>
                 <s-button variant="primary" disabled>Disabled Primary</s-button>
@@ -480,7 +475,7 @@
         <s-box paddingBlockStart="base">
           <!-- Button as link -->
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Button as Link</s-text>
+            <s-heading>Button as Link</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-stack direction="inline" gap="small-200">
                 <s-button variant="primary" href="/products">Navigate to Products</s-button>
@@ -515,19 +510,18 @@
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: BADGES                                             -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-badges">
       <s-section heading="Badges">
+        <span id="section-badges" class="anchor"></span>
         <s-text color="subdued">Compact status indicators and labels.</s-text>
 
         <s-box paddingBlockStart="base">
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Badge Tones</s-text>
+            <s-heading>Badge Tones</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-stack direction="inline" gap="small-200" wrap>
                 <s-badge>Default</s-badge>
@@ -547,7 +541,7 @@
         <s-box paddingBlockStart="base">
           <!-- Badges in context -->
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Badges in Context</s-text>
+            <s-heading>Badges in Context</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-stack gap="small-200">
                 <s-stack direction="inline" gap="base" alignItems="center">
@@ -585,14 +579,13 @@
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: BANNERS                                            -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-banners">
       <s-section heading="Banners">
+        <span id="section-banners" class="anchor"></span>
         <s-text color="subdued">Alert banners for status messages, errors, and announcements.</s-text>
 
         <s-box paddingBlockStart="base">
@@ -639,14 +632,13 @@
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: FORMS                                              -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-forms">
       <s-section heading="Form Fields">
+        <span id="section-forms" class="anchor"></span>
         <s-text color="subdued">Text fields with labels, placeholders, help text, error states, and multiline support.</s-text>
 
         <s-box paddingBlockStart="base">
@@ -697,7 +689,7 @@
         <s-box paddingBlockStart="base">
           <!-- URL field -->
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">URL Field</s-text>
+            <s-heading>URL Field</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-url-field
                 label="Website URL"
@@ -711,7 +703,7 @@
         <s-box paddingBlockStart="base">
           <!-- Color field -->
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Color Field</s-text>
+            <s-heading>Color Field</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-color-field
                 label="Brand color"
@@ -763,14 +755,13 @@
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: SWITCH                                             -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-switch">
       <s-section heading="Switch (Toggle)">
+        <span id="section-switch" class="anchor"></span>
         <s-text color="subdued">Toggle switches for boolean settings. Replaces checkboxes in Polaris.</s-text>
 
         <s-box paddingBlockStart="base">
@@ -799,14 +790,13 @@
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: SELECT                                             -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-select">
       <s-section heading="Select (Dropdown)">
+        <span id="section-select" class="anchor"></span>
         <s-text color="subdued">Dropdown selection with <code>&lt;s-select&gt;</code> and <code>&lt;s-option&gt;</code> elements.</s-text>
 
         <s-box paddingBlockStart="base">
@@ -846,20 +836,19 @@
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: LINKS & CLICKABLE                                  -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-links">
       <s-section heading="Links &amp; Clickable">
+        <span id="section-links" class="anchor"></span>
         <s-text color="subdued">Navigation links and clickable wrappers for making containers interactive.</s-text>
 
         <s-box paddingBlockStart="base">
           <s-box border="base" borderRadius="base" padding="base">
             <s-stack gap="base">
-              <s-text variant="headingSm">Links</s-text>
+              <s-heading>Links</s-heading>
               <s-stack direction="inline" gap="base">
                 <s-link href="/">Internal link</s-link>
                 <s-link href="https://polaris.shopify.com" target="_blank">External link</s-link>
@@ -870,14 +859,14 @@
 
         <s-box paddingBlockStart="base">
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Clickable Card</s-text>
+            <s-heading>Clickable Card</s-heading>
             <s-text color="subdued">Wrap any content in <code>&lt;s-clickable&gt;</code> to make the entire area interactive.</s-text>
             <s-box paddingBlockStart="small-200">
               <s-grid gridTemplateColumns="1fr 1fr" gap="base">
                 <s-box border="base" borderRadius="base" padding="base">
                   <s-clickable href="/products">
                     <s-stack gap="small-200">
-                      <s-text variant="headingSm">Products</s-text>
+                      <s-heading>Products</s-heading>
                       <s-text color="subdued">Click anywhere in this card</s-text>
                     </s-stack>
                   </s-clickable>
@@ -885,7 +874,7 @@
                 <s-box border="base" borderRadius="base" padding="base">
                   <s-clickable href="/settings">
                     <s-stack gap="small-200">
-                      <s-text variant="headingSm">Settings</s-text>
+                      <s-heading>Settings</s-heading>
                       <s-text color="subdued">Entire box is clickable</s-text>
                     </s-stack>
                   </s-clickable>
@@ -908,21 +897,20 @@
 &lt;!-- Clickable wrapper (makes entire area tappable) --&gt;
 &lt;s-box border="base" borderRadius="base" padding="base"&gt;
   &lt;s-clickable href="/page"&gt;
-    &lt;s-text variant="headingSm"&gt;Card Title&lt;/s-text&gt;
+    &lt;s-heading&gt;Card Title&lt;/s-heading&gt;
     &lt;s-text color="subdued"&gt;Click anywhere&lt;/s-text&gt;
   &lt;/s-clickable&gt;
 &lt;/s-box&gt;</code></pre>
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: SPINNER                                            -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-spinner">
       <s-section heading="Spinner">
+        <span id="section-spinner" class="anchor"></span>
         <s-text color="subdued">Loading indicator for async operations.</s-text>
 
         <s-box paddingBlockStart="base">
@@ -972,14 +960,13 @@
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: SECTION                                            -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-section">
       <s-section heading="Section">
+        <span id="section-section" class="anchor"></span>
         <s-text color="subdued">Content sections within a page, with optional headings and padding.</s-text>
 
         <s-box paddingBlockStart="base">
@@ -1007,19 +994,18 @@
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: MODALS                                             -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-modals">
       <s-section heading="Modals">
+        <span id="section-modals" class="anchor"></span>
         <s-text color="subdued">App Bridge modals rendered by Shopify outside your iframe for a native feel. Uses <code>&lt;ui-modal&gt;</code>.</s-text>
 
         <s-box paddingBlockStart="base">
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Basic Modal</s-text>
+            <s-heading>Basic Modal</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-button variant="primary" onclick="document.getElementById('demo-modal-basic').show()">Open Modal</s-button>
             </s-box>
@@ -1028,7 +1014,7 @@
 
         <s-box paddingBlockStart="base">
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Confirmation Dialog</s-text>
+            <s-heading>Confirmation Dialog</s-heading>
             <s-text color="subdued">Use before destructive actions like deleting records.</s-text>
             <s-box paddingBlockStart="small-200">
               <s-button tone="critical" onclick="document.getElementById('demo-modal-confirm').show()">Delete Item</s-button>
@@ -1081,13 +1067,12 @@
           </div>
         </s-box>
       </s-section>
-    </div>
 
     <!-- Demo modals -->
     <ui-modal id="demo-modal-basic">
       <div style="padding: 16px;">
         <s-stack gap="base">
-          <s-text variant="headingMd">Hello from a modal!</s-text>
+          <s-heading fontSize="large">Hello from a modal!</s-heading>
           <s-text>This is an App Bridge modal rendered by Shopify. It appears outside your app's iframe for a seamless, native experience.</s-text>
           <s-text color="subdued">Modals are great for forms, confirmations, and displaying details without navigating away.</s-text>
         </s-stack>
@@ -1111,8 +1096,8 @@
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: SAVE BAR                                           -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-savebar">
       <s-section heading="Save Bar (data-save-bar)">
+        <span id="section-savebar" class="anchor"></span>
         <s-text color="subdued">Shopify's native save/discard bar appears automatically when a <code>&lt;form data-save-bar&gt;</code> detects changes.</s-text>
 
         <s-box paddingBlockStart="base">
@@ -1155,14 +1140,13 @@ document.getElementById("settings-form")
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: TOASTS                                             -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-toasts">
       <s-section heading="Toasts">
+        <span id="section-toasts" class="anchor"></span>
         <s-text color="subdued">Brief, non-blocking feedback notifications using App Bridge.</s-text>
 
         <s-box paddingBlockStart="base">
@@ -1192,14 +1176,13 @@ shopify.toast.show("Error!", { isError: true });</code></pre>
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: NAVIGATION                                         -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-navigation">
       <s-section heading="Navigation">
+        <span id="section-navigation" class="anchor"></span>
         <s-text color="subdued">App navigation in the Shopify admin sidebar. Uses <code>&lt;ui-nav-menu&gt;</code> (App Bridge) or <code>&lt;s-app-nav&gt;</code> (Polaris).</s-text>
 
         <s-box paddingBlockStart="base">
@@ -1224,14 +1207,13 @@ shopify.toast.show("Error!", { isError: true });</code></pre>
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: RESOURCE PICKER                                    -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-resource-picker">
       <s-section heading="Resource Picker">
+        <span id="section-resource-picker" class="anchor"></span>
         <s-text color="subdued">App Bridge provides a native product/collection picker. Only available inside the Shopify admin.</s-text>
 
         <s-box paddingBlockStart="base">
@@ -1264,47 +1246,46 @@ if (selected &amp;&amp; selected.length &gt; 0) {
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- SECTION: COMMON PATTERNS                                    -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <div id="section-patterns">
       <s-section heading="Common Patterns">
+        <span id="section-patterns" class="anchor"></span>
         <s-text color="subdued">Reusable UI patterns combining multiple Polaris components.</s-text>
 
         <!-- Pattern: Stat cards -->
         <s-box paddingBlockStart="base">
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Metric Cards</s-text>
+            <s-heading>Metric Cards</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-grid gridTemplateColumns="@container (inline-size <= 400px) 1fr 1fr, 1fr 1fr 1fr 1fr" gap="base">
                 <s-box border="base" borderRadius="base" padding="base">
                   <s-stack gap="small-200">
                     <s-text color="subdued">Total Sales</s-text>
-                    <s-text variant="headingLg">$12,450</s-text>
+                    <s-heading fontSize="large-200">$12,450</s-heading>
                     <s-text color="success" variant="bodySm">+12.5%</s-text>
                   </s-stack>
                 </s-box>
                 <s-box border="base" borderRadius="base" padding="base">
                   <s-stack gap="small-200">
                     <s-text color="subdued">Orders</s-text>
-                    <s-text variant="headingLg">156</s-text>
+                    <s-heading fontSize="large-200">156</s-heading>
                     <s-text color="success" variant="bodySm">+8.2%</s-text>
                   </s-stack>
                 </s-box>
                 <s-box border="base" borderRadius="base" padding="base">
                   <s-stack gap="small-200">
                     <s-text color="subdued">Visitors</s-text>
-                    <s-text variant="headingLg">3,842</s-text>
+                    <s-heading fontSize="large-200">3,842</s-heading>
                     <s-text color="critical" variant="bodySm">-2.1%</s-text>
                   </s-stack>
                 </s-box>
                 <s-box border="base" borderRadius="base" padding="base">
                   <s-stack gap="small-200">
                     <s-text color="subdued">Conversion</s-text>
-                    <s-text variant="headingLg">4.1%</s-text>
+                    <s-heading fontSize="large-200">4.1%</s-heading>
                     <s-text color="success" variant="bodySm">+0.3%</s-text>
                   </s-stack>
                 </s-box>
@@ -1316,7 +1297,7 @@ if (selected &amp;&amp; selected.length &gt; 0) {
         <!-- Pattern: Info list -->
         <s-box paddingBlockStart="base">
           <s-box border="base" borderRadius="base" padding="base">
-            <s-text variant="headingSm">Info List (Key-Value)</s-text>
+            <s-heading>Info List (Key-Value)</s-heading>
             <s-box paddingBlockStart="small-200">
               <s-stack gap="small-200">
                 <s-grid gridTemplateColumns="1fr 1fr" gap="small-200">
@@ -1338,9 +1319,9 @@ if (selected &amp;&amp; selected.length &gt; 0) {
 
         <!-- Pattern: Empty state -->
         <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="large-1200">
+          <s-box border="base" borderRadius="base" padding="large-500">
             <s-stack alignItems="center" gap="base">
-              <s-text variant="headingMd">No orders yet</s-text>
+              <s-heading fontSize="large">No orders yet</s-heading>
               <s-text color="subdued">When customers place orders, they will appear here.</s-text>
               <s-button variant="primary">Add product</s-button>
             </s-stack>
@@ -1351,7 +1332,7 @@ if (selected &amp;&amp; selected.length &gt; 0) {
         <s-box paddingBlockStart="base">
           <s-box border="base" borderRadius="base" padding="base">
             <s-stack gap="base">
-              <s-text variant="headingSm">API Fetch Pattern</s-text>
+              <s-heading>API Fetch Pattern</s-heading>
               <s-text color="subdued">Use <code>apiFetch()</code> for all API calls. It handles session tokens automatically.</s-text>
               <s-button onclick="demoApiFetch()">Test API Call</s-button>
             </s-stack>
@@ -1403,7 +1384,6 @@ try {
           </div>
         </s-box>
       </s-section>
-    </div>
 
 
     <!-- Footer -->

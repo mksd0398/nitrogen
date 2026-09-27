@@ -4,7 +4,7 @@ import { deleteSession } from "./auth";
 import { tenantId } from "./config";
 import { db } from "./firebase";
 import { API_VERSION } from "./shopify";
-import { isValidShopDomain, verifyWebhook } from "./verify";
+import { isAllowedShop, verifyWebhook } from "./verify";
 
 /**
  * Standalone webhook handler.
@@ -25,7 +25,7 @@ export async function webhookHandler(req: Request, res: Response): Promise<void>
   // A missing header or body means NO. The app that signed the webhook is
   // the tenant, so one app's webhook can never touch another app's data.
   const app = verifyWebhook(req.rawBody, req.headers["x-shopify-hmac-sha256"]);
-  if (!app || !isValidShopDomain(shop)) {
+  if (!app || !isAllowedShop(shop)) {
     // Usually another app, or a rotated secret, still pointed at this URL
     console.error(`Webhook refused: bad signature (${topic} from ${shop})`);
     res.status(401).send("Unauthorized");

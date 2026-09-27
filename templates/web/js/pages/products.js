@@ -46,9 +46,9 @@
 
     if (!query) {
       container.innerHTML =
-        '<s-box padding="large-1200" border="base" borderRadius="base">' +
+        '<s-box padding="large-500" border="base" borderRadius="base">' +
         '<s-stack alignItems="center" gap="base">' +
-        '<s-text variant="headingMd">Search for products</s-text>' +
+        '<s-heading fontSize="large">Search for products</s-heading>' +
         '<s-text color="subdued">Enter a search term above to find products in your store, or use the Resource Picker to browse.</s-text>' +
         '<s-button variant="primary" onclick="document.getElementById(\'search-input\').focus()">Start searching</s-button>' +
         "</s-stack></s-box>";
@@ -74,9 +74,9 @@
 
       if (products.length === 0) {
         container.innerHTML =
-          '<s-box padding="large-1200" border="base" borderRadius="base">' +
+          '<s-box padding="large-500" border="base" borderRadius="base">' +
           '<s-stack alignItems="center" gap="base">' +
-          '<s-text variant="headingMd">No products found</s-text>' +
+          '<s-heading fontSize="large">No products found</s-heading>' +
           '<s-text color="subdued">No products match "' + escapeHtml(query) + '". Try a different search term.</s-text>' +
           "</s-stack></s-box>";
         return;
@@ -174,12 +174,12 @@
     if (image) {
       html += '<img src="' + escapeAttr(image) + '" alt="' + escapeAttr(p.title || "") + '" style="width:100%; border-radius: 8px; border: 1px solid #e1e3e5;">';
     } else {
-      html += '<s-box padding="large-400" border="base" borderRadius="base" background="bg-surface-secondary"><s-stack alignItems="center"><s-text color="subdued">No image</s-text></s-stack></s-box>';
+      html += '<s-box padding="large-400" border="base" borderRadius="base" background="subdued"><s-stack alignItems="center"><s-text color="subdued">No image</s-text></s-stack></s-box>';
     }
 
     // Info
     html += '<s-stack gap="small-200">';
-    html += '<s-text variant="headingLg">' + escapeHtml(p.title || "Untitled") + "</s-text>";
+    html += '<s-heading fontSize="large-200">' + escapeHtml(p.title || "Untitled") + "</s-heading>";
     html += '<s-stack gap="small-200">';
     html += infoRow("Status", '<s-badge tone="' + status.tone + '">' + escapeHtml(status.label) + "</s-badge>");
     if (p.vendor) html += infoRow("Vendor", "<s-text>" + escapeHtml(p.vendor) + "</s-text>");
@@ -192,13 +192,13 @@
     // Description
     var desc = p.description || p.body_html || "";
     if (desc) {
-      html += '<s-text variant="headingSm">Description</s-text>';
+      html += '<s-heading>Description</s-heading>';
       html += '<s-text color="subdued">' + escapeHtml(desc) + "</s-text>";
     }
 
     // Variants table
     if (variants.length > 0) {
-      html += '<s-text variant="headingSm">Variants (' + variants.length + ")</s-text>";
+      html += '<s-heading>Variants (' + variants.length + ")</s-heading>";
       html += '<div class="table-container"><table>';
       html += "<thead><tr><th>Title</th><th>Price</th><th>SKU</th><th>Inventory</th></tr></thead><tbody>";
       for (var i = 0; i < variants.length; i++) {

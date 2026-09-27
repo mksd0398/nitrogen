@@ -1,5 +1,29 @@
 # Changelog
 
+## 3.2.0
+
+### Added
+
+- **The wizard asks who the app is for.** "One store" makes a single-tenant
+  app locked to that store: every other shop is refused at install, on the
+  API, on webhooks and on the storefront proxy. "Many stores" makes a
+  multi-tenant app. `--shop` answers the question up front. The choice is
+  `ALLOWED_SHOPS` in `functions/.env`, so it can be changed later.
+
+### Fixed
+
+- **Spacing in the dashboard pages.** Cards on Settings and Components sat
+  flush against each other, because a wrapper element stopped the page from
+  spacing them. Sections are now direct children of the page.
+- The empty state on Products had no padding: `padding="large-1200"` is not a
+  Polaris value.
+- Headings rendered as plain text: `<s-text variant="heading…">` does nothing.
+  They are `<s-heading>` now.
+- `background="bg-surface-secondary"` is not a Polaris value either; it is
+  `subdued`.
+- The stylesheet's universal margin and padding reset also applied to Polaris
+  elements. It now covers plain HTML only.
+
 ## 3.1.3
 
 ### Fixed

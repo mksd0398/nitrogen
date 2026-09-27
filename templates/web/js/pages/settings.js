@@ -44,7 +44,10 @@
   // ── Load settings ──────────────────────────────────────────────
   async function loadSettings() {
     var loading = document.getElementById("settings-loading");
-    var content = document.getElementById("settings-content");
+    var sections = document.querySelectorAll(".settings-section");
+    var show = function () {
+      sections.forEach(function (section) { section.style.display = ""; });
+    };
 
     try {
       var data = await apiFetch("/api/settings");
@@ -53,14 +56,14 @@
 
       // Hide loading, show content
       if (loading) loading.style.display = "none";
-      content.style.display = "";
+      show();
     } catch (err) {
       // If 404 or no settings yet, show empty form
       if (err.message && err.message.indexOf("404") !== -1) {
         savedSettings = {};
         populateForm(savedSettings);
         if (loading) loading.style.display = "none";
-        content.style.display = "";
+        show();
       } else {
         if (loading) {
           loading.innerHTML =
