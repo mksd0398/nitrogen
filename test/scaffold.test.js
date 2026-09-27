@@ -91,7 +91,7 @@ for (const language of ["javascript", "typescript"]) {
       }
       const other = ext === "js" ? ".ts" : ".js";
       assert.deepEqual(all.filter((f) => f.startsWith("functions/src/") && f.endsWith(other)), []);
-      for (const file of ["firebase.json", ".gitignore", ".env.example", "shopify.app.toml", "web/keys.html",
+      for (const file of ["firebase.json", ".gitignore", ".env.example", "shopify.app.toml", "web/keys.html", "web/polaris.html", "web/apis.html", "web/js/pages/apis.js",
         "functions/test/helper.js", "functions/test/security.test.js"]) {
         assert.ok(all.includes(file), `missing ${file}`);
       }
