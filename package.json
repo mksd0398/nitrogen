@@ -1,6 +1,6 @@
 {
   "name": "@mksd0398/nitrogen",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Nitrogen — scaffold a Shopify app on Firebase. Multi-page dashboard, App Bridge, Polaris, TypeScript or JavaScript. Serverless, zero-framework, free to run. Not affiliated with or endorsed by Shopify.",
   "keywords": [
     "nitrogen",

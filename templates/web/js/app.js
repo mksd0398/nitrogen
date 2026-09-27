@@ -15,7 +15,7 @@
   // { apiKey, shop, host, locale } on EVERY page load.
   //
   // The ?shop=/?host= query params are only present on the first load --
-  // the <ui-nav-menu> links are plain hrefs with no query string -- so
+  // the <s-app-nav> links are plain hrefs with no query string -- so
   // they are used purely as a fallback for viewing a page outside the
   // embedded admin (e.g. hitting the Hosting URL directly).
   var params = new URLSearchParams(window.location.search);
@@ -122,7 +122,7 @@
 
   // ── Navigation ──────────────────────────────────────────────────
   // No helper needed: App Bridge intercepts in-app navigation, so plain
-  // <a href="/products"> links (see <ui-nav-menu>) and <s-clickable href>
+  // <a href="/products"> links (see <s-app-nav>) and <s-clickable href>
   // are the supported way to move between pages. Do NOT hand-append
   // shop/host to URLs -- that is the legacy pattern, and window.shopify
   // provides the shop context on every page (see window.__app above).

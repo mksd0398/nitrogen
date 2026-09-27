@@ -10,13 +10,13 @@
   <script src="https://cdn.shopify.com/shopifycloud/polaris.js"></script>
 </head>
 <body>
-  <ui-nav-menu>
-    <a href="/" rel="home">Dashboard</a>
-    <a href="/products">Products</a>
-    <a href="/settings">Settings</a>
-    <a href="/keys">API keys</a>
-    <a href="/polaris">Components</a>
-  </ui-nav-menu>
+  <s-app-nav>
+    <s-link href="/" rel="home">Dashboard</s-link>
+    <s-link href="/products">Products</s-link>
+    <s-link href="/settings">Settings</s-link>
+    <s-link href="/keys">API keys</s-link>
+    <s-link href="/polaris">Components</s-link>
+  </s-app-nav>
 
   <s-page heading="Products">
     <s-link slot="breadcrumb-actions" href="/">Dashboard</s-link>
@@ -24,13 +24,13 @@
 
     <!-- Search bar -->
     <s-section>
-      <s-text-field
+      <s-search-field
         id="search-input"
         label="Search products"
         placeholder="Search products by title..."
-        labelHidden
-        clearButton
-      ></s-text-field>
+        labelAccessibilityVisibility="exclusive"
+       
+      ></s-search-field>
     </s-section>
 
     <!-- Results count — hidden until there is a count, so the card does not
@@ -54,27 +54,23 @@
   </s-page>
 
   <!-- Product detail modal -->
-  <ui-modal id="product-detail-modal" variant="large">
-    <div id="product-detail-content" style="padding: 16px;">
+  <s-modal id="product-detail-modal" heading="Product details" size="large">
+    <div id="product-detail-content">
       <s-stack alignItems="center" gap="base">
         <s-spinner></s-spinner>
         <s-text color="subdued">Loading product details...</s-text>
       </s-stack>
     </div>
-    <ui-title-bar title="Product Details">
-      <button variant="primary" onclick="document.getElementById('product-detail-modal').hide()">Done</button>
-    </ui-title-bar>
-  </ui-modal>
+    <s-button slot="primary-action" variant="primary" commandFor="product-detail-modal" command="--hide">Done</s-button>
+  </s-modal>
 
   <!-- Resource picker result modal -->
-  <ui-modal id="picker-result-modal">
-    <div id="picker-result-content" style="padding: 16px;">
+  <s-modal id="picker-result-modal" heading="Selected products">
+    <div id="picker-result-content">
       <s-text color="subdued">No products selected.</s-text>
     </div>
-    <ui-title-bar title="Selected Products">
-      <button variant="primary" onclick="document.getElementById('picker-result-modal').hide()">Close</button>
-    </ui-title-bar>
-  </ui-modal>
+    <s-button slot="primary-action" variant="primary" commandFor="picker-result-modal" command="--hide">Close</s-button>
+  </s-modal>
 
   <script src="/js/app.js"></script>
   <script src="/js/pages/products.js"></script>

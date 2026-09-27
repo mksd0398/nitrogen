@@ -10,13 +10,13 @@
   <script src="https://cdn.shopify.com/shopifycloud/polaris.js"></script>
 </head>
 <body>
-  <ui-nav-menu>
-    <a href="/" rel="home">Dashboard</a>
-    <a href="/products">Products</a>
-    <a href="/settings">Settings</a>
-    <a href="/keys">API keys</a>
-    <a href="/polaris">Components</a>
-  </ui-nav-menu>
+  <s-app-nav>
+    <s-link href="/" rel="home">Dashboard</s-link>
+    <s-link href="/products">Products</s-link>
+    <s-link href="/settings">Settings</s-link>
+    <s-link href="/keys">API keys</s-link>
+    <s-link href="/polaris">Components</s-link>
+  </s-app-nav>
 
   <s-page heading="API keys" inlineSize="small">
     <s-link slot="breadcrumb-actions" href="/">Dashboard</s-link>
@@ -28,7 +28,7 @@
       </s-text>
       <s-box paddingBlockStart="base">
         <s-stack gap="base">
-          <s-text-field id="key-name" label="Name" placeholder="Mobile app" helpText="What this key is for, so you can recognise it later."></s-text-field>
+          <s-text-field id="key-name" label="Name" placeholder="Mobile app" details="What this key is for, so you can recognise it later."></s-text-field>
           <s-stack direction="inline" gap="base">
             <s-button variant="primary" onclick="createKey()">Create key</s-button>
           </s-stack>

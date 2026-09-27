@@ -115,7 +115,7 @@
         "</div>" +
         '<div class="product-card-body">' +
         '<s-text fontWeight="semibold">' + escapeHtml(p.title || "Untitled") + "</s-text>" +
-        (vendor ? '<s-text color="subdued" variant="bodySm">' + escapeHtml(vendor) + "</s-text>" : "") +
+        (vendor ? '<s-text color="subdued" fontSize="small">' + escapeHtml(vendor) + "</s-text>" : "") +
         '<s-stack direction="inline" gap="small-200" alignItems="center" style="margin-top: 8px;">' +
         '<s-text fontWeight="semibold">' + escapeHtml(price) + "</s-text>" +
         '<s-badge tone="' + status.tone + '">' + escapeHtml(status.label) + "</s-badge>" +
@@ -137,7 +137,7 @@
       '<s-text color="subdued">Loading product details...</s-text>' +
       "</s-stack>";
 
-    modal.show();
+    modal.showOverlay();
 
     try {
       var data = await apiFetch("/api/products/" + encodeURIComponent(productId));
@@ -251,11 +251,11 @@
         html += '<s-badge tone="info">Selected</s-badge>';
         html += "</s-stack>";
       }
-      html += '<s-text color="subdued" variant="bodySm">Resource Picker returns product data you can use in your app logic.</s-text>';
+      html += '<s-text color="subdued" fontSize="small">Resource Picker returns product data you can use in your app logic.</s-text>';
       html += "</s-stack>";
 
       content.innerHTML = html;
-      modal.show();
+      modal.showOverlay();
     } catch (err) {
       showToast("Resource Picker error: " + err.message, true);
     }
