@@ -112,7 +112,13 @@ async function authenticate(
     }
   }
 
-  throw new HttpError(401, options.apiKey ? "Invalid credentials" : "Invalid session token");
+  // App Bridge answers this header by fetching a fresh session token and
+  // retrying the request once, so a token that expired in flight recovers even
+  // for a plain fetch() that does not go through apiFetch. Outside the admin
+  // it is ignored.
+  throw new HttpError(401, options.apiKey ? "Invalid credentials" : "Invalid session token", {
+    "X-Shopify-Retry-Invalid-Session-Request": "1",
+  });
 }
 
 // ─── Rate limiting ───────────────────────────────────────────────────────

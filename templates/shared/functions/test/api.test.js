@@ -28,6 +28,15 @@ test("every route refuses a request without a session token", async () => {
   }
 });
 
+test("a refused session token asks App Bridge to retry with a fresh one", async () => {
+  const expired = h.sessionToken(h.APP, { exp: Math.floor(Date.now() / 1000) - 60 });
+  for (const headers of [{}, h.bearer(expired)]) {
+    const res = await h.call(shop, { path: "/api/shop", headers });
+    assert.equal(res.statusCode, 401);
+    assert.equal(res.headers["X-Shopify-Retry-Invalid-Session-Request"], "1");
+  }
+});
+
 test("routes match by method and path, exact paths before parameters", async () => {
   const headers = asDefault();
   assert.deepEqual((await h.call(things, { path: "/api/things/42", headers })).body, { id: "42" });
