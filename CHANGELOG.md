@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.3.1
+
+### Fixed
+
+- The wizard and `--help` still promised "$0/month for up to 25K installed
+  stores" and "free tier: 2M invocations/month". The README's cost section was
+  corrected in 3.1.0; the CLI now says the same thing: an idle app costs
+  nothing, Blaze is pay-as-you-go with a free tier.
+- The package description and keywords say what the tool does, so it can be
+  found by searching for a Shopify app on Firebase.
+
 ## 3.3.0
 
 ### Added

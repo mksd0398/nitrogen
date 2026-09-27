@@ -1,6 +1,9 @@
-# Nitrogen
+# Nitrogen: Shopify apps on Firebase
 
-> Shopify apps on Firebase. Inert by design — no framework, no server, nothing running while nobody is using it.
+**One command scaffolds a Shopify app, deploys it to Firebase, and hands you an install link.**
+Cloud Functions, Firestore and Hosting. Polaris web components and App Bridge. No framework, no server.
+
+> Inert by design — nothing running while nobody is using it.
 >
 > Hydrogen is the fuel. Oxygen is the oxidiser. **Nitrogen is the 78% of the atmosphere that everything else just runs inside.**
 
