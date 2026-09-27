@@ -28,15 +28,19 @@ jobs:
     # Only run in the original repo — forks cannot publish
     if: github.repository == 'mksd0398/nitrogen'
     runs-on: ubuntu-latest
+    # Must equal the Environment of the Trusted Publisher on npmjs.com, letter
+    # for letter. npm compares it with the identity token GitHub mints, and
+    # answers a mismatch with a bare 404.
+    environment: Production
     permissions:
       contents: read
       id-token: write # required: lets GitHub mint the OIDC token npm verifies
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Node 24, not 22: trusted publishing needs npm >= 11.5.1, and Node 22
       # still ships npm 10.x. Node 24 ships 11.16.0.
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"

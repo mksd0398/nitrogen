@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.1.1
+
+### Changed
+
+- Generated projects start from `firebase-admin` 14.5 and `firebase-functions` 7.4.
+- The README no longer carries notes about the package's previous name.
+
+### Fixed
+
+- Releases publish from GitHub Actions. The workflow now names the `Production`
+  environment its npm Trusted Publisher is registered with.
+
 ## 3.1.0
 
 Changes what a newly scaffolded project contains. The CLI's own flags and
