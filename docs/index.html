@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nitrogen: Shopify apps on Firebase, in one command</title>
-  <meta name="description" content="Nitrogen scaffolds a Shopify app, deploys it to Firebase, and hands you an install link. Cloud Functions, Firestore and Hosting. Polaris web components and App Bridge. No framework, no server.">
+  <meta name="description" content="Nitrogen scaffolds a Shopify app, deploys it to Firebase, and hands you an install link. See what your app would cost with the free tier calculator.">
   <meta property="og:title" content="Nitrogen: Shopify apps on Firebase, in one command">
-  <meta property="og:description" content="One command scaffolds a Shopify app, deploys it to Firebase, and hands you an install link. No framework, no server.">
+  <meta property="og:description" content="One command scaffolds a Shopify app, deploys it to Firebase, and hands you an install link. No framework, no server. Work out your cost before you start.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mksd0398.github.io/nitrogen/">
   <link rel="canonical" href="https://mksd0398.github.io/nitrogen/">
@@ -25,6 +25,10 @@
       --code-dim: #8b98b0;
       --code-accent: #7dd3fc;
       --good: #047857;
+      --good-soft: #d1fae5;
+      --warn: #b45309;
+      --warn-soft: #fef3c7;
+      --track: #e2e6ec;
       --radius: 12px;
       --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
     }
@@ -39,10 +43,14 @@
         --accent-soft: #10263d;
         --code-bg: #060b16;
         --good: #6ee7b7;
+        --good-soft: #0c2f26;
+        --warn: #fcd34d;
+        --warn-soft: #33270a;
+        --track: #24304a;
       }
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 76px; }
     body {
       margin: 0;
       background: var(--bg);
@@ -52,17 +60,23 @@
     }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
-    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding-left: 20px; padding-right: 20px; }
     code { font-family: var(--mono); font-size: 0.9em; }
-    p code, li code, td code {
+    p code, li code, td code, summary code {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 1px 6px;
     }
 
-    header { border-bottom: 1px solid var(--border); }
-    header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    /* ── Header ─────────────────────────────────────────────── */
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
     .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); }
     .brand:hover { text-decoration: none; }
     .element {
@@ -70,62 +84,129 @@
       background: var(--code-bg); color: var(--code-accent);
       display: grid; place-items: center; font-weight: 700;
     }
-    nav { display: flex; gap: 22px; font-size: 15px; }
+    nav { display: flex; align-items: center; gap: 22px; font-size: 15px; }
     nav a { color: var(--muted); }
     nav a:hover { color: var(--text); text-decoration: none; }
 
-    .hero { padding-top: 84px; padding-bottom: 64px; }
-    .eyebrow {
-      display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
-      color: var(--accent); background: var(--accent-soft);
-      padding: 5px 12px; border-radius: 999px; margin-bottom: 22px;
-    }
-    h1 { font-size: clamp(36px, 6vw, 60px); line-height: 1.08; letter-spacing: -0.025em; margin: 0 0 20px; max-width: 16ch; }
-    .lede { font-size: clamp(18px, 2.3vw, 21px); color: var(--muted); max-width: 60ch; margin: 0 0 32px; }
-
-    .command {
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      background: var(--code-bg); color: var(--code-text);
-      border-radius: var(--radius); padding: 16px 18px; max-width: 520px;
-      font-family: var(--mono); font-size: 16px;
-    }
-    .command .prompt { color: var(--code-dim); margin-right: 10px; user-select: none; }
-    button.copy {
-      font: inherit; font-size: 13px; cursor: pointer;
-      color: var(--code-text); background: transparent;
-      border: 1px solid #34425f; border-radius: 8px; padding: 6px 12px;
-    }
-    button.copy:hover { border-color: var(--code-accent); color: var(--code-accent); }
-    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+    /* ── Buttons ────────────────────────────────────────────── */
     .button {
-      display: inline-block; padding: 11px 20px; border-radius: 10px; font-weight: 600; font-size: 15px;
-      border: 1px solid var(--border); color: var(--text);
+      display: inline-block; padding: 11px 20px; border-radius: 10px;
+      font-weight: 600; font-size: 15px; cursor: pointer;
+      border: 1px solid var(--border); color: var(--text); background: transparent;
+      font-family: inherit;
     }
     .button:hover { text-decoration: none; border-color: var(--accent); }
     .button.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
-    .note { font-size: 14px; color: var(--muted); margin-top: 18px; }
+    .button.primary:hover { opacity: 0.9; }
+    .button.small { padding: 8px 14px; font-size: 14px; }
+    nav .button.primary { color: var(--bg); }
 
-    section { padding: 64px 0; border-top: 1px solid var(--border); }
-    h2 { font-size: clamp(26px, 3.6vw, 34px); letter-spacing: -0.02em; line-height: 1.2; margin: 0 0 12px; }
-    .sub { color: var(--muted); max-width: 64ch; margin: 0 0 36px; }
+    /* A grid column is as wide as its widest content unless told otherwise,
+       and a code block is wider than a phone */
+    .hero > *, .calc > *, .split > * { min-width: 0; }
 
-    .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: step; }
-    .steps li {
-      counter-increment: step; position: relative;
-      padding: 16px 18px 16px 62px; background: var(--surface);
-      border: 1px solid var(--border); border-radius: var(--radius);
+    /* ── Hero ───────────────────────────────────────────────── */
+    .hero { padding-top: 72px; padding-bottom: 64px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: center; }
+    h1 { font-size: clamp(34px, 5.2vw, 54px); line-height: 1.08; letter-spacing: -0.025em; margin: 0 0 18px; }
+    .lede { font-size: clamp(17px, 2.1vw, 20px); color: var(--muted); margin: 0 0 28px; max-width: 54ch; }
+    .command {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      background: var(--code-bg); color: var(--code-text);
+      border-radius: var(--radius); padding: 14px 16px;
+      font-family: var(--mono); font-size: 15.5px;
     }
+    .command .line { overflow-x: auto; white-space: nowrap; }
+    .command .prompt { color: var(--code-dim); margin-right: 10px; user-select: none; }
+    button.copy {
+      font: inherit; font-size: 13px; cursor: pointer; flex-shrink: 0;
+      color: var(--code-bg); background: var(--code-accent);
+      border: 0; border-radius: 8px; padding: 8px 14px; font-weight: 600;
+      font-family: system-ui, sans-serif;
+    }
+    button.copy:hover { filter: brightness(1.1); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+    .checks { list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 8px; font-size: 15.5px; color: var(--muted); }
+    .checks li { padding-left: 28px; position: relative; }
+    .checks li::before {
+      content: ""; position: absolute; left: 0; top: 5px; width: 17px; height: 17px; border-radius: 50%;
+      background: var(--good-soft);
+    }
+    .checks li::after {
+      content: ""; position: absolute; left: 6px; top: 8px; width: 4px; height: 8px;
+      border: solid var(--good); border-width: 0 2px 2px 0; transform: rotate(45deg);
+    }
+    .checks strong { color: var(--text); font-weight: 600; }
+
+    .terminal { background: var(--code-bg); border-radius: 14px; overflow: hidden; border: 1px solid #1c2740; box-shadow: 0 24px 60px -30px rgba(3, 105, 161, 0.55); }
+    .terminal .bar { display: flex; gap: 7px; padding: 12px 14px; border-bottom: 1px solid #1c2740; }
+    .terminal .bar i { width: 11px; height: 11px; border-radius: 50%; background: #2a3754; }
+    .terminal pre { border-radius: 0; font-size: 13.5px; line-height: 1.7; padding: 18px; }
+    .t-ok { color: #6ee7b7; }
+    .t-dim { color: var(--code-dim); }
+    .t-hi { color: var(--code-accent); }
+
+    /* ── Sections ───────────────────────────────────────────── */
+    section { padding: 68px 0; border-top: 1px solid var(--border); }
+    section.tinted { background: var(--surface); }
+    h2 { font-size: clamp(26px, 3.6vw, 36px); letter-spacing: -0.02em; line-height: 1.2; margin: 0 0 12px; }
+    .sub { color: var(--muted); max-width: 66ch; margin: 0 0 36px; }
+    .kicker { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+
+    /* ── Calculator ─────────────────────────────────────────── */
+    .calc { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+    .panel { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 26px; }
+    .presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .preset {
+      font: inherit; font-size: 14px; cursor: pointer; padding: 7px 14px; border-radius: 999px;
+      border: 1px solid var(--border); background: transparent; color: var(--muted);
+    }
+    .preset:hover { border-color: var(--accent); color: var(--text); }
+    .preset[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .field { margin-bottom: 22px; }
+    .field:last-child { margin-bottom: 0; }
+    .field-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+    .field label { font-weight: 600; font-size: 15.5px; }
+    .field .hint { display: block; color: var(--muted); font-size: 13.5px; font-weight: 400; }
+    .field input[type="number"] {
+      width: 116px; padding: 7px 10px; font: inherit; font-size: 15px; text-align: right;
+      font-variant-numeric: tabular-nums;
+      color: var(--text); background: var(--surface);
+      border: 1px solid var(--border); border-radius: 8px;
+    }
+    .field input[type="number"]:focus, .field input[type="range"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .field input[type="range"] { width: 100%; accent-color: var(--accent); margin: 0; }
+
+    .verdict { border-radius: 12px; padding: 18px 20px; margin-bottom: 22px; }
+    .verdict.free { background: var(--good-soft); color: var(--good); }
+    .verdict.paid { background: var(--warn-soft); color: var(--warn); }
+    .verdict b { display: block; font-size: 34px; line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+    .verdict span { font-size: 15px; font-weight: 600; }
+    .limit { font-size: 15.5px; margin: 0 0 22px; color: var(--muted); }
+    .limit strong { color: var(--text); font-variant-numeric: tabular-nums; }
+
+    .meters { display: grid; gap: 16px; }
+    .meter-head { display: flex; justify-content: space-between; gap: 12px; font-size: 14.5px; margin-bottom: 6px; }
+    .meter-head span:first-child { font-weight: 600; }
+    .meter-head span:last-child { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+    .track { height: 8px; border-radius: 999px; background: var(--track); overflow: hidden; }
+    .fill { height: 100%; border-radius: 999px; background: var(--good); width: 0; transition: width 180ms ease; }
+    .fill.over { background: var(--warn); }
+    .meter-cost { font-size: 13.5px; color: var(--muted); margin-top: 4px; font-variant-numeric: tabular-nums; }
+    .fineprint { font-size: 13.5px; color: var(--muted); margin: 22px 0 0; }
+
+    /* ── Steps, cards, code ─────────────────────────────────── */
+    .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; counter-reset: step; }
+    .steps li { counter-increment: step; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
     .steps li::before {
-      content: counter(step); position: absolute; left: 18px; top: 16px;
-      width: 28px; height: 28px; border-radius: 50%;
-      background: var(--text); color: var(--bg);
-      display: grid; place-items: center; font-size: 14px; font-weight: 700;
+      content: counter(step); display: grid; place-items: center;
+      width: 30px; height: 30px; border-radius: 50%; margin-bottom: 12px;
+      background: var(--text); color: var(--bg); font-size: 14px; font-weight: 700;
     }
-    .steps strong { display: block; }
-    .steps span { color: var(--muted); font-size: 15.5px; }
+    .steps strong { display: block; margin-bottom: 4px; }
+    .steps span { color: var(--muted); font-size: 15px; }
 
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; }
-    .card { padding: 22px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+    .card { padding: 22px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); }
     .card h3 { margin: 0 0 8px; font-size: 18px; }
     .card p { margin: 0; color: var(--muted); font-size: 15.5px; }
 
@@ -137,30 +218,45 @@
     pre .c { color: var(--code-dim); }
     pre .k { color: var(--code-accent); }
     pre .s { color: #a7f3d0; }
-    .split { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px; align-items: start; }
+    .split { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: start; }
     .split ul { margin: 0; padding-left: 20px; color: var(--muted); }
-    .split li { margin-bottom: 10px; }
+    .split li { margin-bottom: 12px; }
     .split li strong { color: var(--text); }
 
     .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
-    table { width: 100%; border-collapse: collapse; font-size: 15.5px; min-width: 560px; }
+    table { width: 100%; border-collapse: collapse; font-size: 15.5px; min-width: 560px; background: var(--bg); }
     th, td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
     th { background: var(--surface); font-size: 13px; letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted); }
     tr:last-child td { border-bottom: 0; }
     td:first-child { font-weight: 600; white-space: nowrap; }
-    .num { font-variant-numeric: tabular-nums; }
 
-    .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; }
-    .stat { padding: 20px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
-    .stat b { display: block; font-size: 30px; letter-spacing: -0.02em; line-height: 1.1; }
-    .stat span { color: var(--muted); font-size: 14.5px; }
+    /* ── FAQ ────────────────────────────────────────────────── */
+    .faq { display: grid; gap: 10px; max-width: 820px; }
+    details { border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); }
+    summary { cursor: pointer; padding: 16px 20px; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--muted); font-weight: 400; font-size: 22px; line-height: 1; }
+    details[open] summary::after { content: "\2212"; }
+    details p { margin: 0; padding: 0 20px 18px; color: var(--muted); font-size: 16px; }
+
+    /* ── Closing CTA ────────────────────────────────────────── */
+    .closing { text-align: center; }
+    .closing h2 { margin-left: auto; margin-right: auto; max-width: 20ch; }
+    .closing .sub { margin-left: auto; margin-right: auto; }
+    .closing .command { max-width: 520px; margin: 0 auto; text-align: left; }
+    .closing .actions { justify-content: center; }
 
     footer { border-top: 1px solid var(--border); padding: 36px 0 56px; color: var(--muted); font-size: 14px; }
     footer .wrap { display: grid; gap: 10px; }
+
+    @media (max-width: 900px) {
+      .hero, .calc, .split { grid-template-columns: 1fr; }
+      .hero { padding-top: 48px; padding-bottom: 48px; gap: 32px; }
+      section { padding: 52px 0; }
+    }
     @media (max-width: 640px) {
       nav a.optional { display: none; }
-      .hero { padding-top: 56px; padding-bottom: 44px; }
-      section { padding: 48px 0; }
+      .panel { padding: 20px; }
     }
   </style>
 </head>
@@ -169,68 +265,173 @@
     <div class="wrap">
       <a class="brand" href="#top"><span class="element">N</span>Nitrogen</a>
       <nav>
+        <a class="optional" href="#calculator">Cost calculator</a>
         <a class="optional" href="#get">What you get</a>
-        <a class="optional" href="#api">Writing an API</a>
-        <a class="optional" href="#cost">Cost</a>
-        <a href="https://github.com/mksd0398/nitrogen">GitHub</a>
-        <a href="https://www.npmjs.com/package/@mksd0398/nitrogen">npm</a>
+        <a class="optional" href="#faq">Questions</a>
+        <a class="optional" href="https://github.com/mksd0398/nitrogen">GitHub</a>
+        <a class="button primary small" href="#start">Get started</a>
       </nav>
     </div>
   </header>
 
   <main id="top">
+    <!-- ── Hero ──────────────────────────────────────────────── -->
     <div class="wrap hero">
-      <span class="eyebrow">Open source · MIT</span>
-      <h1>Shopify apps on Firebase, in one command.</h1>
-      <p class="lede">
-        Nitrogen scaffolds a Shopify app, deploys it to Firebase, and hands you an
-        install link. No framework to learn and no server to keep running.
-      </p>
-      <div class="command">
-        <span><span class="prompt">$</span><span id="command">npx @mksd0398/nitrogen my-app</span></span>
-        <button class="copy" type="button" id="copy">Copy</button>
+      <div>
+        <h1>Ship a Shopify app on Firebase in one command.</h1>
+        <p class="lede">
+          Nitrogen creates the app, deploys it, and hands you an install link.
+          Nothing runs while nobody is using it, so an idle app costs nothing.
+        </p>
+        <div class="command">
+          <span class="line"><span class="prompt">$</span><span class="command-text">npx @mksd0398/nitrogen my-app</span></span>
+          <button class="copy" type="button">Copy</button>
+        </div>
+        <div class="actions">
+          <a class="button" href="#calculator">Work out your cost</a>
+          <a class="button" href="https://github.com/mksd0398/nitrogen#quick-start">Read the quick start</a>
+        </div>
+        <ul class="checks">
+          <li><strong>Open source, MIT.</strong> Use it for client and commercial apps.</li>
+          <li><strong>No framework, no server.</strong> Plain HTML and Cloud Functions.</li>
+          <li><strong>Tested.</strong> Every project ships with its own test suite.</li>
+        </ul>
       </div>
-      <div class="actions">
-        <a class="button primary" href="https://github.com/mksd0398/nitrogen#quick-start">Read the quick start</a>
-        <a class="button" href="https://github.com/mksd0398/nitrogen">View on GitHub</a>
+
+      <div class="terminal" aria-label="Example output of the Nitrogen command">
+        <div class="bar"><i></i><i></i><i></i></div>
+<pre><span class="t-dim">$</span> npx @mksd0398/nitrogen my-app
+
+<span class="t-ok">✔</span> Signed in to Shopify
+<span class="t-ok">✔</span> Client ID and secret read from the CLI
+<span class="t-ok">✔</span> Firestore: <span class="t-hi">europe-west1</span>
+<span class="t-ok">✔</span> Functions region: <span class="t-hi">europe-west1</span>
+<span class="t-ok">✔</span> Client Secret stored in Secret Manager
+<span class="t-ok">✔</span> Deployed to Firebase
+<span class="t-ok">✔</span> Shopify app updated
+
+<span class="t-ok">✔  All done!</span> Your app is ready to install.</pre>
       </div>
-      <p class="note">Needs Node.js 20 or newer, a Shopify Partner account, and a Firebase project on the Blaze plan.</p>
     </div>
 
-    <section id="how">
+    <!-- ── Calculator ────────────────────────────────────────── -->
+    <section class="tinted" id="calculator">
       <div class="wrap">
-        <h2>What the command does</h2>
-        <p class="sub">You answer a few questions. It does the rest, in this order, and stops to tell you if something needs your attention.</p>
-        <ol class="steps">
-          <li><strong>Signs you in to Shopify and creates the app</strong><span>Your client id and secret are read from the Shopify CLI. You never paste them.</span></li>
-          <li><strong>Creates and provisions the Firebase project</strong><span>Firestore, Hosting and Functions, in the region you choose.</span></li>
-          <li><strong>Stores the client secret in Secret Manager</strong><span>It never sits in a file that ships with your code.</span></li>
-          <li><strong>Deploys, then registers the live URLs with Shopify</strong><span>When it finishes, the app is installable.</span></li>
-        </ol>
-      </div>
-    </section>
+        <p class="kicker">Cost calculator</p>
+        <h2>Will your app be free to run?</h2>
+        <p class="sub">
+          Firebase's Blaze plan is pay-as-you-go with a free allowance every month.
+          Enter how your app would be used to see whether it fits, and what it costs if it does not.
+        </p>
 
-    <section id="get">
-      <div class="wrap">
-        <h2>What you get</h2>
-        <p class="sub">A working app you can read end to end, in TypeScript or JavaScript.</p>
-        <div class="grid">
-          <div class="card"><h3>One function per API resource</h3><p>Each scales, times out and deploys on its own, so a slow import cannot starve the routes merchants are waiting on.</p></div>
-          <div class="card"><h3>Verification that fails closed</h3><p>Webhooks, session tokens, the App Proxy and OAuth all refuse a request when a signature is missing, not only when it is wrong.</p></div>
-          <div class="card"><h3>Single- or multi-tenant</h3><p>Lock the app to one store, open it to many, or run several Shopify apps on one backend. The tenant always comes from a verified signature.</p></div>
-          <div class="card"><h3>Installs the way Shopify installs</h3><p>Works from the App Store or the admin with no install link, using token exchange. Uninstall and reinstall are handled.</p></div>
-          <div class="card"><h3>API keys for outside callers</h3><p>Let a mobile app or a script call your API. Keys are hashed at rest, scoped, and owned by one store.</p></div>
-          <div class="card"><h3>Rate limits and a spending cap</h3><p>A per-caller request limit, Shopify's own throttling passed through, and a ceiling on instances.</p></div>
-          <div class="card"><h3>A reference inside your app</h3><p>All 50 Polaris web components and all 26 App Bridge APIs, each with a working example to copy.</p></div>
-          <div class="card"><h3>Tests included</h3><p>Every project ships with a test suite that needs no emulator or network. It also checks your routes match your deploy config.</p></div>
-          <div class="card"><h3>No build step on the frontend</h3><p>Plain HTML with Polaris web components and App Bridge. No React, no bundler.</p></div>
+        <div class="calc">
+          <div class="panel">
+            <div class="presets" role="group" aria-label="Example apps">
+              <button class="preset" type="button" data-preset="custom">One store</button>
+              <button class="preset" type="button" data-preset="small" aria-pressed="true">Small public app</button>
+              <button class="preset" type="button" data-preset="growing">Growing app</button>
+              <button class="preset" type="button" data-preset="busy">Busy app</button>
+            </div>
+
+            <div class="field">
+              <div class="field-head">
+                <label for="stores">Stores using the app each day<span class="hint">Not installs: stores where someone opens it that day</span></label>
+                <input type="number" id="stores" min="1" max="1000000" step="1" inputmode="numeric">
+              </div>
+              <input type="range" id="stores-range" min="0" max="100" step="1" aria-label="Stores using the app each day">
+            </div>
+
+            <div class="field">
+              <div class="field-head">
+                <label for="calls">API calls per store, per day<span class="hint">Each page that loads data makes one or more</span></label>
+                <input type="number" id="calls" min="0" max="100000" step="1" inputmode="numeric">
+              </div>
+              <input type="range" id="calls-range" min="0" max="200" step="1" aria-label="API calls per store per day">
+            </div>
+
+            <div class="field">
+              <div class="field-head">
+                <label for="seconds">Seconds per API call<span class="hint">A call to the Shopify Admin API takes about 0.5</span></label>
+                <input type="number" id="seconds" min="0.05" max="60" step="0.05" inputmode="decimal">
+              </div>
+              <input type="range" id="seconds-range" min="0.05" max="5" step="0.05" aria-label="Seconds per API call">
+            </div>
+
+            <div class="field">
+              <div class="field-head">
+                <label for="reads">Database reads per store, per day</label>
+                <input type="number" id="reads" min="0" max="1000000" step="1" inputmode="numeric">
+              </div>
+              <input type="range" id="reads-range" min="0" max="500" step="1" aria-label="Database reads per store per day">
+            </div>
+
+            <div class="field">
+              <div class="field-head">
+                <label for="writes">Database writes per store, per day</label>
+                <input type="number" id="writes" min="0" max="1000000" step="1" inputmode="numeric">
+              </div>
+              <input type="range" id="writes-range" min="0" max="200" step="1" aria-label="Database writes per store per day">
+            </div>
+          </div>
+
+          <div class="panel" aria-live="polite">
+            <div class="verdict free" id="verdict">
+              <b id="total">$0</b>
+              <span id="verdict-text">a month. Inside the free tier.</span>
+            </div>
+            <p class="limit" id="limit"></p>
+            <div class="meters" id="meters"></div>
+            <p class="fineprint">
+              An estimate at Google's US list prices for a 256 MiB function. It bills every call as if it had an
+              instance to itself, so real usage at volume is lower. Regions differ; check the
+              <a href="https://cloud.google.com/run/pricing">Cloud Run</a> and
+              <a href="https://cloud.google.com/firestore/pricing">Firestore</a> pricing pages.
+            </p>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- ── Steps ─────────────────────────────────────────────── -->
+    <section id="how">
+      <div class="wrap">
+        <p class="kicker">How it works</p>
+        <h2>From nothing to an installable app</h2>
+        <p class="sub">You answer a few questions. The command does the rest, and stops to tell you if something needs your attention.</p>
+        <ol class="steps">
+          <li><strong>Creates the Shopify app</strong><span>Your client id and secret are read from the Shopify CLI. You never paste them.</span></li>
+          <li><strong>Provisions Firebase</strong><span>Firestore, Hosting and Functions, in the region you choose.</span></li>
+          <li><strong>Locks away the secret</strong><span>It goes to Secret Manager, never into a file that ships with your code.</span></li>
+          <li><strong>Deploys and registers</strong><span>The live URLs are sent to Shopify. The app is ready to install.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ── Features ──────────────────────────────────────────── -->
+    <section class="tinted" id="get">
+      <div class="wrap">
+        <p class="kicker">What you get</p>
+        <h2>The parts that take weeks to get right</h2>
+        <p class="sub">A working app you can read end to end, in TypeScript or JavaScript.</p>
+        <div class="grid">
+          <div class="card"><h3>Installs the way Shopify installs</h3><p>Works from the App Store or the admin with no install link. Uninstall and reinstall are handled.</p></div>
+          <div class="card"><h3>Verification that fails closed</h3><p>Webhooks, session tokens, the App Proxy and OAuth refuse a request when a signature is missing, not only when it is wrong.</p></div>
+          <div class="card"><h3>One function per API resource</h3><p>Each scales, times out and deploys on its own, so a slow import cannot starve the routes merchants are waiting on.</p></div>
+          <div class="card"><h3>Single- or multi-tenant</h3><p>Lock the app to one store, open it to many, or run several Shopify apps on one backend.</p></div>
+          <div class="card"><h3>API keys for outside callers</h3><p>Let a mobile app or a script call your API. Keys are hashed at rest, scoped, and owned by one store.</p></div>
+          <div class="card"><h3>Rate limits and a spending cap</h3><p>A per-caller request limit, Shopify's own throttling passed through, and a ceiling on instances.</p></div>
+          <div class="card"><h3>A reference inside your app</h3><p>All 50 Polaris web components and all 26 App Bridge APIs, each with a working example to copy.</p></div>
+          <div class="card"><h3>Tests included</h3><p>A test suite that needs no emulator or network. It also checks your routes match your deploy config.</p></div>
+          <div class="card"><h3>GDPR webhooks wired up</h3><p>The three mandatory webhooks are subscribed and verified, with shop data deletion implemented.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── API ───────────────────────────────────────────────── -->
     <section id="api">
       <div class="wrap">
-        <h2>Writing an API</h2>
+        <p class="kicker">Developer experience</p>
+        <h2>Adding an API is a few lines</h2>
         <p class="sub">A route is one entry in a table. Authentication, rate limiting, routing and errors are handled before your code runs.</p>
         <div class="split">
 <pre><code><span class="c">// functions/src/api/orders.ts</span>
@@ -260,27 +461,12 @@
       </div>
     </section>
 
-    <section id="cost">
+    <!-- ── Compare ───────────────────────────────────────────── -->
+    <section class="tinted" id="compare">
       <div class="wrap">
-        <h2>What it costs</h2>
-        <p class="sub">Everything scales to zero, so an app nobody is using costs nothing. Firebase's Blaze plan is pay-as-you-go with a free tier, and needs a billing account.</p>
-        <div class="stat-row">
-          <div class="stat"><b>$0</b><span>while the app is idle</span></div>
-          <div class="stat"><b class="num">~1,200</b><span>daily active stores inside the free tier</span></div>
-          <div class="stat"><b class="num">~$32</b><span>a month at 10,000 daily active stores</span></div>
-        </div>
-        <p class="note">
-          Estimates, assuming 10 API calls per store per day at 0.5 seconds each, at Google's US list prices.
-          Function compute is what runs out first. The
-          <a href="https://github.com/mksd0398/nitrogen#what-it-costs">README shows the arithmetic</a> so you can redo it with your own numbers.
-        </p>
-      </div>
-    </section>
-
-    <section id="compare">
-      <div class="wrap">
+        <p class="kicker">Choosing</p>
         <h2>Nitrogen or the official template</h2>
-        <p class="sub">Shopify's own template is built on React Router. Both are good choices for different apps.</p>
+        <p class="sub">Shopify's own template is built on React Router. Both are good choices, for different apps.</p>
         <div class="table-scroll">
           <table>
             <thead><tr><th></th><th>Official template</th><th>Nitrogen</th></tr></thead>
@@ -297,14 +483,58 @@
       </div>
     </section>
 
-    <section id="start">
+    <!-- ── FAQ ───────────────────────────────────────────────── -->
+    <section id="faq">
       <div class="wrap">
-        <h2>Start</h2>
-        <p class="sub">The quick start walks through the prerequisites and a full run of the wizard.</p>
+        <p class="kicker">Questions</p>
+        <h2>Before you run it</h2>
+        <p class="sub">The things people ask first.</p>
+        <div class="faq">
+          <details>
+            <summary>Do I need a credit card?</summary>
+            <p>Yes. Cloud Functions and Secret Manager need Firebase's Blaze plan, which needs a billing account. You are only charged for what goes beyond the free allowance, and the calculator above shows where that is. Set a budget alert on day one: Firebase alerts, it does not cap.</p>
+          </details>
+          <details>
+            <summary>Can I list the app on the Shopify App Store?</summary>
+            <p>Installing from the App Store works. Passing review is your job: a paid app needs Shopify's billing API, and if you store customer data you must write the export and delete logic for the privacy webhooks. Choose "Many stores" when the wizard asks who the app is for.</p>
+          </details>
+          <details>
+            <summary>Do I have to know React?</summary>
+            <p>No. The pages are plain HTML using Polaris web components, with no build step. If your admin interface needs React and client-side state, the official template is the better fit.</p>
+          </details>
+          <details>
+            <summary>What do I need installed?</summary>
+            <p>Node.js 20 or newer. The command checks for the Firebase CLI and the Shopify CLI and offers to install them. You also need a Shopify Partner account and a Google account.</p>
+          </details>
+          <details>
+            <summary>Can I use it for client work or a commercial app?</summary>
+            <p>Yes. Nitrogen is MIT licensed, and the app it generates is yours.</p>
+          </details>
+          <details>
+            <summary>What happens when traffic spikes?</summary>
+            <p>Each function scales on its own, up to a ceiling of 10 instances that you can raise. The ceiling is a spending cap: a retry storm cannot turn into an unbounded bill.</p>
+          </details>
+          <details>
+            <summary>Is this made by Shopify?</summary>
+            <p>No. Nitrogen is an independent community project, not affiliated with or endorsed by Shopify or Google.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Closing CTA ───────────────────────────────────────── -->
+    <section class="tinted closing" id="start">
+      <div class="wrap">
+        <h2>Run it, and have an app to install.</h2>
+        <p class="sub">One command. The quick start covers the prerequisites and a full run of the wizard.</p>
+        <div class="command">
+          <span class="line"><span class="prompt">$</span><span class="command-text">npx @mksd0398/nitrogen my-app</span></span>
+          <button class="copy" type="button">Copy</button>
+        </div>
         <div class="actions">
-          <a class="button primary" href="https://github.com/mksd0398/nitrogen#quick-start">Quick start</a>
-          <a class="button" href="https://github.com/mksd0398/nitrogen/issues">Report a problem</a>
-          <a class="button" href="https://github.com/mksd0398/nitrogen/blob/master/CHANGELOG.md">Changelog</a>
+          <a class="button primary" href="https://github.com/mksd0398/nitrogen#quick-start">Read the quick start</a>
+          <a class="button" href="https://github.com/mksd0398/nitrogen">Star it on GitHub</a>
+          <a class="button" href="https://github.com/mksd0398/nitrogen/issues">Ask a question</a>
         </div>
       </div>
     </section>
@@ -318,13 +548,161 @@
   </footer>
 
   <script>
-    document.getElementById("copy").addEventListener("click", function () {
-      var button = this;
-      navigator.clipboard.writeText(document.getElementById("command").textContent).then(function () {
-        button.textContent = "Copied";
-        setTimeout(function () { button.textContent = "Copy"; }, 2000);
+    // ── Copy buttons ─────────────────────────────────────────
+    document.querySelectorAll("button.copy").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var text = button.parentElement.querySelector(".command-text").textContent;
+        navigator.clipboard.writeText(text).then(function () {
+          button.textContent = "Copied";
+          setTimeout(function () { button.textContent = "Copy"; }, 2000);
+        });
       });
     });
+
+    // ── Cost calculator ──────────────────────────────────────
+    // Google's US list prices and free allowances. A month is 30 days.
+    // Firestore's allowance is per day; Cloud Run's is per month.
+    var DAYS = 30;
+    var MEMORY_GIB = 0.25;
+    var RESOURCES = [
+      { id: "cpu", name: "Function CPU", unit: "vCPU-seconds", free: 180000, price: 0.000024 },
+      { id: "memory", name: "Function memory", unit: "GiB-seconds", free: 360000, price: 0.0000025 },
+      { id: "requests", name: "Function requests", unit: "requests", free: 2000000, price: 0.40 / 1000000 },
+      { id: "reads", name: "Database reads", unit: "reads", free: 50000 * DAYS, price: 0.06 / 100000 },
+      { id: "writes", name: "Database writes", unit: "writes", free: 20000 * DAYS, price: 0.18 / 100000 },
+    ];
+
+    var PRESETS = {
+      custom: { stores: 1, calls: 40, seconds: 0.5, reads: 20, writes: 5 },
+      small: { stores: 200, calls: 10, seconds: 0.5, reads: 3, writes: 1 },
+      growing: { stores: 2500, calls: 10, seconds: 0.5, reads: 3, writes: 1 },
+      busy: { stores: 20000, calls: 15, seconds: 0.5, reads: 5, writes: 1 },
+    };
+
+    // What one store uses in a month, per resource
+    function perStore(input) {
+      var calls = input.calls * DAYS;
+      return {
+        cpu: calls * input.seconds,
+        memory: calls * input.seconds * MEMORY_GIB,
+        requests: calls,
+        reads: input.reads * DAYS,
+        writes: input.writes * DAYS,
+      };
+    }
+
+    function estimate(input) {
+      var each = perStore(input);
+      var rows = RESOURCES.map(function (resource) {
+        var used = each[resource.id] * input.stores;
+        return {
+          resource: resource,
+          used: used,
+          share: used / resource.free,
+          cost: Math.max(0, used - resource.free) * resource.price,
+          // How many stores fit before this resource leaves the free tier
+          fits: each[resource.id] > 0 ? resource.free / each[resource.id] : Infinity,
+        };
+      });
+      var first = rows.reduce(function (a, b) { return b.fits < a.fits ? b : a; });
+      return {
+        rows: rows,
+        total: rows.reduce(function (sum, row) { return sum + row.cost; }, 0),
+        freeStores: Math.floor(first.fits),
+        firstToRunOut: first.resource.name,
+      };
+    }
+
+    // ── Rendering ────────────────────────────────────────────
+    var FIELDS = ["stores", "calls", "seconds", "reads", "writes"];
+    var whole = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+
+    function money(value) {
+      if (value === 0) return "$0";
+      if (value < 0.01) return "under $0.01";
+      if (value < 10) return "$" + value.toFixed(2);
+      return "$" + whole.format(Math.round(value));
+    }
+
+    // The stores slider is logarithmic, so 1 and 100,000 both fit on it
+    var STORES_MAX = 100000;
+    function storesFromSlider(position) { return Math.max(1, Math.round(Math.pow(STORES_MAX, position / 100))); }
+    function sliderFromStores(stores) { return Math.round((Math.log(Math.max(1, stores)) / Math.log(STORES_MAX)) * 100); }
+
+    function read() {
+      var input = {};
+      FIELDS.forEach(function (name) {
+        var value = parseFloat(document.getElementById(name).value);
+        input[name] = isFinite(value) && value >= 0 ? value : 0;
+      });
+      input.stores = Math.max(1, Math.round(input.stores));
+      input.seconds = Math.max(0.05, input.seconds);
+      return input;
+    }
+
+    function write(input) {
+      FIELDS.forEach(function (name) {
+        document.getElementById(name).value = input[name];
+        var range = document.getElementById(name + "-range");
+        range.value = name === "stores" ? sliderFromStores(input[name]) : input[name];
+      });
+    }
+
+    function render() {
+      var input = read();
+      var result = estimate(input);
+      var free = result.total === 0;
+
+      document.getElementById("verdict").className = "verdict " + (free ? "free" : "paid");
+      document.getElementById("total").textContent = money(result.total);
+      document.getElementById("verdict-text").textContent = free
+        ? "a month. Inside the free tier."
+        : "a month, beyond the free tier.";
+
+      document.getElementById("limit").innerHTML = result.freeStores === Infinity || !isFinite(result.freeStores)
+        ? "With no usage per store, nothing is billed."
+        : "At this usage per store, the app stays free up to <strong>" + whole.format(result.freeStores) +
+          " stores a day</strong>. " + result.firstToRunOut + " runs out first.";
+
+      document.getElementById("meters").innerHTML = result.rows.map(function (row) {
+        var percent = Math.round(row.share * 100);
+        return '<div>' +
+          '<div class="meter-head"><span>' + row.resource.name + '</span>' +
+          '<span>' + whole.format(Math.round(row.used)) + " of " + whole.format(row.resource.free) + " free</span></div>" +
+          '<div class="track"><div class="fill' + (row.share > 1 ? " over" : "") + '" style="width:' + Math.min(100, percent) + '%"></div></div>' +
+          '<div class="meter-cost">' + whole.format(percent) + "% of the free allowance" +
+          (row.cost > 0 ? " · " + money(row.cost) + " a month" : "") + "</div>" +
+          "</div>";
+      }).join("");
+    }
+
+    function choose(name) {
+      document.querySelectorAll(".preset").forEach(function (button) {
+        button.setAttribute("aria-pressed", String(button.dataset.preset === name));
+      });
+      if (PRESETS[name]) write(PRESETS[name]);
+      render();
+    }
+
+    FIELDS.forEach(function (name) {
+      var number = document.getElementById(name);
+      var range = document.getElementById(name + "-range");
+      number.addEventListener("input", function () {
+        var value = parseFloat(number.value);
+        if (isFinite(value)) range.value = name === "stores" ? sliderFromStores(value) : value;
+        choose(null);
+      });
+      range.addEventListener("input", function () {
+        number.value = name === "stores" ? storesFromSlider(parseFloat(range.value)) : range.value;
+        choose(null);
+      });
+    });
+
+    document.querySelectorAll(".preset").forEach(function (button) {
+      button.addEventListener("click", function () { choose(button.dataset.preset); });
+    });
+
+    choose("small");
   </script>
 </body>
 </html>
