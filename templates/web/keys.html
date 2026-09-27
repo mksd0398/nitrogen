@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API keys - {{APP_NAME}}</title>
+  <link rel="stylesheet" href="/css/app.css">
+  <meta name="shopify-api-key" content="{{API_KEY}}">
+  <script src="https://cdn.shopify.com/shopifycloud/app-bridge.js"></script>
+  <script src="https://cdn.shopify.com/shopifycloud/polaris.js"></script>
+</head>
+<body>
+  <ui-nav-menu>
+    <a href="/" rel="home">Dashboard</a>
+    <a href="/products">Products</a>
+    <a href="/settings">Settings</a>
+    <a href="/keys">API keys</a>
+    <a href="/polaris">Components</a>
+  </ui-nav-menu>
+
+  <s-page heading="API keys" inlineSize="small">
+    <s-link slot="breadcrumb-actions" href="/">Dashboard</s-link>
+
+    <s-section heading="Create a key">
+      <s-text color="subdued">
+        A key lets a system outside Shopify call the routes that opted in to it.
+        It acts as this store and is shown once: copy it when it appears.
+      </s-text>
+      <s-box paddingBlockStart="base">
+        <s-stack gap="base">
+          <s-text-field id="key-name" label="Name" placeholder="Mobile app" helpText="What this key is for, so you can recognise it later."></s-text-field>
+          <s-stack direction="inline" gap="base">
+            <s-button variant="primary" onclick="createKey()">Create key</s-button>
+          </s-stack>
+          <div id="key-created"></div>
+        </s-stack>
+      </s-box>
+    </s-section>
+
+    <s-section heading="Your keys">
+      <div id="key-list"></div>
+    </s-section>
+  </s-page>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/pages/keys.js"></script>
+</body>
+</html>

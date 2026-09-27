@@ -45,8 +45,28 @@
 
   // ── API fetch helper ────────────────────────────────────────────
   // Automatically attaches session token and handles JSON errors.
+  //
+  // A session token lives about a minute, so one sent late in that minute
+  // can arrive expired. A 401 means the handler never ran, which makes it
+  // safe to send again: retried ONCE with a freshly minted token.
   window.apiFetch = async function apiFetch(endpoint, options) {
-    if (!options) options = {};
+    var res = await send(endpoint, options || {});
+    if (res.status === 401) res = await send(endpoint, options || {});
+
+    if (!res.ok) {
+      var errBody;
+      try {
+        errBody = await res.json();
+      } catch (_) {
+        errBody = { error: res.statusText };
+      }
+      throw new Error(errBody.error || "API error: " + res.status);
+    }
+
+    return res.json();
+  };
+
+  async function send(endpoint, options) {
     var token = null;
     try {
       if (window.shopify && typeof window.shopify.idToken === "function") {
@@ -69,22 +89,8 @@
       });
     }
 
-    var fetchOpts = Object.assign({}, options, { headers: headers });
-
-    var res = await fetch(endpoint, fetchOpts);
-
-    if (!res.ok) {
-      var errBody;
-      try {
-        errBody = await res.json();
-      } catch (_) {
-        errBody = { error: res.statusText };
-      }
-      throw new Error(errBody.error || "API error: " + res.status);
-    }
-
-    return res.json();
-  };
+    return fetch(endpoint, Object.assign({}, options, { headers: headers }));
+  }
 
   // ── Toast helper ────────────────────────────────────────────────
   window.showToast = function showToast(message, isError) {

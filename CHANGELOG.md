@@ -1,5 +1,78 @@
 # Changelog
 
+## 3.1.0
+
+Changes what a newly scaffolded project contains. The CLI's own flags and
+prompts are unchanged apart from the new `--region`.
+
+### Security
+
+- **Webhooks no longer accept unsigned requests.** The check was
+  `if (req.rawBody && hmac && !verify(...))`, so a request with no HMAC header
+  skipped verification entirely. An unsigned `app/uninstalled` POST naming any
+  shop deleted that shop's access token. A missing header or body now means no.
+  Apps scaffolded before 3.1.0 carry this until patched by hand: the README's
+  Security section has the two-line fix.
+- The client secret moved from `functions/.env` to Secret Manager. Everything in
+  `functions/` is baked into the deployed container. The CLI stores the secret
+  for you, and writes `functions/.secret.local` for the emulator only.
+- Session tokens are verified with `audience`, and the shop they name is checked
+  against `*.myshopify.com` and against `dest`.
+- The JavaScript template's OAuth nonce now expires after 10 minutes and is burned
+  before it is validated, as the TypeScript template's already was.
+- An unexpected error in a route is logged and answered with
+  `Internal server error`. It used to return `err.message`.
+- Settings are validated by type and length, not only by key.
+- Hosting sends `Content-Security-Policy: frame-ancestors` limited to Shopify and
+  `X-Content-Type-Options: nosniff`.
+
+### Changed
+
+- **One Cloud Function per API resource** replaces the single Express `api`
+  function: `shop`, `products`, `settings`, `keys`, `status`. Each scales, times
+  out and deploys on its own. `index` is the API surface, and a route is an entry
+  in a table passed to `endpoint()`.
+- Express and `cors` are no longer dependencies. The embedded admin is served
+  from the same origin as its API, so it never needed CORS.
+- The functions region is no longer hard-coded to `us-central1`. It follows the
+  Firestore location, or `--region`, and is written to both `APP_REGION` and
+  every rewrite in `firebase.json`.
+- TypeScript projects build before a functions deploy (`predeploy`).
+- JS and CSS are served `no-cache`, so a deploy never runs new HTML with old
+  scripts.
+- `shop/redact` deletes the shop's session and settings instead of logging a TODO.
+
+### Added
+
+- **Multi-tenancy across apps.** Several Shopify apps can share one backend. The
+  app is whichever one's secret verifies the request, never a value the caller
+  sends, and every tenant's data is keyed by shop and app.
+- **API keys** for callers outside Shopify: hashed at rest, scoped, owned by one
+  tenant, managed from a new API keys page. Off unless a function opts in.
+- **Rate limits**: `maxInstances` as a spending cap, a per-caller request limit
+  in `endpoint()`, and Shopify's own throttling passed on as `429`.
+- **A test suite in every generated project.** `npm test` needs no emulator or
+  network and covers the verifiers, routing, tenant isolation, API keys, rate
+  limits, and that `index` and `firebase.json` agree.
+- `apiFetch` retries a `401` once with a fresh session token, and verification
+  allows 10 seconds of clock tolerance. A token minted late in its minute used to
+  stop a multi-request job part way through.
+- A revoked access token is dropped and re-obtained by token exchange instead of
+  failing every call until reinstall.
+- Access tokens are cached in the instance for 5 minutes, so a busy shop costs
+  one Firestore read per 5 minutes rather than one per request.
+- Shopify API deprecation warnings and webhook API version drift are logged.
+- `npm test` and `npm run test:e2e` for this repository: both templates are
+  scaffolded and checked, and must expose the same routes.
+
+### Fixed
+
+- The README's cost section. It divided the free request quota by usage and
+  ignored compute, which is what runs out first, and it said no billing account
+  was needed when Cloud Functions require Blaze. The figures are now derived from
+  the operations the template actually performs.
+
+
 ## 3.0.0
 
 ### Changed
