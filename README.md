@@ -14,6 +14,8 @@ Cloud Functions, Firestore and Hosting. Polaris web components and App Bridge. N
 npx @mksd0398/nitrogen my-app
 ```
 
+**[Website](https://mksd0398.github.io/nitrogen/)** · **[Will it be free for my app? Try the cost calculator](https://mksd0398.github.io/nitrogen/#calculator)**
+
 <p align="center">
   <img src="https://img.shields.io/badge/Shopify-2026--07-7AB55C?logo=shopify&logoColor=white" />
   <img src="https://img.shields.io/badge/Firebase-v2%20Functions-FFCA28?logo=firebase&logoColor=black" />

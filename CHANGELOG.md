@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.3.2
+
+### Added
+
+- A website, with a cost calculator that shows how many stores, API calls,
+  reads and writes fit inside Firebase's free tier:
+  https://mksd0398.github.io/nitrogen/
+
+### Changed
+
+- The README no longer carries the npm downloads badge, which showed an error
+  until npm has statistics for the package.
+
 ## 3.3.1
 
 ### Fixed

@@ -1,6 +1,6 @@
 {
   "name": "@mksd0398/nitrogen",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "description": "Scaffold, deploy and install a Shopify app on Firebase in one command. Cloud Functions, Firestore and Hosting; Polaris web components and App Bridge; TypeScript or JavaScript. No framework, no server. Not affiliated with or endorsed by Shopify.",
   "keywords": [
     "shopify",
@@ -28,7 +28,7 @@
     "multi-tenant",
     "nitrogen"
   ],
-  "homepage": "https://github.com/mksd0398/nitrogen#readme",
+  "homepage": "https://mksd0398.github.io/nitrogen/",
   "repository": {
     "type": "git",
     "url": "https://github.com/mksd0398/nitrogen.git"
