@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.1.3
+
+### Fixed
+
+- A client secret stored with a trailing newline no longer fails every
+  signature check. Secrets set from a file often carry one.
+- A refused webhook now logs its topic and shop, so a stray app still pointed
+  at your URL can be told apart from a wrong secret.
+
 ## 3.1.2
 
 ### Changed

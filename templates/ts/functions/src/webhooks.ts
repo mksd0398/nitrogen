@@ -26,7 +26,8 @@ export async function webhookHandler(req: Request, res: Response): Promise<void>
   // the tenant, so one app's webhook can never touch another app's data.
   const app = verifyWebhook(req.rawBody, req.headers["x-shopify-hmac-sha256"]);
   if (!app || !isValidShopDomain(shop)) {
-    console.error("Webhook HMAC verification failed");
+    // Usually another app, or a rotated secret, still pointed at this URL
+    console.error(`Webhook refused: bad signature (${topic} from ${shop})`);
     res.status(401).send("Unauthorized");
     return;
   }
