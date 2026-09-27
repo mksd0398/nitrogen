@@ -916,6 +916,7 @@ These are **required** for Shopify App Store listing.
 
 | Problem | Solution |
 |---------|----------|
+| Every function answers `429` with the plain text "Rate exceeded." | Cloud Run is refusing to start instances, so your code never ran (the app's own 429 is JSON). If billing was just enabled, wait for it to apply: `firebase functions:log` says "billing is disabled for this project" until it has |
 | Every API call answers 401 | The client secret in Secret Manager does not match the app. `firebase functions:secrets:set SHOPIFY_API_SECRET`, then redeploy functions |
 | Webhooks answer 401 | Same cause: the HMAC is verified with that secret |
 | A route answers 404 from Hosting | The rewrite's `region` or `serviceId` does not match the function. Run `npm test` in `functions/` |

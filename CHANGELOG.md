@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.3.3
+
+### Fixed
+
+- A refused session token now answers `401` with
+  `X-Shopify-Retry-Invalid-Session-Request: 1`, as Shopify recommends. App
+  Bridge then fetches a fresh token and retries once, so a token that expired in
+  flight recovers for any `fetch()`, not only for calls made through
+  `apiFetch`.
+- When you enable billing during the wizard, it now warns that the app's API
+  may answer `429 "Rate exceeded."` until Google has applied it.
+- The README's troubleshooting table covers that 429.
+
 ## 3.3.2
 
 ### Added
