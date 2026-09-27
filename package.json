@@ -37,8 +37,8 @@
     "nitrogen": "bin/create.js"
   },
   "scripts": {
-    "test": "node --test test/",
-    "test:e2e": "node -e \"process.env.NITROGEN_E2E='1';require('child_process').execSync('node --test test/',{stdio:'inherit'})\""
+    "test": "node --test \"test/*.test.js\"",
+    "test:e2e": "node -e \"process.env.NITROGEN_E2E='1';require('child_process').execSync('npm test',{stdio:'inherit'})\""
   },
   "publishConfig": {
     "access": "public"
