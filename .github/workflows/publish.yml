@@ -100,3 +100,14 @@ jobs:
       - name: Publish to npm
         if: steps.check.outputs.skip != 'true'
         run: npm publish --access public
+
+      # npm reports a refused trusted publish as a bare 404. The reason is in
+      # its debug log: whether it asked GitHub for an identity token, and what
+      # the registry answered when that token was exchanged.
+      - name: Explain a failed publish
+        if: failure() && steps.check.outputs.skip != 'true'
+        run: |
+          echo "repository: $GITHUB_REPOSITORY"
+          echo "workflow:   $GITHUB_WORKFLOW_REF"
+          echo "ref:        $GITHUB_REF"
+          grep -hiE "oidc|trusted|exchange|http fetch (PUT|POST)" ~/.npm/_logs/*-debug-*.log || echo "npm logged nothing about OIDC"
