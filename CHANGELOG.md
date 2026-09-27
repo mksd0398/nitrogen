@@ -77,10 +77,8 @@ prompts are unchanged apart from the new `--region`.
 
 ### Changed
 
-- Renamed to **Nitrogen**. The package is now `@mksd0398/nitrogen`, and the
-  command it installs is `nitrogen`. The old name described the stack instead
-  of naming the tool, ran to 28 characters, and put "shopify" inside a
-  third-party package name. Nitrogen follows the element naming of Shopify's
+- Named **Nitrogen**. The package is `@mksd0398/nitrogen`, and the command it
+  installs is `nitrogen`. Nitrogen follows the element naming of Shopify's
   own developer products - Hydrogen, Oxygen - and reads as the inert 78% of
   the atmosphere that everything else runs inside, which is what a
   zero-framework scaffolder is.
@@ -89,34 +87,8 @@ prompts are unchanged apart from the new `--region`.
   Shopify ships its own packages: `@shopify/polaris`, `@shopify/app-bridge`.
 - Added an explicit statement that Nitrogen is an independent community
   project, not affiliated with or endorsed by Shopify Inc.
-- `create-shopify-firebase-app` is now published as a frozen forwarding shim
-  at 3.0.0. It prints a notice and hands every argument to Nitrogen in-process,
-  so existing commands and CI scripts keep working unchanged. It is also
-  deprecated on npm, so installs surface the rename.
-- The GitHub repository moved to `mksd0398/nitrogen`. GitHub redirects the old
-  URLs, so existing clones and links keep resolving.
-- No functional changes. Every flag, prompt and generated file is identical to
-  2.2.2; only the package name, binary name and branding differ.
-
-### Migrating
-
-Nothing changes inside a generated project - only the command you scaffold
-with. The old command still works via the shim, but is frozen:
-
-```bash
-# before
-npx create-shopify-firebase-app my-app
-
-# now
-npx @mksd0398/nitrogen my-app
-```
-
-If you installed the old package globally:
-
-```bash
-npm uninstall -g create-shopify-firebase-app
-npm install -g @mksd0398/nitrogen
-```
+- The GitHub repository is `mksd0398/nitrogen`.
+- No functional changes from 2.2.2.
 
 ## 2.2.2
 
