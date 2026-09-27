@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/css/app.css">
   <meta name="shopify-api-key" content="{{API_KEY}}">
   <script src="https://cdn.shopify.com/shopifycloud/app-bridge.js"></script>
-  <script src="https://cdn.shopify.com/shopifycloud/polaris.js"></script>
+  <script src="https://cdn.shopify.com/shopifycloud/polaris-1.js"></script>
 </head>
 <body>
   <s-app-nav>
@@ -16,6 +16,7 @@
     <s-link href="/settings">Settings</s-link>
     <s-link href="/keys">API keys</s-link>
     <s-link href="/polaris">Components</s-link>
+    <s-link href="/apis">App Bridge</s-link>
   </s-app-nav>
 
   <s-page heading="Dashboard">
@@ -81,7 +82,23 @@
           <s-clickable href="/polaris">
             <s-stack gap="small-200">
               <s-heading>Components</s-heading>
-              <s-text color="subdued">Polaris UI reference</s-text>
+              <s-text color="subdued">Every Polaris component</s-text>
+            </s-stack>
+          </s-clickable>
+        </s-box>
+        <s-box border="base" borderRadius="base" padding="base">
+          <s-clickable href="/apis">
+            <s-stack gap="small-200">
+              <s-heading>App Bridge</s-heading>
+              <s-text color="subdued">Every admin API, runnable</s-text>
+            </s-stack>
+          </s-clickable>
+        </s-box>
+        <s-box border="base" borderRadius="base" padding="base">
+          <s-clickable href="/keys">
+            <s-stack gap="small-200">
+              <s-heading>API keys</s-heading>
+              <s-text color="subdued">Access from outside Shopify</s-text>
             </s-stack>
           </s-clickable>
         </s-box>

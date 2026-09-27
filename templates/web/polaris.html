@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/css/app.css">
   <meta name="shopify-api-key" content="{{API_KEY}}">
   <script src="https://cdn.shopify.com/shopifycloud/app-bridge.js"></script>
-  <script src="https://cdn.shopify.com/shopifycloud/polaris.js"></script>
+  <script src="https://cdn.shopify.com/shopifycloud/polaris-1.js"></script>
 </head>
 <body>
   <s-app-nav>
@@ -16,1372 +16,1386 @@
     <s-link href="/settings">Settings</s-link>
     <s-link href="/keys">API keys</s-link>
     <s-link href="/polaris">Components</s-link>
+    <s-link href="/apis">App Bridge</s-link>
   </s-app-nav>
 
-  <s-page heading="Polaris Web Components Reference">
+  <s-page heading="Components">
     <s-link slot="breadcrumb-actions" href="/">Dashboard</s-link>
 
-    <!-- Intro banner -->
     <s-section>
-      <s-banner tone="info">
-        <s-text>A comprehensive catalog of <s-text fontWeight="semibold">Shopify Polaris Web Components</s-text> (<code>&lt;s-*&gt;</code> elements). These are the official Shopify admin UI components loaded from <code>polaris.js</code> CDN. Copy code snippets directly into your pages — no build step required.</s-text>
-      </s-banner>
+      <s-paragraph>
+        Every Polaris web component, each with a working example you can copy.
+        They are plain HTML elements: no React, no build step, no imports.
+      </s-paragraph>
     </s-section>
 
-    <!-- Table of contents -->
-    <s-section heading="Quick Navigation">
-      <s-stack direction="inline" gap="small-200">
-        <s-button href="#section-page" variant="tertiary">Page</s-button>
-        <s-button href="#section-box" variant="tertiary">Box</s-button>
-        <s-button href="#section-stack" variant="tertiary">Stack</s-button>
-        <s-button href="#section-grid" variant="tertiary">Grid</s-button>
-        <s-button href="#section-text" variant="tertiary">Text &amp; Heading</s-button>
-        <s-button href="#section-buttons" variant="tertiary">Buttons</s-button>
-        <s-button href="#section-badges" variant="tertiary">Badges</s-button>
-        <s-button href="#section-banners" variant="tertiary">Banners</s-button>
-        <s-button href="#section-forms" variant="tertiary">Forms</s-button>
-        <s-button href="#section-switch" variant="tertiary">Switch</s-button>
-        <s-button href="#section-select" variant="tertiary">Select</s-button>
-        <s-button href="#section-links" variant="tertiary">Links &amp; Clickable</s-button>
-        <s-button href="#section-spinner" variant="tertiary">Spinner</s-button>
-        <s-button href="#section-section" variant="tertiary">Section</s-button>
-        <s-button href="#section-modals" variant="tertiary">Modals</s-button>
-        <s-button href="#section-savebar" variant="tertiary">Save Bar</s-button>
-        <s-button href="#section-toasts" variant="tertiary">Toasts</s-button>
-        <s-button href="#section-navigation" variant="tertiary">Navigation</s-button>
-        <s-button href="#section-resource-picker" variant="tertiary">Resource Picker</s-button>
-        <s-button href="#section-patterns" variant="tertiary">Patterns</s-button>
+    <s-section heading="Contents">
+      <s-stack gap="base">
+        <s-stack gap="small-200">
+          <s-heading>Actions</s-heading>
+          <s-stack direction="inline" gap="base">
+            <s-link href="#button">Button</s-link>
+            <s-link href="#button-group">Button group</s-link>
+            <s-link href="#clickable">Clickable</s-link>
+            <s-link href="#clickable-chip">Clickable chip</s-link>
+            <s-link href="#link">Link</s-link>
+            <s-link href="#menu">Menu</s-link>
+          </s-stack>
+        </s-stack>
+        <s-stack gap="small-200">
+          <s-heading>Feedback and status</s-heading>
+          <s-stack direction="inline" gap="base">
+            <s-link href="#badge">Badge</s-link>
+            <s-link href="#banner">Banner</s-link>
+            <s-link href="#empty-state">Empty state</s-link>
+            <s-link href="#progress">Progress</s-link>
+            <s-link href="#spinner">Spinner</s-link>
+          </s-stack>
+        </s-stack>
+        <s-stack gap="small-200">
+          <s-heading>Forms</s-heading>
+          <s-stack direction="inline" gap="base">
+            <s-link href="#text-field">Text field</s-link>
+            <s-link href="#text-area">Text area</s-link>
+            <s-link href="#email-field">Email field</s-link>
+            <s-link href="#password-field">Password field</s-link>
+            <s-link href="#number-field">Number field</s-link>
+            <s-link href="#money-field">Money field</s-link>
+            <s-link href="#url-field">URL field</s-link>
+            <s-link href="#search-field">Search field</s-link>
+            <s-link href="#select">Select</s-link>
+            <s-link href="#checkbox">Checkbox</s-link>
+            <s-link href="#switch">Switch</s-link>
+            <s-link href="#choice-list">Choice list</s-link>
+            <s-link href="#color-field">Color field</s-link>
+            <s-link href="#color-picker">Color picker</s-link>
+            <s-link href="#date-field">Date field</s-link>
+            <s-link href="#date-picker">Date picker</s-link>
+            <s-link href="#drop-zone">Drop zone</s-link>
+          </s-stack>
+        </s-stack>
+        <s-stack gap="small-200">
+          <s-heading>Layout and structure</s-heading>
+          <s-stack direction="inline" gap="base">
+            <s-link href="#page">Page</s-link>
+            <s-link href="#section">Section</s-link>
+            <s-link href="#box">Box</s-link>
+            <s-link href="#stack">Stack</s-link>
+            <s-link href="#grid">Grid</s-link>
+            <s-link href="#query-container">Query container</s-link>
+            <s-link href="#divider">Divider</s-link>
+            <s-link href="#table">Table</s-link>
+            <s-link href="#ordered-list">Ordered list</s-link>
+            <s-link href="#unordered-list">Unordered list</s-link>
+          </s-stack>
+        </s-stack>
+        <s-stack gap="small-200">
+          <s-heading>Media and visuals</s-heading>
+          <s-stack direction="inline" gap="base">
+            <s-link href="#avatar">Avatar</s-link>
+            <s-link href="#icon">Icon</s-link>
+            <s-link href="#image">Image</s-link>
+            <s-link href="#thumbnail">Thumbnail</s-link>
+          </s-stack>
+        </s-stack>
+        <s-stack gap="small-200">
+          <s-heading>Overlays</s-heading>
+          <s-stack direction="inline" gap="base">
+            <s-link href="#modal">Modal</s-link>
+            <s-link href="#popover">Popover</s-link>
+          </s-stack>
+        </s-stack>
+        <s-stack gap="small-200">
+          <s-heading>Typography and content</s-heading>
+          <s-stack direction="inline" gap="base">
+            <s-link href="#heading">Heading</s-link>
+            <s-link href="#paragraph">Paragraph</s-link>
+            <s-link href="#text">Text</s-link>
+            <s-link href="#number">Number</s-link>
+            <s-link href="#chip">Chip</s-link>
+            <s-link href="#tooltip">Tooltip</s-link>
+          </s-stack>
+        </s-stack>
       </s-stack>
     </s-section>
 
+    <s-section heading="Button">
+      <span id="button" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-button&gt;</code> Starts an action. One primary button per page; use tone="critical" for anything destructive.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack direction="inline" gap="small-200">
+          <s-button variant="primary">Save</s-button>
+          <s-button>Cancel</s-button>
+          <s-button variant="tertiary">Learn more</s-button>
+          <s-button tone="critical">Delete</s-button>
+          <s-button icon="plus">Add product</s-button>
+          <s-button loading>Saving</s-button>
+          <s-button disabled>Unavailable</s-button>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack direction="inline" gap="small-200"&gt;
+  &lt;s-button variant="primary"&gt;Save&lt;/s-button&gt;
+  &lt;s-button&gt;Cancel&lt;/s-button&gt;
+  &lt;s-button variant="tertiary"&gt;Learn more&lt;/s-button&gt;
+  &lt;s-button tone="critical"&gt;Delete&lt;/s-button&gt;
+  &lt;s-button icon="plus"&gt;Add product&lt;/s-button&gt;
+  &lt;s-button loading&gt;Saving&lt;/s-button&gt;
+  &lt;s-button disabled&gt;Unavailable&lt;/s-button&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
 
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: PAGE                                               -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Page">
-        <span id="section-page" class="anchor"></span>
-        <s-text color="subdued">The top-level container for any admin page. Provides heading, breadcrumbs, and primary actions.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <!-- Basic page -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-stack gap="base">
-              <s-heading>Basic Page</s-heading>
-              <s-text color="subdued">Every page starts with <code>&lt;s-page&gt;</code>. Set the <code>heading</code> attribute for the title.</s-text>
-              <div class="demo-code">
-                <div class="code-block-header">
-                  <span>HTML</span>
-                  <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-                </div>
-                <pre><code>&lt;s-page heading="My Page Title"&gt;
-  &lt;!-- Page content here --&gt;
-&lt;/s-page&gt;</code></pre>
-              </div>
-            </s-stack>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <!-- Page with breadcrumbs + primary action -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-stack gap="base">
-              <s-heading>Page with Breadcrumbs &amp; Actions</s-heading>
-              <s-text color="subdued">Use <code>slot="breadcrumb-actions"</code> for back navigation and <code>slot="primary-action"</code> for the main CTA.</s-text>
-              <div class="demo-code">
-                <div class="code-block-header">
-                  <span>HTML</span>
-                  <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-                </div>
-                <pre><code>&lt;s-page heading="Product Details"&gt;
-  &lt;s-link slot="breadcrumb-actions" href="/"&gt;Dashboard&lt;/s-link&gt;
+    <s-section heading="Button group">
+      <span id="button-group" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-button-group&gt;</code> Lays out related buttons, with the primary action in its own slot.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-button-group>
+          <s-button slot="primary-action" variant="primary">Save</s-button>
+          <s-button slot="secondary-actions">Duplicate</s-button>
+          <s-button slot="secondary-actions">Archive</s-button>
+        </s-button-group>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-button-group&gt;
   &lt;s-button slot="primary-action" variant="primary"&gt;Save&lt;/s-button&gt;
+  &lt;s-button slot="secondary-actions"&gt;Duplicate&lt;/s-button&gt;
+  &lt;s-button slot="secondary-actions"&gt;Archive&lt;/s-button&gt;
+&lt;/s-button-group&gt;</code></pre>
+      </div>
+    </s-section>
 
-  &lt;s-section heading="Details"&gt;
-    &lt;s-text&gt;Page content here.&lt;/s-text&gt;
-  &lt;/s-section&gt;
-&lt;/s-page&gt;</code></pre>
-              </div>
-            </s-stack>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <!-- Page sizes -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-stack gap="base">
-              <s-heading>Page Width</s-heading>
-              <s-text color="subdued">Control page width with the <code>inlineSize</code> attribute.</s-text>
-              <div class="demo-code">
-                <div class="code-block-header">
-                  <span>HTML</span>
-                  <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-                </div>
-                <pre><code>&lt;!-- Default width --&gt;
-&lt;s-page heading="Default"&gt;...&lt;/s-page&gt;
-
-&lt;!-- Narrow width (for settings/forms) --&gt;
-&lt;s-page heading="Settings" inlineSize="small"&gt;...&lt;/s-page&gt;</code></pre>
-              </div>
-            </s-stack>
-          </s-box>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: BOX                                                -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Box">
-        <span id="section-box" class="anchor"></span>
-        <s-text color="subdued">A flexible container with padding, borders, and background. The building block for cards and custom layouts.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <!-- Live demos -->
-          <s-stack gap="base">
-            <s-box border="base" borderRadius="base" padding="base">
-              <s-text>Basic box with border, radius, and padding.</s-text>
-            </s-box>
-
-            <s-box border="base" borderRadius="base" padding="large-400" background="subdued">
-              <s-text>Box with secondary background and large padding.</s-text>
-            </s-box>
-
-            <s-grid gridTemplateColumns="1fr 1fr 1fr" gap="base">
-              <s-box border="base" borderRadius="base" padding="base">
-                <s-text color="subdued">Column 1</s-text>
-              </s-box>
-              <s-box border="base" borderRadius="base" padding="base">
-                <s-text color="subdued">Column 2</s-text>
-              </s-box>
-              <s-box border="base" borderRadius="base" padding="base">
-                <s-text color="subdued">Column 3</s-text>
-              </s-box>
-            </s-grid>
+    <s-section heading="Clickable">
+      <span id="clickable" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-clickable&gt;</code> Makes any content behave like a button or a link. It takes the same layout properties as a box.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-clickable href="/products" border="base" borderRadius="base" padding="base">
+          <s-stack gap="small-200">
+            <s-heading>Products</s-heading>
+            <s-text color="subdued">The whole card is the link.</s-text>
           </s-stack>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;!-- Basic box --&gt;
-&lt;s-box border="base" borderRadius="base" padding="base"&gt;
-  &lt;s-text&gt;Content here.&lt;/s-text&gt;
-&lt;/s-box&gt;
-
-&lt;!-- Box with background --&gt;
-&lt;s-box border="base" borderRadius="base" padding="large-400"
-  background="subdued"&gt;
-  &lt;s-text&gt;Secondary background.&lt;/s-text&gt;
-&lt;/s-box&gt;
-
-&lt;!-- Padding options: small-200, base, large-400, large-1200 --&gt;
-&lt;!-- Border: base, none --&gt;
-&lt;!-- borderRadius: base, large, full --&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: STACK                                              -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Stack">
-        <span id="section-stack" class="anchor"></span>
-        <s-text color="subdued">Flexbox-based layout component. Vertical by default, horizontal with <code>direction="inline"</code>.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <!-- Vertical stack -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Vertical Stack (default)</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-stack gap="base">
-                <s-box border="base" borderRadius="base" padding="small-200"><s-text>Item 1</s-text></s-box>
-                <s-box border="base" borderRadius="base" padding="small-200"><s-text>Item 2</s-text></s-box>
-                <s-box border="base" borderRadius="base" padding="small-200"><s-text>Item 3</s-text></s-box>
-              </s-stack>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <!-- Horizontal stack -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Inline Stack (horizontal)</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-stack direction="inline" gap="base" alignItems="center">
-                <s-badge tone="info">Tag 1</s-badge>
-                <s-badge tone="success">Tag 2</s-badge>
-                <s-badge tone="warning">Tag 3</s-badge>
-                <s-button>Action</s-button>
-              </s-stack>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <!-- Wrapping stack -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Wrapping Stack</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-stack direction="inline" gap="small-200">
-                <s-badge>One</s-badge>
-                <s-badge>Two</s-badge>
-                <s-badge>Three</s-badge>
-                <s-badge>Four</s-badge>
-                <s-badge>Five</s-badge>
-                <s-badge>Six</s-badge>
-                <s-badge>Seven</s-badge>
-                <s-badge>Eight</s-badge>
-              </s-stack>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;!-- Vertical (default) --&gt;
-&lt;s-stack gap="base"&gt;
-  &lt;s-text&gt;Item 1&lt;/s-text&gt;
-  &lt;s-text&gt;Item 2&lt;/s-text&gt;
-&lt;/s-stack&gt;
-
-&lt;!-- Horizontal --&gt;
-&lt;s-stack direction="inline" gap="base" alignItems="center"&gt;
-  &lt;s-badge&gt;Tag&lt;/s-badge&gt;
-  &lt;s-button&gt;Action&lt;/s-button&gt;
-&lt;/s-stack&gt;
-
-&lt;!-- Wrapping --&gt;
-&lt;s-stack direction="inline" gap="small-200"&gt;
-  &lt;s-badge&gt;Wraps on overflow&lt;/s-badge&gt;
-&lt;/s-stack&gt;
-
-&lt;!-- gap: small-200, base, large-400 --&gt;
-&lt;!-- alignItems: center, start, end --&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: GRID                                               -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Grid">
-        <span id="section-grid" class="anchor"></span>
-        <s-text color="subdued">CSS Grid container with responsive column support using container queries.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <!-- 3-column grid -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Responsive Grid</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-grid gridTemplateColumns="@container (inline-size <= 400px) 1fr, 1fr 1fr 1fr" gap="base">
-                <s-box border="base" borderRadius="base" padding="base" background="subdued">
-                  <s-text>Column A</s-text>
-                </s-box>
-                <s-box border="base" borderRadius="base" padding="base" background="subdued">
-                  <s-text>Column B</s-text>
-                </s-box>
-                <s-box border="base" borderRadius="base" padding="base" background="subdued">
-                  <s-text>Column C</s-text>
-                </s-box>
-              </s-grid>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <!-- 2-column with sidebar -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Sidebar Layout</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-grid gridTemplateColumns="@container (inline-size <= 500px) 1fr, 2fr 1fr" gap="base">
-                <s-box border="base" borderRadius="base" padding="base">
-                  <s-heading>Main Content</s-heading>
-                  <s-text color="subdued">Takes up 2/3 of the width.</s-text>
-                </s-box>
-                <s-box border="base" borderRadius="base" padding="base" background="subdued">
-                  <s-heading>Sidebar</s-heading>
-                  <s-text color="subdued">Takes up 1/3.</s-text>
-                </s-box>
-              </s-grid>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;!-- Responsive 3-column grid (stacks on small) --&gt;
-&lt;s-grid gridTemplateColumns="@container (inline-size &lt;= 400px) 1fr, 1fr 1fr 1fr" gap="base"&gt;
-  &lt;s-box&gt;Col 1&lt;/s-box&gt;
-  &lt;s-box&gt;Col 2&lt;/s-box&gt;
-  &lt;s-box&gt;Col 3&lt;/s-box&gt;
-&lt;/s-grid&gt;
-
-&lt;!-- Sidebar layout --&gt;
-&lt;s-grid gridTemplateColumns="@container (inline-size &lt;= 500px) 1fr, 2fr 1fr" gap="base"&gt;
-  &lt;s-box&gt;Main content&lt;/s-box&gt;
-  &lt;s-box&gt;Sidebar&lt;/s-box&gt;
-&lt;/s-grid&gt;
-
-&lt;!-- Static columns --&gt;
-&lt;s-grid gridTemplateColumns="1fr 1fr" gap="base"&gt;
-  &lt;s-box&gt;Left&lt;/s-box&gt;
-  &lt;s-box&gt;Right&lt;/s-box&gt;
-&lt;/s-grid&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: TEXT & HEADING                                      -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Text &amp; Heading">
-        <span id="section-text" class="anchor"></span>
-        <s-text color="subdued">Typography components for headings, body text, and paragraphs.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-stack gap="base">
-              <s-heading fontSize="large-400">Heading 2XL</s-heading>
-              <s-heading fontSize="large-300">Heading XL</s-heading>
-              <s-heading fontSize="large-200">Heading Lg</s-heading>
-              <s-heading fontSize="large">Heading Md</s-heading>
-              <s-heading>Heading Sm</s-heading>
-              <s-heading fontSize="small">Heading Xs</s-heading>
-              <s-text fontSize="large">Body Large text</s-text>
-              <s-text>Body Medium text (default)</s-text>
-              <s-text fontSize="small">Body Small text</s-text>
-            </s-stack>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <!-- Text colors & weights -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Colors &amp; Weights</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-stack gap="small-200">
-                <s-text>Default color</s-text>
-                <s-text color="subdued">Subdued color</s-text>
-                <s-text color="success">Success color</s-text>
-                <s-text color="critical">Critical color</s-text>
-                <s-text color="warning">Warning color</s-text>
-                <s-text fontWeight="bold">Bold weight</s-text>
-                <s-text fontWeight="semibold">Semibold weight</s-text>
-                <s-text fontWeight="medium">Medium weight</s-text>
-              </s-stack>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <!-- Heading & Paragraph -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Heading &amp; Paragraph Elements</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-stack gap="base">
-                <s-heading>This is an &lt;s-heading&gt;</s-heading>
-                <s-paragraph>This is an &lt;s-paragraph&gt;. Use it for longer blocks of body text. Paragraphs automatically apply proper spacing and line height for readability.</s-paragraph>
-                <s-paragraph color="subdued">A subdued paragraph for secondary information.</s-paragraph>
-              </s-stack>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;!-- Heading variants --&gt;
-&lt;s-heading fontSize="large-200"&gt;Large Heading&lt;/s-heading&gt;
-&lt;s-heading fontSize="large"&gt;Medium Heading&lt;/s-heading&gt;
-&lt;s-heading&gt;Small Heading&lt;/s-heading&gt;
-
-&lt;!-- Body text --&gt;
-&lt;s-text&gt;Default body text&lt;/s-text&gt;
-&lt;s-text fontSize="small"&gt;Small body text&lt;/s-text&gt;
-
-&lt;!-- Colors --&gt;
-&lt;s-text color="subdued"&gt;Muted text&lt;/s-text&gt;
-&lt;s-text color="success"&gt;Success&lt;/s-text&gt;
-&lt;s-text color="critical"&gt;Error&lt;/s-text&gt;
-
-&lt;!-- Font weight --&gt;
-&lt;s-text fontWeight="bold"&gt;Bold text&lt;/s-text&gt;
-&lt;s-text fontWeight="semibold"&gt;Semibold text&lt;/s-text&gt;
-
-&lt;!-- Block elements --&gt;
-&lt;s-heading&gt;Section heading&lt;/s-heading&gt;
-&lt;s-paragraph&gt;A paragraph of text.&lt;/s-paragraph&gt;
-&lt;s-paragraph color="subdued"&gt;Muted paragraph.&lt;/s-paragraph&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: BUTTONS                                            -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Buttons">
-        <span id="section-buttons" class="anchor"></span>
-        <s-text color="subdued">Interactive buttons with variants, tones, loading, and disabled states.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <!-- Button variants -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Button Variants</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-stack direction="inline" gap="small-200">
-                <s-button variant="primary">Primary</s-button>
-                <s-button>Secondary (default)</s-button>
-                <s-button variant="tertiary">Tertiary</s-button>
-                <s-button variant="primary" tone="critical">Critical Primary</s-button>
-                <s-button tone="critical">Critical</s-button>
-              </s-stack>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <!-- States -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>States</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-stack direction="inline" gap="small-200">
-                <s-button variant="primary" disabled>Disabled Primary</s-button>
-                <s-button disabled>Disabled</s-button>
-                <s-button variant="primary" loading>Loading</s-button>
-                <s-button loading>Loading</s-button>
-              </s-stack>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <!-- Button as link -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Button as Link</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-stack direction="inline" gap="small-200">
-                <s-button variant="primary" href="/products">Navigate to Products</s-button>
-                <s-button href="https://polaris.shopify.com" target="_blank">Polaris Docs (external)</s-button>
-              </s-stack>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;!-- Variants --&gt;
-&lt;s-button variant="primary"&gt;Primary&lt;/s-button&gt;
-&lt;s-button&gt;Secondary&lt;/s-button&gt;
-&lt;s-button variant="tertiary"&gt;Tertiary&lt;/s-button&gt;
-
-&lt;!-- Destructive --&gt;
-&lt;s-button variant="primary" tone="critical"&gt;Delete&lt;/s-button&gt;
-&lt;s-button tone="critical"&gt;Remove&lt;/s-button&gt;
-
-&lt;!-- States --&gt;
-&lt;s-button disabled&gt;Disabled&lt;/s-button&gt;
-&lt;s-button loading&gt;Loading&lt;/s-button&gt;
-
-&lt;!-- As link --&gt;
-&lt;s-button href="/page"&gt;Navigate&lt;/s-button&gt;
-&lt;s-button href="https://example.com" target="_blank"&gt;External&lt;/s-button&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: BADGES                                             -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Badges">
-        <span id="section-badges" class="anchor"></span>
-        <s-text color="subdued">Compact status indicators and labels.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Badge Tones</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-stack direction="inline" gap="small-200">
-                <s-badge>Default</s-badge>
-                <s-badge tone="info">Info</s-badge>
-                <s-badge tone="success">Success</s-badge>
-                <s-badge tone="warning">Warning</s-badge>
-                <s-badge tone="critical">Critical</s-badge>
-                <s-badge tone="attention">Attention</s-badge>
-                <s-badge tone="new">New</s-badge>
-                <s-badge tone="read-only">Read Only</s-badge>
-                <s-badge tone="enabled">Enabled</s-badge>
-              </s-stack>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <!-- Badges in context -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Badges in Context</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-stack gap="small-200">
-                <s-stack direction="inline" gap="base" alignItems="center">
-                  <s-text>Order #1001</s-text>
-                  <s-badge tone="success">Fulfilled</s-badge>
-                </s-stack>
-                <s-stack direction="inline" gap="base" alignItems="center">
-                  <s-text>Order #1002</s-text>
-                  <s-badge tone="warning">Pending</s-badge>
-                </s-stack>
-                <s-stack direction="inline" gap="base" alignItems="center">
-                  <s-text>Order #1003</s-text>
-                  <s-badge tone="critical">Cancelled</s-badge>
-                </s-stack>
-              </s-stack>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;s-badge&gt;Default&lt;/s-badge&gt;
-&lt;s-badge tone="info"&gt;Info&lt;/s-badge&gt;
-&lt;s-badge tone="success"&gt;Success&lt;/s-badge&gt;
-&lt;s-badge tone="warning"&gt;Warning&lt;/s-badge&gt;
-&lt;s-badge tone="critical"&gt;Critical&lt;/s-badge&gt;
-&lt;s-badge tone="attention"&gt;Attention&lt;/s-badge&gt;
-&lt;s-badge tone="new"&gt;New&lt;/s-badge&gt;
-&lt;s-badge tone="read-only"&gt;Read Only&lt;/s-badge&gt;
-&lt;s-badge tone="enabled"&gt;Enabled&lt;/s-badge&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: BANNERS                                            -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Banners">
-        <span id="section-banners" class="anchor"></span>
-        <s-text color="subdued">Alert banners for status messages, errors, and announcements.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <s-stack gap="base">
-            <s-banner tone="info">
-              <s-text><s-text fontWeight="semibold">Information:</s-text> This is an informational banner. Use for tips and neutral messages.</s-text>
-            </s-banner>
-
-            <s-banner tone="success">
-              <s-text><s-text fontWeight="semibold">Success:</s-text> The operation completed successfully. Your changes have been saved.</s-text>
-            </s-banner>
-
-            <s-banner tone="warning">
-              <s-text><s-text fontWeight="semibold">Warning:</s-text> This action may have unintended consequences. Please review before proceeding.</s-text>
-            </s-banner>
-
-            <s-banner tone="critical">
-              <s-text><s-text fontWeight="semibold">Error:</s-text> Something went wrong. Please try again or contact support.</s-text>
-            </s-banner>
-          </s-stack>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;s-banner tone="info"&gt;
-  &lt;s-text&gt;Informational message.&lt;/s-text&gt;
-&lt;/s-banner&gt;
-
-&lt;s-banner tone="success"&gt;
-  &lt;s-text&gt;Success message.&lt;/s-text&gt;
-&lt;/s-banner&gt;
-
-&lt;s-banner tone="warning"&gt;
-  &lt;s-text&gt;Warning message.&lt;/s-text&gt;
-&lt;/s-banner&gt;
-
-&lt;s-banner tone="critical"&gt;
-  &lt;s-text&gt;Error message.&lt;/s-text&gt;
-&lt;/s-banner&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: FORMS                                              -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Form Fields">
-        <span id="section-forms" class="anchor"></span>
-        <s-text color="subdued">Text fields with labels, placeholders, help text, error states, and multiline support.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-stack gap="base">
-              <s-text-field
-                label="Store name"
-                placeholder="My Awesome Store"
-                details="The public-facing name of your store."
-              ></s-text-field>
-
-              <s-email-field
-                label="Email address"
-               
-                placeholder="merchant@example.com"
-              ></s-email-field>
-
-              <s-password-field
-                label="Password"
-               
-                placeholder="Enter password"
-              ></s-password-field>
-
-              <s-number-field
-                label="Product count"
-               
-                placeholder="0"
-                min="0"
-                max="10000"
-              ></s-number-field>
-
-              <s-text-area
-                label="Description"
-                rows="4"
-                placeholder="Enter a detailed description..."
-                details="Supports multiline input."
-              ></s-text-area>
-
-              <s-text-field
-                label="Invalid field"
-                value="bad-value"
-                error="This value is not valid. Please correct it."
-              ></s-text-field>
-            </s-stack>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <!-- URL field -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>URL Field</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-url-field
-                label="Website URL"
-                placeholder="https://example.com"
-                details="Enter a valid URL."
-              ></s-url-field>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <!-- Color field -->
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Color Field</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-color-field
-                label="Brand color"
-                value="#008060"
-                details="Pick your brand's primary color."
-              ></s-color-field>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;!-- Text field --&gt;
-&lt;s-text-field
-  label="Store name"
-  placeholder="My Store"
-  details="Help text below."
-&gt;&lt;/s-text-field&gt;
-
-&lt;!-- Email / Password / Number --&gt;
-&lt;s-email-field label="Email"&gt;&lt;/s-email-field&gt;
-&lt;s-password-field label="Password"&gt;&lt;/s-password-field&gt;
-&lt;s-number-field label="Count" min="0"&gt;&lt;/s-number-field&gt;
-
-&lt;!-- Multiline (textarea) --&gt;
-&lt;s-text-area label="Notes" rows="4"&gt;&lt;/s-text-area&gt;
-
-&lt;!-- Error state --&gt;
-&lt;s-text-field label="Field"
-  error="Validation error message."
-&gt;&lt;/s-text-field&gt;
-
-&lt;!-- URL field (with validation) --&gt;
-&lt;s-url-field label="Website" placeholder="https://..."&gt;&lt;/s-url-field&gt;
-
-&lt;!-- Color picker --&gt;
-&lt;s-color-field label="Color" value="#008060"&gt;&lt;/s-color-field&gt;
-
-&lt;!-- Hidden label --&gt;
-&lt;s-text-field label="Search" labelAccessibilityVisibility="exclusive"
-  placeholder="Search..."&gt;&lt;/s-text-field&gt;
-
-&lt;!-- Clear button --&gt;
-&lt;s-search-field label="Search"&gt;&lt;/s-search-field&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: SWITCH                                             -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Switch (Toggle)">
-        <span id="section-switch" class="anchor"></span>
-        <s-text color="subdued">Toggle switches for boolean settings. Replaces checkboxes in Polaris.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-stack gap="base">
-              <s-switch label="Enable feature" checked></s-switch>
-              <s-switch label="Disabled feature (off)"></s-switch>
-              <s-switch label="Disabled toggle" disabled></s-switch>
-              <s-switch label="With help text" details="This setting controls notification preferences." checked></s-switch>
-            </s-stack>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;s-switch label="Enable feature" checked&gt;&lt;/s-switch&gt;
-&lt;s-switch label="Feature off"&gt;&lt;/s-switch&gt;
-&lt;s-switch label="Cannot change" disabled&gt;&lt;/s-switch&gt;
-&lt;s-switch label="With help"
-  details="Description text."
-  checked&gt;&lt;/s-switch&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: SELECT                                             -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Select (Dropdown)">
-        <span id="section-select" class="anchor"></span>
-        <s-text color="subdued">Dropdown selection with <code>&lt;s-select&gt;</code> and <code>&lt;s-option&gt;</code> elements.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-stack gap="base">
-              <s-select label="Country" details="Select your country.">
-                <s-option value="">Select a country</s-option>
-                <s-option value="us">United States</s-option>
-                <s-option value="ca">Canada</s-option>
-                <s-option value="gb">United Kingdom</s-option>
-                <s-option value="au">Australia</s-option>
-                <s-option value="in">India</s-option>
-              </s-select>
-
-              <s-select label="Sort by">
-                <s-option value="newest" selected>Newest first</s-option>
-                <s-option value="oldest">Oldest first</s-option>
-                <s-option value="price-asc">Price: Low to High</s-option>
-                <s-option value="price-desc">Price: High to Low</s-option>
-              </s-select>
-            </s-stack>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;s-select label="Country" details="Select country."&gt;
-  &lt;s-option value=""&gt;Select a country&lt;/s-option&gt;
-  &lt;s-option value="us"&gt;United States&lt;/s-option&gt;
-  &lt;s-option value="ca"&gt;Canada&lt;/s-option&gt;
-  &lt;s-option value="gb"&gt;United Kingdom&lt;/s-option&gt;
-&lt;/s-select&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: LINKS & CLICKABLE                                  -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Links &amp; Clickable">
-        <span id="section-links" class="anchor"></span>
-        <s-text color="subdued">Navigation links and clickable wrappers for making containers interactive.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-stack gap="base">
-              <s-heading>Links</s-heading>
-              <s-stack direction="inline" gap="base">
-                <s-link href="/">Internal link</s-link>
-                <s-link href="https://polaris.shopify.com" target="_blank">External link</s-link>
-              </s-stack>
-            </s-stack>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Clickable Card</s-heading>
-            <s-text color="subdued">Wrap any content in <code>&lt;s-clickable&gt;</code> to make the entire area interactive.</s-text>
-            <s-box paddingBlockStart="small-200">
-              <s-grid gridTemplateColumns="1fr 1fr" gap="base">
-                <s-box border="base" borderRadius="base" padding="base">
-                  <s-clickable href="/products">
-                    <s-stack gap="small-200">
-                      <s-heading>Products</s-heading>
-                      <s-text color="subdued">Click anywhere in this card</s-text>
-                    </s-stack>
-                  </s-clickable>
-                </s-box>
-                <s-box border="base" borderRadius="base" padding="base">
-                  <s-clickable href="/settings">
-                    <s-stack gap="small-200">
-                      <s-heading>Settings</s-heading>
-                      <s-text color="subdued">Entire box is clickable</s-text>
-                    </s-stack>
-                  </s-clickable>
-                </s-box>
-              </s-grid>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;!-- Standard link --&gt;
-&lt;s-link href="/"&gt;Internal link&lt;/s-link&gt;
-&lt;s-link href="https://..." target="_blank"&gt;External&lt;/s-link&gt;
-
-&lt;!-- Clickable wrapper (makes entire area tappable) --&gt;
-&lt;s-box border="base" borderRadius="base" padding="base"&gt;
-  &lt;s-clickable href="/page"&gt;
-    &lt;s-heading&gt;Card Title&lt;/s-heading&gt;
-    &lt;s-text color="subdued"&gt;Click anywhere&lt;/s-text&gt;
-  &lt;/s-clickable&gt;
-&lt;/s-box&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: SPINNER                                            -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Spinner">
-        <span id="section-spinner" class="anchor"></span>
-        <s-text color="subdued">Loading indicator for async operations.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-stack direction="inline" gap="large-400" alignItems="center">
-              <s-stack alignItems="center" gap="small-200">
-                <s-spinner></s-spinner>
-                <s-text color="subdued" fontSize="small">Default</s-text>
-              </s-stack>
-              <s-stack alignItems="center" gap="small-200">
-                <s-spinner size="large"></s-spinner>
-                <s-text color="subdued" fontSize="small">Large</s-text>
-              </s-stack>
-            </s-stack>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <!-- Full loading pattern -->
-          <s-box border="base" borderRadius="base" padding="large-400">
-            <s-stack alignItems="center" gap="base">
-              <s-spinner></s-spinner>
-              <s-text color="subdued">Loading content...</s-text>
-            </s-stack>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;!-- Default spinner --&gt;
-&lt;s-spinner&gt;&lt;/s-spinner&gt;
-
-&lt;!-- Large spinner --&gt;
-&lt;s-spinner size="large"&gt;&lt;/s-spinner&gt;
-
-&lt;!-- Full loading state pattern --&gt;
-&lt;s-box padding="large-400"&gt;
-  &lt;s-stack alignItems="center" gap="base"&gt;
-    &lt;s-spinner&gt;&lt;/s-spinner&gt;
-    &lt;s-text color="subdued"&gt;Loading...&lt;/s-text&gt;
+        </s-clickable>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-clickable href="/products" border="base" borderRadius="base" padding="base"&gt;
+  &lt;s-stack gap="small-200"&gt;
+    &lt;s-heading&gt;Products&lt;/s-heading&gt;
+    &lt;s-text color="subdued"&gt;The whole card is the link.&lt;/s-text&gt;
   &lt;/s-stack&gt;
+&lt;/s-clickable&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Clickable chip">
+      <span id="clickable-chip" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-clickable-chip&gt;</code> A chip the merchant can press or remove, for filters and selected values.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack direction="inline" gap="small-200">
+          <s-clickable-chip>Active</s-clickable-chip>
+          <s-clickable-chip color="strong">Draft</s-clickable-chip>
+          <s-clickable-chip removable>Vendor: Acme</s-clickable-chip>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack direction="inline" gap="small-200"&gt;
+  &lt;s-clickable-chip&gt;Active&lt;/s-clickable-chip&gt;
+  &lt;s-clickable-chip color="strong"&gt;Draft&lt;/s-clickable-chip&gt;
+  &lt;s-clickable-chip removable&gt;Vendor: Acme&lt;/s-clickable-chip&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Link">
+      <span id="link" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-link&gt;</code> Navigation inside text. App Bridge turns a relative href into in-app navigation.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-paragraph>
+          Open <s-link href="/settings">settings</s-link>, or read the
+          <s-link href="https://shopify.dev" target="_blank">Shopify docs</s-link>.
+        </s-paragraph>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-paragraph&gt;
+  Open &lt;s-link href="/settings"&gt;settings&lt;/s-link&gt;, or read the
+  &lt;s-link href="https://shopify.dev" target="_blank"&gt;Shopify docs&lt;/s-link&gt;.
+&lt;/s-paragraph&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Menu">
+      <span id="menu" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-menu&gt;</code> A list of actions that opens from a button. The button names the menu with commandFor.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-button commandFor="demo-menu" icon="menu-horizontal">More actions</s-button>
+
+        <s-menu id="demo-menu" accessibilityLabel="Product actions">
+          <s-button icon="edit">Edit</s-button>
+          <s-button icon="duplicate">Duplicate</s-button>
+          <s-button icon="delete" tone="critical">Delete</s-button>
+        </s-menu>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-button commandFor="demo-menu" icon="menu-horizontal"&gt;More actions&lt;/s-button&gt;
+
+&lt;s-menu id="demo-menu" accessibilityLabel="Product actions"&gt;
+  &lt;s-button icon="edit"&gt;Edit&lt;/s-button&gt;
+  &lt;s-button icon="duplicate"&gt;Duplicate&lt;/s-button&gt;
+  &lt;s-button icon="delete" tone="critical"&gt;Delete&lt;/s-button&gt;
+&lt;/s-menu&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Badge">
+      <span id="badge" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-badge&gt;</code> A short status label. The tone carries the meaning, so keep the text to a word or two.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack direction="inline" gap="small-200">
+          <s-badge>Draft</s-badge>
+          <s-badge tone="info">Scheduled</s-badge>
+          <s-badge tone="success">Active</s-badge>
+          <s-badge tone="caution">Low stock</s-badge>
+          <s-badge tone="warning">Expiring</s-badge>
+          <s-badge tone="critical">Failed</s-badge>
+          <s-badge tone="success" icon="check-circle">Paid</s-badge>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack direction="inline" gap="small-200"&gt;
+  &lt;s-badge&gt;Draft&lt;/s-badge&gt;
+  &lt;s-badge tone="info"&gt;Scheduled&lt;/s-badge&gt;
+  &lt;s-badge tone="success"&gt;Active&lt;/s-badge&gt;
+  &lt;s-badge tone="caution"&gt;Low stock&lt;/s-badge&gt;
+  &lt;s-badge tone="warning"&gt;Expiring&lt;/s-badge&gt;
+  &lt;s-badge tone="critical"&gt;Failed&lt;/s-badge&gt;
+  &lt;s-badge tone="success" icon="check-circle"&gt;Paid&lt;/s-badge&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Banner">
+      <span id="banner" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-banner&gt;</code> An important message at the top of a page or section. Add dismissible when it can be closed.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack gap="base">
+          <s-banner heading="Settings saved" tone="success" dismissible>
+            Your changes are live.
+          </s-banner>
+          <s-banner heading="Payment method expiring" tone="warning">
+            Update your card before the end of the month.
+            <s-button slot="secondary-actions">Update card</s-button>
+          </s-banner>
+          <s-banner heading="Sync failed" tone="critical">
+            The last sync stopped after 120 products.
+          </s-banner>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack gap="base"&gt;
+  &lt;s-banner heading="Settings saved" tone="success" dismissible&gt;
+    Your changes are live.
+  &lt;/s-banner&gt;
+  &lt;s-banner heading="Payment method expiring" tone="warning"&gt;
+    Update your card before the end of the month.
+    &lt;s-button slot="secondary-actions"&gt;Update card&lt;/s-button&gt;
+  &lt;/s-banner&gt;
+  &lt;s-banner heading="Sync failed" tone="critical"&gt;
+    The last sync stopped after 120 products.
+  &lt;/s-banner&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Empty state">
+      <span id="empty-state" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-empty-state&gt;</code> What a page shows before there is any data: what belongs here, and the one action that starts it.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-empty-state heading="No campaigns yet">
+          <s-icon slot="graphic" type="product"></s-icon>
+          <s-text slot="subheading">Campaigns you create will be listed here.</s-text>
+          <s-button slot="primary-action" variant="primary">Create campaign</s-button>
+          <s-button slot="secondary-actions">Learn more</s-button>
+        </s-empty-state>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-empty-state heading="No campaigns yet"&gt;
+  &lt;s-icon slot="graphic" type="product"&gt;&lt;/s-icon&gt;
+  &lt;s-text slot="subheading"&gt;Campaigns you create will be listed here.&lt;/s-text&gt;
+  &lt;s-button slot="primary-action" variant="primary"&gt;Create campaign&lt;/s-button&gt;
+  &lt;s-button slot="secondary-actions"&gt;Learn more&lt;/s-button&gt;
+&lt;/s-empty-state&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Progress">
+      <span id="progress" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-progress&gt;</code> How far along a task is. Give it a value and a max.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack gap="base">
+          <s-progress accessibilityLabel="Import progress" value="30" max="100"></s-progress>
+          <s-progress accessibilityLabel="Steps completed" value="4" max="5" tone="success"></s-progress>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack gap="base"&gt;
+  &lt;s-progress accessibilityLabel="Import progress" value="30" max="100"&gt;&lt;/s-progress&gt;
+  &lt;s-progress accessibilityLabel="Steps completed" value="4" max="5" tone="success"&gt;&lt;/s-progress&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Spinner">
+      <span id="spinner" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-spinner&gt;</code> Shows that something is loading when you cannot say how long it will take.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack direction="inline" gap="large" alignItems="center">
+          <s-spinner accessibilityLabel="Loading"></s-spinner>
+          <s-spinner accessibilityLabel="Loading" size="large"></s-spinner>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack direction="inline" gap="large" alignItems="center"&gt;
+  &lt;s-spinner accessibilityLabel="Loading"&gt;&lt;/s-spinner&gt;
+  &lt;s-spinner accessibilityLabel="Loading" size="large"&gt;&lt;/s-spinner&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Text field">
+      <span id="text-field" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-text-field&gt;</code> One line of text. <code>details</code> is the help text under the field; <code>error</code> replaces it when the value is wrong.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack gap="base">
+          <s-text-field
+            label="Store name"
+            name="storeName"
+            placeholder="My store"
+            details="Shown to customers at checkout."
+          ></s-text-field>
+          <s-text-field label="Discount code" value="SUMMER" prefix="#" suffix="active"></s-text-field>
+          <s-text-field label="Handle" value="my store" error="A handle cannot contain spaces."></s-text-field>
+          <s-text-field label="Search" labelAccessibilityVisibility="exclusive" placeholder="The label is hidden, but still read aloud"></s-text-field>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack gap="base"&gt;
+  &lt;s-text-field
+    label="Store name"
+    name="storeName"
+    placeholder="My store"
+    details="Shown to customers at checkout."
+  &gt;&lt;/s-text-field&gt;
+  &lt;s-text-field label="Discount code" value="SUMMER" prefix="#" suffix="active"&gt;&lt;/s-text-field&gt;
+  &lt;s-text-field label="Handle" value="my store" error="A handle cannot contain spaces."&gt;&lt;/s-text-field&gt;
+  &lt;s-text-field label="Search" labelAccessibilityVisibility="exclusive" placeholder="The label is hidden, but still read aloud"&gt;&lt;/s-text-field&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Text area">
+      <span id="text-area" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-text-area&gt;</code> Several lines of text. <code>rows</code> sets the starting height.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-text-area
+          label="Description"
+          name="description"
+          rows="4"
+          maxLength="500"
+          details="Up to 500 characters."
+        ></s-text-area>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-text-area
+  label="Description"
+  name="description"
+  rows="4"
+  maxLength="500"
+  details="Up to 500 characters."
+&gt;&lt;/s-text-area&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Email field">
+      <span id="email-field" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-email-field&gt;</code> An email address, with the right keyboard on mobile and browser autofill.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-email-field label="Contact email" name="email" placeholder="you@example.com" autocomplete="email"></s-email-field>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-email-field label="Contact email" name="email" placeholder="you@example.com" autocomplete="email"&gt;&lt;/s-email-field&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Password field">
+      <span id="password-field" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-password-field&gt;</code> A secret value, hidden as it is typed.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-password-field label="API secret" name="secret" details="Stored encrypted."></s-password-field>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-password-field label="API secret" name="secret" details="Stored encrypted."&gt;&lt;/s-password-field&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Number field">
+      <span id="number-field" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-number-field&gt;</code> A number with optional limits and step.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-number-field label="Quantity" name="quantity" value="1" min="0" max="100" step="1" suffix="units"></s-number-field>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-number-field label="Quantity" name="quantity" value="1" min="0" max="100" step="1" suffix="units"&gt;&lt;/s-number-field&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Money field">
+      <span id="money-field" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-money-field&gt;</code> An amount of money. The currency follows the shop unless you name one.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-money-field label="Price" name="price" value="19.99" currencyCode="USD" min="0"></s-money-field>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-money-field label="Price" name="price" value="19.99" currencyCode="USD" min="0"&gt;&lt;/s-money-field&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="URL field">
+      <span id="url-field" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-url-field&gt;</code> A web address.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-url-field label="Website" name="website" placeholder="https://example.com"></s-url-field>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-url-field label="Website" name="website" placeholder="https://example.com"&gt;&lt;/s-url-field&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Search field">
+      <span id="search-field" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-search-field&gt;</code> A text field for searching, with a search icon and a clear button built in.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-search-field label="Search products" labelAccessibilityVisibility="exclusive" placeholder="Search products"></s-search-field>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-search-field label="Search products" labelAccessibilityVisibility="exclusive" placeholder="Search products"&gt;&lt;/s-search-field&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Select">
+      <span id="select" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-select&gt;</code> One choice from a list. Group long lists with s-option-group.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-select label="Country" name="country" details="Used for tax calculation.">
+          <s-option-group label="North America">
+            <s-option value="ca">Canada</s-option>
+            <s-option value="us" selected>United States</s-option>
+          </s-option-group>
+          <s-option-group label="Asia">
+            <s-option value="in">India</s-option>
+            <s-option value="jp">Japan</s-option>
+          </s-option-group>
+        </s-select>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-select label="Country" name="country" details="Used for tax calculation."&gt;
+  &lt;s-option-group label="North America"&gt;
+    &lt;s-option value="ca"&gt;Canada&lt;/s-option&gt;
+    &lt;s-option value="us" selected&gt;United States&lt;/s-option&gt;
+  &lt;/s-option-group&gt;
+  &lt;s-option-group label="Asia"&gt;
+    &lt;s-option value="in"&gt;India&lt;/s-option&gt;
+    &lt;s-option value="jp"&gt;Japan&lt;/s-option&gt;
+  &lt;/s-option-group&gt;
+&lt;/s-select&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Checkbox">
+      <span id="checkbox" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-checkbox&gt;</code> A choice that is saved with the rest of the form. For a setting that applies at once, use a switch.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack gap="small-200">
+          <s-checkbox label="Send order confirmations" name="confirmations" checked></s-checkbox>
+          <s-checkbox label="Send marketing emails" name="marketing" details="At most once a week."></s-checkbox>
+          <s-checkbox label="Accept the terms" name="terms" error="You must accept the terms."></s-checkbox>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack gap="small-200"&gt;
+  &lt;s-checkbox label="Send order confirmations" name="confirmations" checked&gt;&lt;/s-checkbox&gt;
+  &lt;s-checkbox label="Send marketing emails" name="marketing" details="At most once a week."&gt;&lt;/s-checkbox&gt;
+  &lt;s-checkbox label="Accept the terms" name="terms" error="You must accept the terms."&gt;&lt;/s-checkbox&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Switch">
+      <span id="switch" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-switch&gt;</code> Turns a setting on or off, taking effect immediately.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack gap="small-200">
+          <s-switch label="Enable notifications" name="notifications" checked></s-switch>
+          <s-switch label="Test mode" name="testMode" details="Orders placed in test mode are not charged."></s-switch>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack gap="small-200"&gt;
+  &lt;s-switch label="Enable notifications" name="notifications" checked&gt;&lt;/s-switch&gt;
+  &lt;s-switch label="Test mode" name="testMode" details="Orders placed in test mode are not charged."&gt;&lt;/s-switch&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Choice list">
+      <span id="choice-list" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-choice-list&gt;</code> Radio buttons by default; add <code>multiple</code> for checkboxes. Read the result from its <code>values</code>.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack gap="base">
+          <s-choice-list label="Shipping speed" name="speed">
+            <s-choice value="standard" selected>Standard</s-choice>
+            <s-choice value="express">Express</s-choice>
+            <s-choice value="overnight">Overnight</s-choice>
+          </s-choice-list>
+          <s-choice-list label="Sales channels" name="channels" multiple>
+            <s-choice value="online" selected>Online store</s-choice>
+            <s-choice value="pos">Point of sale</s-choice>
+          </s-choice-list>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack gap="base"&gt;
+  &lt;s-choice-list label="Shipping speed" name="speed"&gt;
+    &lt;s-choice value="standard" selected&gt;Standard&lt;/s-choice&gt;
+    &lt;s-choice value="express"&gt;Express&lt;/s-choice&gt;
+    &lt;s-choice value="overnight"&gt;Overnight&lt;/s-choice&gt;
+  &lt;/s-choice-list&gt;
+  &lt;s-choice-list label="Sales channels" name="channels" multiple&gt;
+    &lt;s-choice value="online" selected&gt;Online store&lt;/s-choice&gt;
+    &lt;s-choice value="pos"&gt;Point of sale&lt;/s-choice&gt;
+  &lt;/s-choice-list&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Color field">
+      <span id="color-field" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-color-field&gt;</code> A colour typed as a value, with a swatch that opens a picker.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-color-field label="Brand colour" name="brand" value="#008060"></s-color-field>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-color-field label="Brand colour" name="brand" value="#008060"&gt;&lt;/s-color-field&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Color picker">
+      <span id="color-picker" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-color-picker&gt;</code> The picker on its own. Add <code>alpha</code> to allow transparency.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-color-picker name="accent" value="#5C6AC4" alpha></s-color-picker>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-color-picker name="accent" value="#5C6AC4" alpha&gt;&lt;/s-color-picker&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Date field">
+      <span id="date-field" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-date-field&gt;</code> A date typed or picked from a calendar. Dates are YYYY-MM-DD; <code>disallowDays</code> blocks weekdays.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-date-field
+          label="Start date"
+          name="startDate"
+          value="2026-10-01"
+          view="2026-10"
+          disallowDays="saturday, sunday"
+        ></s-date-field>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-date-field
+  label="Start date"
+  name="startDate"
+  value="2026-10-01"
+  view="2026-10"
+  disallowDays="saturday, sunday"
+&gt;&lt;/s-date-field&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Date picker">
+      <span id="date-picker" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-date-picker&gt;</code> An inline calendar for one date, several dates or a range. A range is written start--end.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-date-picker name="range" type="range" view="2026-10" value="2026-10-05--2026-10-12"></s-date-picker>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-date-picker name="range" type="range" view="2026-10" value="2026-10-05--2026-10-12"&gt;&lt;/s-date-picker&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Drop zone">
+      <span id="drop-zone" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-drop-zone&gt;</code> File upload by drag and drop or by browsing. The chosen files are on its <code>files</code> property.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-drop-zone
+          label="Product images"
+          name="images"
+          accept=".jpg,.png,.webp"
+          accessibilityLabel="Upload product images as jpg, png or webp"
+          multiple
+        ></s-drop-zone>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-drop-zone
+  label="Product images"
+  name="images"
+  accept=".jpg,.png,.webp"
+  accessibilityLabel="Upload product images as jpg, png or webp"
+  multiple
+&gt;&lt;/s-drop-zone&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Page">
+      <span id="page" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-page&gt;</code> The frame of every page: the title bar, its actions, and the sections below. Keep sections as direct children, or the page cannot space them.</s-paragraph>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-page heading="Products" inlineSize="base"&gt;
+  &lt;s-link slot="breadcrumb-actions" href="/"&gt;Dashboard&lt;/s-link&gt;
+  &lt;s-button slot="primary-action" variant="primary"&gt;Add product&lt;/s-button&gt;
+  &lt;s-button slot="secondary-actions"&gt;Import&lt;/s-button&gt;
+
+  &lt;s-section heading="All products"&gt;...&lt;/s-section&gt;
+
+  &lt;s-section slot="aside" heading="Summary"&gt;...&lt;/s-section&gt;
+&lt;/s-page&gt;
+
+&lt;!-- inlineSize: "small" for forms, "base" by default, "large" for tables --&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Section">
+      <span id="section" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-section&gt;</code> A card with an optional heading. Nested sections step the heading level down automatically.</s-paragraph>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-section heading="Shipping"&gt;
+  &lt;s-paragraph&gt;Where and how you deliver.&lt;/s-paragraph&gt;
+
+  &lt;s-section heading="Zones"&gt;
+    &lt;s-paragraph&gt;A nested section gets a smaller heading.&lt;/s-paragraph&gt;
+  &lt;/s-section&gt;
+&lt;/s-section&gt;
+
+&lt;!-- Edge to edge, for a table or an image --&gt;
+&lt;s-section padding="none"&gt;...&lt;/s-section&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Box">
+      <span id="box" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-box&gt;</code> A container with padding, border and background. Spacing uses the Polaris scale, from small-500 to large-500.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack gap="base">
+          <s-box padding="base" border="base" borderRadius="base">
+            Border, radius and base padding.
+          </s-box>
+          <s-box padding="large-200" background="subdued" borderRadius="large">
+            Subdued background and more padding.
+          </s-box>
+          <s-box padding="base" background="strong" borderRadius="base">
+            Strong background.
+          </s-box>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack gap="base"&gt;
+  &lt;s-box padding="base" border="base" borderRadius="base"&gt;
+    Border, radius and base padding.
+  &lt;/s-box&gt;
+  &lt;s-box padding="large-200" background="subdued" borderRadius="large"&gt;
+    Subdued background and more padding.
+  &lt;/s-box&gt;
+  &lt;s-box padding="base" background="strong" borderRadius="base"&gt;
+    Strong background.
+  &lt;/s-box&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Stack">
+      <span id="stack" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-stack&gt;</code> Children in a column, or a row with direction="inline". A row wraps when it runs out of room.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack gap="base">
+          <s-stack direction="inline" gap="small-200" alignItems="center">
+            <s-badge tone="success">Active</s-badge>
+            <s-text>In a row, centred vertically</s-text>
+          </s-stack>
+          <s-stack direction="inline" justifyContent="space-between" alignItems="center">
+            <s-heading>Pushed apart</s-heading>
+            <s-button>Edit</s-button>
+          </s-stack>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack gap="base"&gt;
+  &lt;s-stack direction="inline" gap="small-200" alignItems="center"&gt;
+    &lt;s-badge tone="success"&gt;Active&lt;/s-badge&gt;
+    &lt;s-text&gt;In a row, centred vertically&lt;/s-text&gt;
+  &lt;/s-stack&gt;
+  &lt;s-stack direction="inline" justifyContent="space-between" alignItems="center"&gt;
+    &lt;s-heading&gt;Pushed apart&lt;/s-heading&gt;
+    &lt;s-button&gt;Edit&lt;/s-button&gt;
+  &lt;/s-stack&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Grid">
+      <span id="grid" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-grid&gt;</code> Columns. Make them respond to the width available with a container query in the value.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-query-container>
+          <s-grid gridTemplateColumns="@container (inline-size <= 500px) 1fr, 1fr 1fr 1fr" gap="base">
+            <s-box padding="base" border="base" borderRadius="base">One</s-box>
+            <s-box padding="base" border="base" borderRadius="base">Two</s-box>
+            <s-box padding="base" border="base" borderRadius="base">Three</s-box>
+          </s-grid>
+        </s-query-container>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-query-container&gt;
+  &lt;s-grid gridTemplateColumns="@container (inline-size &lt;= 500px) 1fr, 1fr 1fr 1fr" gap="base"&gt;
+    &lt;s-box padding="base" border="base" borderRadius="base"&gt;One&lt;/s-box&gt;
+    &lt;s-box padding="base" border="base" borderRadius="base"&gt;Two&lt;/s-box&gt;
+    &lt;s-box padding="base" border="base" borderRadius="base"&gt;Three&lt;/s-box&gt;
+  &lt;/s-grid&gt;
+&lt;/s-query-container&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Query container">
+      <span id="query-container" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-query-container&gt;</code> Marks the element that container queries measure. Values then change with its width, not the window's.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-query-container>
+          <s-box
+            padding="@container (inline-size > 500px) large-300, base"
+            background="subdued"
+            borderRadius="base"
+          >
+            More padding once this box is wider than 500px.
+          </s-box>
+        </s-query-container>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-query-container&gt;
+  &lt;s-box
+    padding="@container (inline-size &gt; 500px) large-300, base"
+    background="subdued"
+    borderRadius="base"
+  &gt;
+    More padding once this box is wider than 500px.
+  &lt;/s-box&gt;
+&lt;/s-query-container&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Divider">
+      <span id="divider" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-divider&gt;</code> A line between groups of content.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack gap="base">
+          <s-text>Above</s-text>
+          <s-divider></s-divider>
+          <s-text>Below</s-text>
+          <s-divider color="strong"></s-divider>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack gap="base"&gt;
+  &lt;s-text&gt;Above&lt;/s-text&gt;
+  &lt;s-divider&gt;&lt;/s-divider&gt;
+  &lt;s-text&gt;Below&lt;/s-text&gt;
+  &lt;s-divider color="strong"&gt;&lt;/s-divider&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Table">
+      <span id="table" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-table&gt;</code> Rows and columns of data. Put it in a section with padding="none". For paging, add <code>paginate</code> and listen for nextpage and previouspage.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-table paginate hasNextPage>
+          <s-table-header-row>
+            <s-table-header>Product</s-table-header>
+            <s-table-header>Status</s-table-header>
+            <s-table-header format="numeric">Stock</s-table-header>
+          </s-table-header-row>
+          <s-table-body>
+            <s-table-row>
+              <s-table-cell>Cotton T-shirt</s-table-cell>
+              <s-table-cell><s-badge tone="success">Active</s-badge></s-table-cell>
+              <s-table-cell>128</s-table-cell>
+            </s-table-row>
+            <s-table-row>
+              <s-table-cell>Canvas tote</s-table-cell>
+              <s-table-cell><s-badge>Draft</s-badge></s-table-cell>
+              <s-table-cell>0</s-table-cell>
+            </s-table-row>
+          </s-table-body>
+        </s-table>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-table paginate hasNextPage&gt;
+  &lt;s-table-header-row&gt;
+    &lt;s-table-header&gt;Product&lt;/s-table-header&gt;
+    &lt;s-table-header&gt;Status&lt;/s-table-header&gt;
+    &lt;s-table-header format="numeric"&gt;Stock&lt;/s-table-header&gt;
+  &lt;/s-table-header-row&gt;
+  &lt;s-table-body&gt;
+    &lt;s-table-row&gt;
+      &lt;s-table-cell&gt;Cotton T-shirt&lt;/s-table-cell&gt;
+      &lt;s-table-cell&gt;&lt;s-badge tone="success"&gt;Active&lt;/s-badge&gt;&lt;/s-table-cell&gt;
+      &lt;s-table-cell&gt;128&lt;/s-table-cell&gt;
+    &lt;/s-table-row&gt;
+    &lt;s-table-row&gt;
+      &lt;s-table-cell&gt;Canvas tote&lt;/s-table-cell&gt;
+      &lt;s-table-cell&gt;&lt;s-badge&gt;Draft&lt;/s-badge&gt;&lt;/s-table-cell&gt;
+      &lt;s-table-cell&gt;0&lt;/s-table-cell&gt;
+    &lt;/s-table-row&gt;
+  &lt;/s-table-body&gt;
+&lt;/s-table&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Ordered list">
+      <span id="ordered-list" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-ordered-list&gt;</code> Numbered steps, where the order matters.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-ordered-list>
+          <s-list-item>Create the app</s-list-item>
+          <s-list-item>Install it on a store</s-list-item>
+          <s-list-item>Open it from the admin</s-list-item>
+        </s-ordered-list>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-ordered-list&gt;
+  &lt;s-list-item&gt;Create the app&lt;/s-list-item&gt;
+  &lt;s-list-item&gt;Install it on a store&lt;/s-list-item&gt;
+  &lt;s-list-item&gt;Open it from the admin&lt;/s-list-item&gt;
+&lt;/s-ordered-list&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Unordered list">
+      <span id="unordered-list" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-unordered-list&gt;</code> Bullet points, where the order does not matter.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-unordered-list>
+          <s-list-item>Runs on Firebase</s-list-item>
+          <s-list-item>No build step</s-list-item>
+          <s-list-item>Scales to zero</s-list-item>
+        </s-unordered-list>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-unordered-list&gt;
+  &lt;s-list-item&gt;Runs on Firebase&lt;/s-list-item&gt;
+  &lt;s-list-item&gt;No build step&lt;/s-list-item&gt;
+  &lt;s-list-item&gt;Scales to zero&lt;/s-list-item&gt;
+&lt;/s-unordered-list&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Avatar">
+      <span id="avatar" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-avatar&gt;</code> A person or a business, as a picture or as initials.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack direction="inline" gap="base" alignItems="center">
+          <s-avatar initials="JD" alt="Jane Doe" size="small"></s-avatar>
+          <s-avatar initials="JD" alt="Jane Doe"></s-avatar>
+          <s-avatar initials="JD" alt="Jane Doe" size="large"></s-avatar>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack direction="inline" gap="base" alignItems="center"&gt;
+  &lt;s-avatar initials="JD" alt="Jane Doe" size="small"&gt;&lt;/s-avatar&gt;
+  &lt;s-avatar initials="JD" alt="Jane Doe"&gt;&lt;/s-avatar&gt;
+  &lt;s-avatar initials="JD" alt="Jane Doe" size="large"&gt;&lt;/s-avatar&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Icon">
+      <span id="icon" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-icon&gt;</code> An icon from the Polaris set, named with <code>type</code>. The same names work as <code>icon</code> on a button or badge.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack direction="inline" gap="base">
+          <s-icon type="home"></s-icon>
+          <s-icon type="order"></s-icon>
+          <s-icon type="product"></s-icon>
+          <s-icon type="settings"></s-icon>
+          <s-icon type="search"></s-icon>
+          <s-icon type="check-circle" tone="success"></s-icon>
+          <s-icon type="alert-triangle" tone="warning"></s-icon>
+          <s-icon type="info" tone="info"></s-icon>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack direction="inline" gap="base"&gt;
+  &lt;s-icon type="home"&gt;&lt;/s-icon&gt;
+  &lt;s-icon type="order"&gt;&lt;/s-icon&gt;
+  &lt;s-icon type="product"&gt;&lt;/s-icon&gt;
+  &lt;s-icon type="settings"&gt;&lt;/s-icon&gt;
+  &lt;s-icon type="search"&gt;&lt;/s-icon&gt;
+  &lt;s-icon type="check-circle" tone="success"&gt;&lt;/s-icon&gt;
+  &lt;s-icon type="alert-triangle" tone="warning"&gt;&lt;/s-icon&gt;
+  &lt;s-icon type="info" tone="info"&gt;&lt;/s-icon&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Image">
+      <span id="image" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-image&gt;</code> A picture that keeps its shape while it loads. Always give it alt text.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-box inlineSize="240px">
+          <s-image
+            src="https://cdn.shopify.com/static/sample-product/House-Plant1.png"
+            alt="A house plant in a pot"
+            aspectRatio="16/9"
+            objectFit="cover"
+            borderRadius="base"
+            loading="lazy"
+          ></s-image>
+        </s-box>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-box inlineSize="240px"&gt;
+  &lt;s-image
+    src="https://cdn.shopify.com/static/sample-product/House-Plant1.png"
+    alt="A house plant in a pot"
+    aspectRatio="16/9"
+    objectFit="cover"
+    borderRadius="base"
+    loading="lazy"
+  &gt;&lt;/s-image&gt;
 &lt;/s-box&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
+      </div>
+    </s-section>
 
+    <s-section heading="Thumbnail">
+      <span id="thumbnail" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-thumbnail&gt;</code> A small square image for a row in a list. Without a src it shows a placeholder.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack direction="inline" gap="base" alignItems="center">
+          <s-thumbnail alt="No image yet" size="small"></s-thumbnail>
+          <s-thumbnail alt="Product" src="https://cdn.shopify.com/static/images/polaris/thumbnail-wc_src.jpg"></s-thumbnail>
+          <s-thumbnail alt="Product" src="https://cdn.shopify.com/static/images/polaris/thumbnail-wc_src.jpg" size="large"></s-thumbnail>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack direction="inline" gap="base" alignItems="center"&gt;
+  &lt;s-thumbnail alt="No image yet" size="small"&gt;&lt;/s-thumbnail&gt;
+  &lt;s-thumbnail alt="Product" src="https://cdn.shopify.com/static/images/polaris/thumbnail-wc_src.jpg"&gt;&lt;/s-thumbnail&gt;
+  &lt;s-thumbnail alt="Product" src="https://cdn.shopify.com/static/images/polaris/thumbnail-wc_src.jpg" size="large"&gt;&lt;/s-thumbnail&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
 
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: SECTION                                            -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Section">
-        <span id="section-section" class="anchor"></span>
-        <s-text color="subdued">Content sections within a page, with optional headings and padding.</s-text>
+    <s-section heading="Modal">
+      <span id="modal" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-modal&gt;</code> Content over the page, for a confirmation or a short form. Any button opens it with commandFor, and closes it with command="--hide".</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-button commandFor="demo-modal">Delete product</s-button>
 
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;s-page heading="My Page"&gt;
-  &lt;!-- Section with heading --&gt;
-  &lt;s-section heading="General Settings"&gt;
-    &lt;s-text&gt;Content here...&lt;/s-text&gt;
-  &lt;/s-section&gt;
+        <s-modal id="demo-modal" heading="Delete this product?">
+          <s-paragraph>This cannot be undone.</s-paragraph>
 
-  &lt;!-- Section without heading --&gt;
-  &lt;s-section&gt;
-    &lt;s-text&gt;More content...&lt;/s-text&gt;
-  &lt;/s-section&gt;
+          <s-button slot="secondary-actions" commandFor="demo-modal" command="--hide">Cancel</s-button>
+          <s-button slot="primary-action" variant="primary" tone="critical" commandFor="demo-modal" command="--hide">
+            Delete
+          </s-button>
+        </s-modal>
 
-  &lt;!-- Section with padding --&gt;
-  &lt;s-section padding="base"&gt;
-    &lt;s-text&gt;Padded content.&lt;/s-text&gt;
-  &lt;/s-section&gt;
-&lt;/s-page&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
+        <!-- From JavaScript: document.getElementById("demo-modal").showOverlay() -->
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-button commandFor="demo-modal"&gt;Delete product&lt;/s-button&gt;
 
+&lt;s-modal id="demo-modal" heading="Delete this product?"&gt;
+  &lt;s-paragraph&gt;This cannot be undone.&lt;/s-paragraph&gt;
 
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: MODALS                                             -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Modals">
-        <span id="section-modals" class="anchor"></span>
-        <s-text color="subdued">Overlays for confirmations, forms and details. Uses <code>&lt;s-modal&gt;</code>, opened by any button with <code>commandFor</code>.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Basic Modal</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-button variant="primary" commandFor="demo-modal-basic">Open Modal</s-button>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Confirmation Dialog</s-heading>
-            <s-text color="subdued">Use before destructive actions like deleting records.</s-text>
-            <s-box paddingBlockStart="small-200">
-              <s-button tone="critical" commandFor="demo-modal-confirm">Delete Item</s-button>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;!-- Basic modal --&gt;
-&lt;s-modal id="my-modal" heading="Modal title"&gt;
-  &lt;s-paragraph&gt;Modal content here.&lt;/s-paragraph&gt;
-  &lt;s-button slot="primary-action" variant="primary"
-    commandFor="my-modal" command="--hide"&gt;
-    Done
-  &lt;/s-button&gt;
-&lt;/s-modal&gt;
-
-&lt;!-- Trigger: no JavaScript needed --&gt;
-&lt;s-button commandFor="my-modal"&gt;Open Modal&lt;/s-button&gt;
-
-&lt;!-- Confirmation dialog --&gt;
-&lt;s-modal id="confirm-delete" heading="Confirm deletion"&gt;
-  &lt;s-paragraph&gt;Are you sure? This cannot be undone.&lt;/s-paragraph&gt;
-  &lt;s-button slot="secondary-actions"
-    commandFor="confirm-delete" command="--hide"&gt;
-    Cancel
-  &lt;/s-button&gt;
-  &lt;s-button slot="primary-action" variant="primary" tone="critical"
-    commandFor="confirm-delete" command="--hide"
-    onclick="handleDelete()"&gt;
+  &lt;s-button slot="secondary-actions" commandFor="demo-modal" command="--hide"&gt;Cancel&lt;/s-button&gt;
+  &lt;s-button slot="primary-action" variant="primary" tone="critical" commandFor="demo-modal" command="--hide"&gt;
     Delete
   &lt;/s-button&gt;
 &lt;/s-modal&gt;
 
-&lt;!-- Sizes: small-100, small, base, large, large-100 --&gt;
-&lt;s-modal id="my-modal" heading="Details" size="large"&gt;...&lt;/s-modal&gt;
-
-&lt;!-- From JavaScript --&gt;
-document.getElementById("my-modal").showOverlay();
-document.getElementById("my-modal").hideOverlay();</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-    <!-- Demo modals -->
-    <s-modal id="demo-modal-basic" heading="Basic Modal">
-      <div>
-        <s-stack gap="base">
-          <s-heading fontSize="large">Hello from a modal!</s-heading>
-          <s-text>This is a Polaris modal. In the Shopify admin it is rendered over the whole page, not just your app's frame.</s-text>
-          <s-text color="subdued">Modals are great for forms, confirmations, and displaying details without navigating away.</s-text>
-        </s-stack>
+&lt;!-- From JavaScript: document.getElementById("demo-modal").showOverlay() --&gt;</code></pre>
       </div>
-      <s-button slot="primary-action" variant="primary" commandFor="demo-modal-basic" command="--hide">Done</s-button>
-    </s-modal>
-
-    <s-modal id="demo-modal-confirm" heading="Confirm Deletion">
-      <div>
-        <s-text>Are you sure you want to delete this item? This action cannot be undone.</s-text>
-      </div>
-      <s-button slot="secondary-actions" commandFor="demo-modal-confirm" command="--hide">Cancel</s-button>
-      <s-button slot="primary-action" variant="primary" tone="critical" commandFor="demo-modal-confirm" command="--hide" onclick="demoConfirmDelete()">Delete</s-button>
-    </s-modal>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: SAVE BAR                                           -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Save Bar (data-save-bar)">
-        <span id="section-savebar" class="anchor"></span>
-        <s-text color="subdued">Shopify's native save/discard bar appears automatically when a <code>&lt;form data-save-bar&gt;</code> detects changes.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <s-banner tone="info">
-            <s-text>The save bar is demonstrated on the <s-link href="/settings">Settings page</s-link>. Change any field and the save/discard bar appears automatically.</s-text>
-          </s-banner>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;!-- Wrap your page in a form with data-save-bar --&gt;
-&lt;form data-save-bar id="settings-form"&gt;
-  &lt;s-page heading="Settings"&gt;
-    &lt;s-section heading="General"&gt;
-      &lt;s-text-field id="name" label="Name"&gt;&lt;/s-text-field&gt;
-      &lt;s-switch id="enabled" label="Enabled"&gt;&lt;/s-switch&gt;
-    &lt;/s-section&gt;
-  &lt;/s-page&gt;
-&lt;/form&gt;
-
-&lt;script&gt;
-// Handle form submit (save)
-document.getElementById("settings-form")
-  .addEventListener("submit", async (e) =&gt; {
-    e.preventDefault();
-    // Save logic here...
-    shopify.toast.show("Saved!");
-  });
-
-// Handle form reset (discard)
-document.getElementById("settings-form")
-  .addEventListener("reset", () =&gt; {
-    // Reload original values
-  });
-&lt;/script&gt;</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: TOASTS                                             -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Toasts">
-        <span id="section-toasts" class="anchor"></span>
-        <s-text color="subdued">Brief, non-blocking feedback notifications using App Bridge.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-stack direction="inline" gap="small-200">
-              <s-button variant="primary" onclick="showToast('Product saved successfully')">Success Toast</s-button>
-              <s-button tone="critical" onclick="showToast('Failed to save product', true)">Error Toast</s-button>
-            </s-stack>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>JavaScript</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>// Success toast (uses App Bridge in embedded admin)
-showToast("Product saved successfully");
-
-// Error toast
-showToast("Failed to save product", true);
-
-// Direct App Bridge API
-shopify.toast.show("Message", { duration: 5000 });
-shopify.toast.show("Error!", { isError: true });</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: NAVIGATION                                         -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Navigation">
-        <span id="section-navigation" class="anchor"></span>
-        <s-text color="subdued">App navigation in the Shopify admin sidebar. Uses <code>&lt;s-app-nav&gt;</code> with <code>&lt;s-link&gt;</code> children.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>HTML</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>&lt;!-- The link with rel="home" sets the landing page and is hidden from the menu --&gt;
-&lt;s-app-nav&gt;
-  &lt;s-link href="/" rel="home"&gt;Dashboard&lt;/s-link&gt;
-  &lt;s-link href="/products"&gt;Products&lt;/s-link&gt;
-  &lt;s-link href="/settings"&gt;Settings&lt;/s-link&gt;
-&lt;/s-app-nav&gt;
-</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: RESOURCE PICKER                                    -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Resource Picker">
-        <span id="section-resource-picker" class="anchor"></span>
-        <s-text color="subdued">App Bridge provides a native product/collection picker. Only available inside the Shopify admin.</s-text>
-
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-stack gap="base">
-              <s-button variant="primary" onclick="demoResourcePicker()">Open Product Picker</s-button>
-              <div id="picker-demo-result"></div>
-            </s-stack>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>JavaScript</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>// Open the product resource picker
-const selected = await shopify.resourcePicker({
-  type: "product",
-  // multiple: true,
-  // filter: { query: "shirt" },
-});
-
-if (selected &amp;&amp; selected.length &gt; 0) {
-  selected.forEach(product =&gt; {
-    console.log(product.title, product.id);
-  });
-}</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- SECTION: COMMON PATTERNS                                    -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-      <s-section heading="Common Patterns">
-        <span id="section-patterns" class="anchor"></span>
-        <s-text color="subdued">Reusable UI patterns combining multiple Polaris components.</s-text>
-
-        <!-- Pattern: Stat cards -->
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Metric Cards</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-grid gridTemplateColumns="@container (inline-size <= 400px) 1fr 1fr, 1fr 1fr 1fr 1fr" gap="base">
-                <s-box border="base" borderRadius="base" padding="base">
-                  <s-stack gap="small-200">
-                    <s-text color="subdued">Total Sales</s-text>
-                    <s-heading fontSize="large-200">$12,450</s-heading>
-                    <s-text color="success" fontSize="small">+12.5%</s-text>
-                  </s-stack>
-                </s-box>
-                <s-box border="base" borderRadius="base" padding="base">
-                  <s-stack gap="small-200">
-                    <s-text color="subdued">Orders</s-text>
-                    <s-heading fontSize="large-200">156</s-heading>
-                    <s-text color="success" fontSize="small">+8.2%</s-text>
-                  </s-stack>
-                </s-box>
-                <s-box border="base" borderRadius="base" padding="base">
-                  <s-stack gap="small-200">
-                    <s-text color="subdued">Visitors</s-text>
-                    <s-heading fontSize="large-200">3,842</s-heading>
-                    <s-text color="critical" fontSize="small">-2.1%</s-text>
-                  </s-stack>
-                </s-box>
-                <s-box border="base" borderRadius="base" padding="base">
-                  <s-stack gap="small-200">
-                    <s-text color="subdued">Conversion</s-text>
-                    <s-heading fontSize="large-200">4.1%</s-heading>
-                    <s-text color="success" fontSize="small">+0.3%</s-text>
-                  </s-stack>
-                </s-box>
-              </s-grid>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <!-- Pattern: Info list -->
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-heading>Info List (Key-Value)</s-heading>
-            <s-box paddingBlockStart="small-200">
-              <s-stack gap="small-200">
-                <s-grid gridTemplateColumns="1fr 1fr" gap="small-200">
-                  <s-text color="subdued">Store name</s-text>
-                  <s-text>My Awesome Store</s-text>
-                </s-grid>
-                <s-grid gridTemplateColumns="1fr 1fr" gap="small-200">
-                  <s-text color="subdued">Plan</s-text>
-                  <s-text>Shopify Plus</s-text>
-                </s-grid>
-                <s-grid gridTemplateColumns="1fr 1fr" gap="small-200">
-                  <s-text color="subdued">Status</s-text>
-                  <s-badge tone="success">Active</s-badge>
-                </s-grid>
-              </s-stack>
-            </s-box>
-          </s-box>
-        </s-box>
-
-        <!-- Pattern: Empty state -->
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="large-500">
-            <s-stack alignItems="center" gap="base">
-              <s-heading fontSize="large">No orders yet</s-heading>
-              <s-text color="subdued">When customers place orders, they will appear here.</s-text>
-              <s-button variant="primary">Add product</s-button>
-            </s-stack>
-          </s-box>
-        </s-box>
-
-        <!-- Pattern: API fetch -->
-        <s-box paddingBlockStart="base">
-          <s-box border="base" borderRadius="base" padding="base">
-            <s-stack gap="base">
-              <s-heading>API Fetch Pattern</s-heading>
-              <s-text color="subdued">Use <code>apiFetch()</code> for all API calls. It handles session tokens automatically.</s-text>
-              <s-button onclick="demoApiFetch()">Test API Call</s-button>
-            </s-stack>
-          </s-box>
-        </s-box>
-
-        <s-box paddingBlockStart="base">
-          <div class="demo-code">
-            <div class="code-block-header">
-              <span>JavaScript</span>
-              <button class="btn-copy" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code>// GET request
-const data = await apiFetch("/api/shop");
-
-// POST request
-await apiFetch("/api/settings", {
-  method: "POST",
-  body: JSON.stringify({ greeting: "Hello!" }),
-});
-
-// Search with query params
-const results = await apiFetch(
-  "/api/products/search?q=" + encodeURIComponent(term)
-);
-
-// Error handling
-try {
-  const data = await apiFetch("/api/shop");
-  showToast("Success!");
-} catch (err) {
-  showToast("Error: " + err.message, true);
-}
-
-// Loading pattern
-const loading = document.getElementById("my-loading");
-const content = document.getElementById("my-content");
-loading.style.display = "";
-content.style.display = "none";
-try {
-  const data = await apiFetch("/api/data");
-  // Render data...
-  loading.style.display = "none";
-  content.style.display = "";
-} catch (err) {
-  loading.innerHTML = '&lt;s-banner tone="critical"&gt;' +
-    '&lt;s-text&gt;' + err.message + '&lt;/s-text&gt;&lt;/s-banner&gt;';
-}</code></pre>
-          </div>
-        </s-box>
-      </s-section>
-
-
-    <!-- Footer -->
-    <s-section>
-      <s-stack alignItems="center">
-        <s-text color="subdued">Built with Shopify Polaris Web Components + App Bridge + Firebase Hosting. See <s-link href="https://polaris.shopify.com" target="_blank">polaris.shopify.com</s-link> for full documentation.</s-text>
-      </s-stack>
     </s-section>
 
+    <s-section heading="Popover">
+      <span id="popover" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-popover&gt;</code> A small panel anchored to the button that opens it.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-button commandFor="demo-popover">Filter</s-button>
+
+        <s-popover id="demo-popover">
+          <s-box padding="base">
+            <s-choice-list label="Status" name="status">
+              <s-choice value="active" selected>Active</s-choice>
+              <s-choice value="draft">Draft</s-choice>
+            </s-choice-list>
+          </s-box>
+        </s-popover>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-button commandFor="demo-popover"&gt;Filter&lt;/s-button&gt;
+
+&lt;s-popover id="demo-popover"&gt;
+  &lt;s-box padding="base"&gt;
+    &lt;s-choice-list label="Status" name="status"&gt;
+      &lt;s-choice value="active" selected&gt;Active&lt;/s-choice&gt;
+      &lt;s-choice value="draft"&gt;Draft&lt;/s-choice&gt;
+    &lt;/s-choice-list&gt;
+  &lt;/s-box&gt;
+&lt;/s-popover&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Heading">
+      <span id="heading" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-heading&gt;</code> A title for a block of content. The level follows how deeply it is nested in sections; fontSize only changes how it looks.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack gap="small-200">
+          <s-heading fontSize="large-400">large-400</s-heading>
+          <s-heading fontSize="large-300">large-300</s-heading>
+          <s-heading fontSize="large-200">large-200</s-heading>
+          <s-heading fontSize="large">large</s-heading>
+          <s-heading>base</s-heading>
+          <s-heading fontSize="small">small</s-heading>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack gap="small-200"&gt;
+  &lt;s-heading fontSize="large-400"&gt;large-400&lt;/s-heading&gt;
+  &lt;s-heading fontSize="large-300"&gt;large-300&lt;/s-heading&gt;
+  &lt;s-heading fontSize="large-200"&gt;large-200&lt;/s-heading&gt;
+  &lt;s-heading fontSize="large"&gt;large&lt;/s-heading&gt;
+  &lt;s-heading&gt;base&lt;/s-heading&gt;
+  &lt;s-heading fontSize="small"&gt;small&lt;/s-heading&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Paragraph">
+      <span id="paragraph" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-paragraph&gt;</code> A block of text. <code>lineClamp</code> cuts it off after a number of lines.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack gap="small-200">
+          <s-paragraph>A paragraph sits on its own line and leaves space before the next.</s-paragraph>
+          <s-paragraph color="subdued">Subdued, for supporting detail.</s-paragraph>
+          <s-paragraph tone="critical">Critical, for an error.</s-paragraph>
+          <s-paragraph lineClamp="1">
+            Clamped to one line, so a long description is cut short with an ellipsis rather than pushing the layout around.
+          </s-paragraph>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack gap="small-200"&gt;
+  &lt;s-paragraph&gt;A paragraph sits on its own line and leaves space before the next.&lt;/s-paragraph&gt;
+  &lt;s-paragraph color="subdued"&gt;Subdued, for supporting detail.&lt;/s-paragraph&gt;
+  &lt;s-paragraph tone="critical"&gt;Critical, for an error.&lt;/s-paragraph&gt;
+  &lt;s-paragraph lineClamp="1"&gt;
+    Clamped to one line, so a long description is cut short with an ellipsis rather than pushing the layout around.
+  &lt;/s-paragraph&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Text">
+      <span id="text" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-text&gt;</code> Text inside a line. <code>color</code> is base or subdued; meaning such as success or critical is a <code>tone</code>.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack gap="small-200">
+          <s-text>Default</s-text>
+          <s-text type="strong">Strong</s-text>
+          <s-text fontWeight="semibold">Semibold</s-text>
+          <s-text color="subdued">Subdued</s-text>
+          <s-text tone="success">Success</s-text>
+          <s-text tone="critical">Critical</s-text>
+          <s-text fontSize="small">Small</s-text>
+          <s-text fontSize="large">Large</s-text>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack gap="small-200"&gt;
+  &lt;s-text&gt;Default&lt;/s-text&gt;
+  &lt;s-text type="strong"&gt;Strong&lt;/s-text&gt;
+  &lt;s-text fontWeight="semibold"&gt;Semibold&lt;/s-text&gt;
+  &lt;s-text color="subdued"&gt;Subdued&lt;/s-text&gt;
+  &lt;s-text tone="success"&gt;Success&lt;/s-text&gt;
+  &lt;s-text tone="critical"&gt;Critical&lt;/s-text&gt;
+  &lt;s-text fontSize="small"&gt;Small&lt;/s-text&gt;
+  &lt;s-text fontSize="large"&gt;Large&lt;/s-text&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Number">
+      <span id="number" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-number&gt;</code> A figure set in tabular numerals, so a column of them lines up.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack gap="small-100">
+          <s-number>1,204</s-number>
+          <s-number>98</s-number>
+          <s-number tone="success" fontWeight="semibold">17,660</s-number>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack gap="small-100"&gt;
+  &lt;s-number&gt;1,204&lt;/s-number&gt;
+  &lt;s-number&gt;98&lt;/s-number&gt;
+  &lt;s-number tone="success" fontWeight="semibold"&gt;17,660&lt;/s-number&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Chip">
+      <span id="chip" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-chip&gt;</code> A label for a tag or a category. Unlike a clickable chip, it does nothing when pressed.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack direction="inline" gap="small-200">
+          <s-chip>Summer</s-chip>
+          <s-chip color="strong">Featured</s-chip>
+          <s-chip><s-icon slot="graphic" type="product"></s-icon>Apparel</s-chip>
+        </s-stack>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-stack direction="inline" gap="small-200"&gt;
+  &lt;s-chip&gt;Summer&lt;/s-chip&gt;
+  &lt;s-chip color="strong"&gt;Featured&lt;/s-chip&gt;
+  &lt;s-chip&gt;&lt;s-icon slot="graphic" type="product"&gt;&lt;/s-icon&gt;Apparel&lt;/s-chip&gt;
+&lt;/s-stack&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Tooltip">
+      <span id="tooltip" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-tooltip&gt;</code> A hint shown on hover or focus. The element it describes names it with interestFor.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-tooltip id="demo-tooltip">Copy the key to your clipboard</s-tooltip>
+        <s-button interestFor="demo-tooltip" icon="clipboard" accessibilityLabel="Copy">Copy</s-button>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-tooltip id="demo-tooltip"&gt;Copy the key to your clipboard&lt;/s-tooltip&gt;
+&lt;s-button interestFor="demo-tooltip" icon="clipboard" accessibilityLabel="Copy"&gt;Copy&lt;/s-button&gt;</code></pre>
+      </div>
+    </s-section>
   </s-page>
 
   <script src="/js/app.js"></script>
-  <script src="/js/pages/polaris-demo.js"></script>
+  <script src="/js/pages/reference.js"></script>
 </body>
 </html>

@@ -51,7 +51,8 @@ The **Firebase alternative** to `shopify app init`. Instead of Remix + Prisma + 
 - **Firebase v2 Cloud Functions** (gen 2, Node 24) — one function per API resource, each scaling on its own
 - **Cloud Firestore** for sessions and app data
 - **Firebase Hosting** for the embedded admin dashboard
-- **Polaris web components + App Bridge** — 5 pages, no React, no build step
+- **Polaris web components + App Bridge** — 6 pages, no React, no build step
+- **A complete reference inside your app** — every Polaris component and every App Bridge API, each with a working example to copy
 - **Theme App Extension** for storefront UI (works on all Shopify plans)
 - **Shopify API 2026-07** — token exchange, OAuth, session tokens, webhooks, GDPR handlers
 - **Single- or multi-tenant** — locked to one store, open to many, or several Shopify apps on one backend
@@ -243,12 +244,13 @@ my-app/
 │   ├── .env                      # Client id, URL, scopes, region (git-ignored)
 │   └── .secret.local             # Client secret, for the emulator only (git-ignored)
 │
-├── web/                          # ── Frontend (5 pages) ──
+├── web/                          # ── Frontend (6 pages) ──
 │   ├── index.html                # Dashboard
 │   ├── products.html             # Product search + detail
 │   ├── settings.html             # Form persisted to Firestore
 │   ├── keys.html                 # Create and revoke API keys
-│   ├── polaris.html              # Polaris component reference
+│   ├── polaris.html              # Every Polaris component, with examples
+│   ├── apis.html                 # Every App Bridge API, with Run buttons
 │   ├── js/app.js                 # apiFetch (session token + one 401 retry), toast
 │   ├── js/pages/                 # One module per page
 │   └── css/app.css
@@ -850,6 +852,22 @@ await db.collection("myData").doc(tenantId(ctx.app, ctx.shop)).set({ key: "value
 
 Key tenant data by `tenantId()`, and add the collection to the `shop/redact`
 handler in `webhooks.ts` so it is deleted when Shopify asks.
+
+### Look something up
+
+Two pages of your app are a reference you can copy from:
+
+| Page | Covers |
+|---|---|
+| **Components** (`/polaris`) | All 50 Polaris web components: actions, feedback, forms, layout, media, overlays and typography. Each has a live example and its HTML. |
+| **App Bridge** (`/apis`) | All 26 App Bridge APIs and elements: toast, modal, resource picker, scopes, intents, save bar, POS and the rest. Each has a Run button that executes the code shown. |
+
+They are ordinary pages in `web/`. Delete them, and their links in
+`<s-app-nav>`, once you no longer need them.
+
+The pages load `polaris-1.js`, Shopify's stable channel: it follows the newest
+Polaris 1 release, so fixes reach your app without a change. To freeze a
+version, name it in the script tag, for example `polaris-1.1.js`.
 
 ### Add frontend pages
 

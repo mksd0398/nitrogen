@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Bridge - {{APP_NAME}}</title>
+  <link rel="stylesheet" href="/css/app.css">
+  <meta name="shopify-api-key" content="{{API_KEY}}">
+  <script src="https://cdn.shopify.com/shopifycloud/app-bridge.js"></script>
+  <script src="https://cdn.shopify.com/shopifycloud/polaris-1.js"></script>
+</head>
+<body>
+  <s-app-nav>
+    <s-link href="/" rel="home">Dashboard</s-link>
+    <s-link href="/products">Products</s-link>
+    <s-link href="/settings">Settings</s-link>
+    <s-link href="/keys">API keys</s-link>
+    <s-link href="/polaris">Components</s-link>
+    <s-link href="/apis">App Bridge</s-link>
+  </s-app-nav>
+
+  <s-page heading="App Bridge">
+    <s-link slot="breadcrumb-actions" href="/">Dashboard</s-link>
+
+    <s-section>
+      <s-paragraph>
+        Everything your app can ask of the Shopify admin. App Bridge puts it all
+        on one global object, <code>shopify</code>, so there is nothing to import.
+        The Run buttons only work inside the Shopify admin.
+      </s-paragraph>
+    </s-section>
+
+    <s-section heading="Contents">
+      <s-stack gap="base">
+        <s-stack gap="small-200">
+          <s-heading>Authentication and data</s-heading>
+          <s-stack direction="inline" gap="base">
+            <s-link href="#config">Config</s-link>
+            <s-link href="#environment">Environment</s-link>
+            <s-link href="#id-token">ID token</s-link>
+            <s-link href="#fetch">Resource fetching</s-link>
+            <s-link href="#scopes">Scopes</s-link>
+            <s-link href="#user">User</s-link>
+            <s-link href="#app">App</s-link>
+          </s-stack>
+        </s-stack>
+        <s-stack gap="small-200">
+          <s-heading>Interface and interactions</s-heading>
+          <s-stack direction="inline" gap="base">
+            <s-link href="#toast">Toast</s-link>
+            <s-link href="#loading">Loading</s-link>
+            <s-link href="#modal">Modal</s-link>
+            <s-link href="#navigation">Navigation</s-link>
+            <s-link href="#resource-picker">Resource picker</s-link>
+            <s-link href="#picker">Picker</s-link>
+            <s-link href="#intents">Intents</s-link>
+            <s-link href="#save-bar">Save bar</s-link>
+            <s-link href="#reviews">Reviews</s-link>
+            <s-link href="#support">Support</s-link>
+            <s-link href="#tools">Tools</s-link>
+          </s-stack>
+        </s-stack>
+        <s-stack gap="small-200">
+          <s-heading>App Bridge elements</s-heading>
+          <s-stack direction="inline" gap="base">
+            <s-link href="#app-nav">App nav</s-link>
+            <s-link href="#title-bar">Title bar</s-link>
+            <s-link href="#app-window">App window</s-link>
+          </s-stack>
+        </s-stack>
+        <s-stack gap="small-200">
+          <s-heading>Device and platform</s-heading>
+          <s-stack direction="inline" gap="base">
+            <s-link href="#print">Print</s-link>
+            <s-link href="#share">Share</s-link>
+            <s-link href="#scanner">Scanner</s-link>
+            <s-link href="#pos">POS</s-link>
+            <s-link href="#web-vitals">Web Vitals</s-link>
+          </s-stack>
+        </s-stack>
+      </s-stack>
+    </s-section>
+
+    <s-section heading="Config">
+      <span id="config" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.config</code> What App Bridge knows about where it is running: the shop, the locale and your client id.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('config')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-config" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>console.log({
+  shop: shopify.config.shop,
+  locale: shopify.config.locale,
+  apiKey: shopify.config.apiKey,
+});</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Environment">
+      <span id="environment" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.environment</code> Whether the app is embedded, on Shopify Mobile, or in Point of Sale. Check it before offering something only one of them supports.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('environment')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-environment" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>const { embedded, mobile, pos } = shopify.environment;
+console.log({ embedded, mobile, pos });</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="ID token">
+      <span id="id-token" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.idToken()</code> A short-lived token that proves to your backend who is calling. It lasts about a minute, so ask for one per request and never store it. <code>apiFetch()</code> in js/app.js does this for you.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('id-token')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-id-token" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>const token = await shopify.idToken();
+
+const response = await fetch("/api/status", {
+  headers: { Authorization: "Bearer " + token },
+});
+console.log(await response.json());</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Resource fetching">
+      <span id="fetch" class="anchor"></span>
+      <s-paragraph color="subdued"><code>fetch()</code> App Bridge adds the ID token to every fetch to your own app, so a plain fetch is already authenticated. It can also call the Admin API straight from the page, with no backend, once direct API access is enabled in shopify.app.toml.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('fetch')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-fetch" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>// Your own backend: the token is attached for you
+const mine = await fetch("/api/status");
+console.log(await mine.json());
+
+// The Admin API, directly. Needs in shopify.app.toml:
+//   [access.admin]
+//   embedded_app_direct_api_access = true
+const admin = await fetch("shopify:admin/api/graphql.json", {
+  method: "POST",
+  body: JSON.stringify({ query: "{ shop { name } }" }),
+});
+console.log(await admin.json());</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Scopes">
+      <span id="scopes" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.scopes</code> The access the shop has granted, and a way to ask for an optional scope only when a feature needs it. Optional scopes are declared in shopify.app.toml.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('scopes')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-scopes" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>const { granted, required, optional } = await shopify.scopes.query();
+console.log({ granted, required, optional });
+
+// Ask when the merchant reaches the feature that needs it:
+//   const result = await shopify.scopes.request(["read_orders"]);
+//   result.result === "granted-all" or "declined-all"
+//
+// Give one back:
+//   await shopify.scopes.revoke(["read_orders"]);</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="User">
+      <span id="user" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.user()</code> The staff member using the app. Use it to greet them or to log who changed what; decide permissions on the backend, from the verified token.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('user')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-user" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>const user = await shopify.user();
+console.log(user);</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="App">
+      <span id="app" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.app</code> Which of your app's extensions are active on this shop, such as a theme app block the merchant has yet to add.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('app')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-app" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>const extensions = await shopify.app.extensions();
+console.log(extensions);</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Toast">
+      <span id="toast" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.toast</code> A short message at the bottom of the screen that leaves on its own. Give it an action to offer an undo.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('toast')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-toast" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>shopify.toast.console.log("Product saved");
+
+shopify.toast.console.log("Product archived", {
+  duration: 5000,
+  action: "Undo",
+  onAction: () =&gt; shopify.toast.console.log("Restored"),
+});
+
+// For a failure
+shopify.toast.console.log("Could not save", { isError: true });</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Loading">
+      <span id="loading" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.loading()</code> The admin's own loading bar, across the top of the page. Turn it on before a slow request and off when it ends.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('loading')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-loading" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>shopify.loading(true);
+await new Promise((resolve) =&gt; setTimeout(resolve, 2000));
+shopify.loading(false);</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Modal">
+      <span id="modal" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.modal</code> Opens or closes an s-modal by its id. A button with commandFor does the same without any JavaScript.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-modal id="api-modal" heading="Opened from JavaScript">
+          <s-paragraph>shopify.modal.show("api-modal") opened this.</s-paragraph>
+          <s-button slot="primary-action" variant="primary" commandFor="api-modal" command="--hide">Done</s-button>
+        </s-modal>
+      </s-box>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('modal')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-modal" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>await shopify.modal.console.log("api-modal");
+
+// await shopify.modal.hide("api-modal");
+// await shopify.modal.toggle("api-modal");</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Navigation">
+      <span id="navigation" class="anchor"></span>
+      <s-paragraph color="subdued"><code>open()</code> Relative links move around your app without reloading the admin. A shopify:// link with target="_top" leaves your app for a page of the admin.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-stack direction="inline" gap="base">
+          <s-link href="/settings">A page of this app</s-link>
+          <s-link href="shopify://admin/products" target="_top">The admin's products</s-link>
+          <s-link href="shopify://admin/orders" target="_top">The admin's orders</s-link>
+        </s-stack>
+      </s-box>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('navigation')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-navigation" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>// From JavaScript, inside the app
+open("/settings", "_self");
+
+// To a page of the admin:
+//   open("shopify://admin/products", "_top");</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Resource picker">
+      <span id="resource-picker" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.resourcePicker()</code> Shopify's own search-and-select dialog for products, variants and collections. It returns what the merchant chose, or nothing if they cancelled.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('resource-picker')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-resource-picker" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>const selected = await shopify.resourcePicker({
+  type: "product", // or "variant", "collection"
+  multiple: 3,     // true for any number, a number for a limit
+  filter: { variants: false, draft: false },
+});
+
+console.log(selected ? selected.map((p) =&gt; ({ id: p.id, title: p.title })) : "Cancelled");</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Picker">
+      <span id="picker" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.picker()</code> The same dialog for your own data: templates, campaigns, anything that is not a Shopify resource.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('picker')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-picker" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>const picker = await shopify.picker({
+  heading: "Choose a template",
+  multiple: false,
+  headers: [{ content: "Template" }, { content: "Uses", type: "number" }],
+  items: [
+    { id: "welcome", heading: "Welcome email", data: ["12"], badges: [{ content: "Live", tone: "success" }] },
+    { id: "restock", heading: "Back in stock", data: ["3"] },
+  ],
+});
+
+console.log(await picker.selected);</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Intents">
+      <span id="intents" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.intents</code> Hands the merchant to the admin's own screen for creating or editing something, then tells you how it ended.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('intents')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-intents" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>const activity = await shopify.intents.invoke("create:shopify/Collection");
+const response = await activity.complete;
+
+// response.code is "ok", "closed" or "error"
+console.log(response);
+
+// To edit an existing resource:
+//   shopify.intents.invoke("edit:shopify/Product", { value: "gid://shopify/Product/123" });</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Save bar">
+      <span id="save-bar" class="anchor"></span>
+      <s-paragraph color="subdued"><code>data-save-bar</code> The admin's Save and Discard bar. Add data-save-bar to a form and it appears as soon as a field changes: Save submits the form, Discard resets it. The Settings page uses this.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <form data-save-bar onsubmit="event.preventDefault(); shopify.toast.show('Saved');">
+          <s-text-field label="Change me to show the save bar" name="demo" value="Hello"></s-text-field>
+        </form>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;form data-save-bar data-discard-confirmation&gt;
+  &lt;s-text-field label="Name" name="name"&gt;&lt;/s-text-field&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+  const form = document.querySelector("form");
+  form.addEventListener("submit", (event) =&gt; {
+    event.preventDefault();
+    // save, then the bar goes away
+  });
+  form.addEventListener("reset", () =&gt; {
+    // Discard was pressed
+  });
+
+  // Before navigating away yourself, let the merchant decide:
+  //   await shopify.saveBar.leaveConfirmation();
+&lt;/script&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Reviews">
+      <span id="reviews" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.reviews</code> Asks the merchant to review your app. Shopify limits how often it appears, so call it after something went well, and expect it to decline.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('reviews')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-reviews" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>const result = await shopify.reviews.request();
+
+// result.success is false with a code such as "already-reviewed"
+// or "annual-limit-reached" when Shopify chose not to show it
+console.log(result);</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Support">
+      <span id="support" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.support</code> Runs your code when the merchant asks for support from the admin, so you can open your own chat or help page.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('support')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-support" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>await shopify.support.registerHandler(() =&gt; {
+  open("https://example.com/help", "_blank");
+});
+console.log("Registered. It runs when the merchant asks for support.");</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Tools">
+      <span id="tools" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.tools</code> Offers functions of your app to the admin's assistant, which can call them on the merchant's behalf while your app is open.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('tools')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-tools" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>shopify.tools.register("get_app_status", async () =&gt; {
+  const response = await fetch("/api/status");
+  return response.json();
+});
+console.log("Registered get_app_status");
+
+// shopify.tools.unregister("get_app_status");
+// shopify.tools.clear();</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="App nav">
+      <span id="app-nav" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-app-nav&gt;</code> Your app's links in the admin sidebar. The link with rel="home" sets the landing page and is left out of the menu. It is at the top of every page in web/.</s-paragraph>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-app-nav&gt;
+  &lt;s-link href="/" rel="home"&gt;Dashboard&lt;/s-link&gt;
+  &lt;s-link href="/products"&gt;Products&lt;/s-link&gt;
+  &lt;s-link href="/settings"&gt;Settings&lt;/s-link&gt;
+&lt;/s-app-nav&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Title bar">
+      <span id="title-bar" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-page&gt;</code> The page title, breadcrumb and actions in the admin's own title bar. They are slots of s-page.</s-paragraph>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-page heading="Edit product"&gt;
+  &lt;s-link slot="breadcrumb-actions" href="/products"&gt;Products&lt;/s-link&gt;
+  &lt;s-badge slot="accessory" tone="warning"&gt;Draft&lt;/s-badge&gt;
+  &lt;s-button slot="primary-action" variant="primary"&gt;Save&lt;/s-button&gt;
+  &lt;s-button slot="secondary-actions"&gt;Duplicate&lt;/s-button&gt;
+  &lt;s-button slot="secondary-actions" commandFor="more-actions"&gt;More actions&lt;/s-button&gt;
+
+  &lt;s-menu id="more-actions"&gt;
+    &lt;s-button icon="view"&gt;Preview&lt;/s-button&gt;
+    &lt;s-button icon="delete" tone="critical"&gt;Delete&lt;/s-button&gt;
+  &lt;/s-menu&gt;
+&lt;/s-page&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="App window">
+      <span id="app-window" class="anchor"></span>
+      <s-paragraph color="subdued"><code>&lt;s-app-window&gt;</code> A full-screen window showing another page of your app, for an editor that needs the whole screen.</s-paragraph>
+      <s-box padding="base" border="base" borderRadius="base">
+        <s-app-window id="api-app-window" src="/settings"></s-app-window>
+        <s-button commandFor="api-app-window" command="--show">Open settings full screen</s-button>
+      </s-box>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>HTML</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>&lt;s-app-window id="editor" src="/settings"&gt;&lt;/s-app-window&gt;
+
+&lt;s-button commandFor="editor" command="--show"&gt;Open&lt;/s-button&gt;
+
+&lt;!-- From JavaScript --&gt;
+&lt;script&gt;
+  document.getElementById("editor").console.log();
+&lt;/script&gt;</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Print">
+      <span id="print" class="anchor"></span>
+      <s-paragraph color="subdued"><code>print()</code> Opens the print dialog for the current page. On Shopify Mobile it uses the device's printing.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('print')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-print" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>print();</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Share">
+      <span id="share" class="anchor"></span>
+      <s-paragraph color="subdued"><code>navigator.share()</code> The device's share sheet, on Shopify Mobile.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('share')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-share" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>try {
+  await navigator.share({
+    text: "Have a look at this",
+    url: "https://" + shopify.config.shop,
+  });
+  console.log("Shared");
+} catch (error) {
+  console.log("Not shared: " + error.message);
+}</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Scanner">
+      <span id="scanner" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.scanner</code> Reads a barcode or QR code with the camera. Shopify Mobile and Point of Sale only.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('scanner')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-scanner" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>if (!shopify.environment.mobile &amp;&amp; !shopify.environment.pos) {
+  console.log("The scanner needs Shopify Mobile or Point of Sale");
+  return;
+}
+
+const { data } = await shopify.scanner.capture();
+console.log(data);</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="POS">
+      <span id="pos" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.pos</code> The cart, the device and the location, when the app is open in Shopify Point of Sale.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('pos')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-pos" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>if (!shopify.environment.pos) {
+  console.log("Open the app in Shopify Point of Sale to use this");
+  return;
+}
+
+console.log(await shopify.pos.device());
+
+// await shopify.pos.cart.addLineItem(40202439393345, 1);
+// await shopify.pos.cart.applyCartDiscount("FixedAmount", "Staff discount", "10");
+// await shopify.pos.cart.clear();
+// await shopify.pos.close();</code></pre>
+      </div>
+    </s-section>
+
+    <s-section heading="Web Vitals">
+      <span id="web-vitals" class="anchor"></span>
+      <s-paragraph color="subdued"><code>shopify.webVitals</code> The loading and responsiveness measurements Shopify takes of your app, so you can watch them yourself.</s-paragraph>
+      <s-stack direction="inline" gap="base" alignItems="center">
+        <s-button onclick="runDemo('web-vitals')">Run</s-button>
+        <s-text color="subdued">Runs the code below, inside the Shopify admin.</s-text>
+      </s-stack>
+      <pre class="demo-output" id="output-web-vitals" hidden></pre>
+      <div class="demo-code">
+        <div class="code-block-header">
+          <span>JavaScript</span>
+          <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>await shopify.webVitals.onReport((report) =&gt; {
+  // Send report.metrics wherever you keep measurements
+  console.log(report.metrics);
+});
+console.log("Registered. Reports arrive as the page is measured.");</code></pre>
+      </div>
+    </s-section>
+  </s-page>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/pages/reference.js"></script>
+  <script src="/js/pages/apis.js"></script>
+</body>
+</html>

@@ -160,6 +160,15 @@ pre code {
   border-radius: 0;
 }
 
+/* What a Run button on the App Bridge page printed */
+.demo-output {
+  background: #f6f6f7;
+  color: #1a1a1a;
+  border: 1px solid #e1e3e5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .demo-code {
   margin-top: 12px;
 }

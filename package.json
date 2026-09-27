@@ -1,6 +1,6 @@
 {
   "name": "@mksd0398/nitrogen",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "description": "Nitrogen — scaffold a Shopify app on Firebase. Multi-page dashboard, App Bridge, Polaris, TypeScript or JavaScript. Serverless, zero-framework, free to run. Not affiliated with or endorsed by Shopify.",
   "keywords": [
     "nitrogen",
@@ -38,7 +38,8 @@
   },
   "scripts": {
     "test": "node --test \"test/*.test.js\"",
-    "test:e2e": "node -e \"process.env.NITROGEN_E2E='1';require('child_process').execSync('npm test',{stdio:'inherit'})\""
+    "test:e2e": "node -e \"process.env.NITROGEN_E2E='1';require('child_process').execSync('npm test',{stdio:'inherit'})\"",
+    "build:reference": "node tools/build-reference.js"
   },
   "publishConfig": {
     "access": "public"

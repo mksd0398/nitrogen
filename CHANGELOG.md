@@ -1,5 +1,27 @@
 # Changelog
 
+## 3.3.0
+
+### Added
+
+- **A complete reference in every generated app.** The Components page now
+  covers all 50 Polaris web components, and a new App Bridge page covers all 26
+  App Bridge APIs and elements. Every entry has a working example; on the App
+  Bridge page a Run button executes the code shown.
+- Each example was checked against Shopify's reference: every element exists
+  in the live library, every attribute is one the element observes, and every
+  value is one the reference lists.
+
+### Changed
+
+- Pages load `polaris-1.js`, Shopify's stable channel, instead of the legacy
+  unversioned `polaris.js`.
+- The dashboard links to the App Bridge and API keys pages.
+- In this repository the two reference pages are generated from
+  `tools/reference/` with `npm run build:reference`, so a demo and the code
+  under it cannot drift apart. Generated projects are unaffected: they receive
+  plain HTML.
+
 ## 3.2.1
 
 Brings the dashboard pages in line with the current Polaris web components
