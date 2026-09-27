@@ -3,7 +3,7 @@ const { Timestamp } = require("firebase-admin/firestore");
 const { apps, getConfig, tenantId } = require("./config");
 const { db } = require("./firebase");
 const { HttpError } = require("./http");
-const { isValidShopDomain, verifyOAuth } = require("./verify");
+const { isAllowedShop, verifyOAuth } = require("./verify");
 
 // OAuth state nonces are single-use and short-lived.
 const NONCE_TTL_MS = 10 * 60 * 1000; // 10 minutes
@@ -37,7 +37,7 @@ async function authHandler(req, res) {
 // Merchant clicks "Install" -> redirect to Shopify consent screen.
 async function handleStart(req, res) {
   const { shop } = req.query;
-  if (!isValidShopDomain(shop)) {
+  if (!isAllowedShop(shop)) {
     res.status(400).send("Invalid shop parameter");
     return;
   }
@@ -81,7 +81,7 @@ async function handleStart(req, res) {
 async function handleCallback(req, res) {
   const { shop, code, state } = req.query;
 
-  if (!isValidShopDomain(shop)) {
+  if (!isAllowedShop(shop)) {
     res.status(400).send("Invalid shop parameter");
     return;
   }

@@ -88,7 +88,7 @@
 
       var html = '<s-box border="base" borderRadius="base" padding="base">';
       html += '<s-stack gap="base">';
-      html += '<s-text variant="headingSm">Selected ' + selected.length + " product(s)</s-text>";
+      html += '<s-heading>Selected ' + selected.length + " product(s)</s-heading>";
       for (var i = 0; i < selected.length; i++) {
         html += '<s-stack direction="inline" gap="base" alignItems="center">';
         html += '<s-text fontWeight="semibold">' + escapeHtml(selected[i].title || "Untitled") + "</s-text>";

@@ -17,6 +17,22 @@ function isValidShopDomain(shop) {
   return typeof shop === "string" && SHOP_DOMAIN_PATTERN.test(shop);
 }
 
+// ─── Which shops may use this app ────────────────────────────────────────
+// ALLOWED_SHOPS in functions/.env decides the tenancy of the app:
+//   empty                      multi-tenant: any shop that installs it
+//   one.myshopify.com          single-tenant: that store and no other
+//   a.myshopify.com,b.…        a fixed set of stores
+// Every entry point checks it, so a shop outside the list cannot install,
+// call the API, send a webhook or use the storefront proxy.
+function isAllowedShop(shop) {
+  if (!isValidShopDomain(shop)) return false;
+  const allowed = (process.env.ALLOWED_SHOPS || "")
+    .split(",")
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+  return allowed.length === 0 || allowed.includes(shop.toLowerCase());
+}
+
 function safeEqual(a, b) {
   const x = Buffer.from(a);
   const y = Buffer.from(b);
@@ -85,7 +101,7 @@ function verifySessionToken(token) {
     });
 
     const shop = new URL(payload.iss).hostname;
-    if (!isValidShopDomain(shop)) return null;
+    if (!isAllowedShop(shop)) return null;
     if (payload.dest && new URL(payload.dest).hostname !== shop) return null;
 
     return { app, shop, payload };
@@ -95,7 +111,7 @@ function verifySessionToken(token) {
 }
 
 module.exports = {
-  isValidShopDomain,
+  isAllowedShop,
   verifyWebhook,
   verifyProxy,
   verifyOAuth,

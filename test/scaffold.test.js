@@ -10,7 +10,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { after, test } from "node:test";
-import { functionsRegionFor, regionChoices, scaffold } from "../lib/index.js";
+import prompts from "prompts";
+import { askTenancy, functionsRegionFor, normalizeShop, regionChoices, scaffold } from "../lib/index.js";
 
 const E2E = process.env.NITROGEN_E2E === "1";
 const SECRET = "shpss_scaffold_test_secret";
@@ -30,6 +31,25 @@ test("functions region follows the Firestore location", () => {
   assert.equal(functionsRegionFor("asia-south1"), "asia-south1");
   assert.equal(functionsRegionFor("nam5"), "us-central1");
   assert.equal(functionsRegionFor("eur3"), "europe-west1");
+});
+
+test("a store is accepted as a handle, a domain or a URL, and nothing else", () => {
+  assert.equal(normalizeShop("my-store"), "my-store.myshopify.com");
+  assert.equal(normalizeShop("My-Store.myshopify.com"), "my-store.myshopify.com");
+  assert.equal(normalizeShop("https://my-store.myshopify.com/admin"), "my-store.myshopify.com");
+  for (const bad of ["", "example.com", "my-store.myshopify.com.evil.com", "my store", "-x.myshopify.com"]) {
+    assert.equal(normalizeShop(bad), null, bad);
+  }
+});
+
+test("the tenancy question returns one store, or none for multi-tenant", async () => {
+  prompts.inject(["single", "My-Store"]);
+  assert.equal(await askTenancy({}), "my-store.myshopify.com");
+
+  prompts.inject(["multi"]);
+  assert.equal(await askTenancy({}), "");
+
+  assert.equal(await askTenancy({ shop: "flagged-store" }), "flagged-store.myshopify.com");
 });
 
 test("the region next to the database is offered first, and only once", () => {
@@ -59,6 +79,7 @@ for (const language of ["javascript", "typescript"]) {
       projectId: "demo-nitrogen",
       appUrl: "https://demo-nitrogen.web.app",
       region: "asia-south1",
+      shop: language === "javascript" ? "only-store.myshopify.com" : "",
     });
     const all = files(dir);
     const read = (file) => fs.readFileSync(path.join(dir, file), "utf8");
@@ -103,6 +124,11 @@ for (const language of ["javascript", "typescript"]) {
       const exported = [...index.matchAll(/^(?:exports\.|export const )(\w+) = onRequest/gm)].map((m) => m[1].toLowerCase());
       const routed = new Set(JSON.parse(read("firebase.json")).hosting.rewrites.map((r) => r.run.serviceId));
       assert.deepEqual([...routed].sort(), exported.sort());
+    });
+
+    await t.test("tenancy is written to functions/.env", () => {
+      const allowed = read("functions/.env").match(/^ALLOWED_SHOPS=(.*)$/m)[1];
+      assert.equal(allowed, language === "javascript" ? "only-store.myshopify.com" : "");
     });
 
     await t.test("targets the Node.js 24 runtime", () => {

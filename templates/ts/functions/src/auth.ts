@@ -5,7 +5,7 @@ import type { Request } from "firebase-functions/v2/https";
 import { apps, getConfig, ShopifyApp, tenantId } from "./config";
 import { db } from "./firebase";
 import { HttpError } from "./http";
-import { isValidShopDomain, verifyOAuth } from "./verify";
+import { isAllowedShop, verifyOAuth } from "./verify";
 
 // OAuth state nonces are single-use and short-lived.
 const NONCE_TTL_MS = 10 * 60 * 1000; // 10 minutes
@@ -47,7 +47,7 @@ export async function authHandler(req: Request, res: Response): Promise<void> {
 // Merchant clicks "Install" → redirect to Shopify consent screen.
 async function handleStart(req: Request, res: Response): Promise<void> {
   const { shop } = req.query;
-  if (!isValidShopDomain(shop)) {
+  if (!isAllowedShop(shop)) {
     res.status(400).send("Invalid shop parameter");
     return;
   }
@@ -91,7 +91,7 @@ async function handleStart(req: Request, res: Response): Promise<void> {
 async function handleCallback(req: Request, res: Response): Promise<void> {
   const { shop, code, state } = req.query;
 
-  if (!isValidShopDomain(shop)) {
+  if (!isAllowedShop(shop)) {
     res.status(400).send("Invalid shop parameter");
     return;
   }

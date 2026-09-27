@@ -21,7 +21,7 @@
 
 const apiKeys = require("./api-keys");
 const { tenantId } = require("./config");
-const { verifySessionToken, verifyProxy, isValidShopDomain } = require("./verify");
+const { verifySessionToken, verifyProxy, isAllowedShop } = require("./verify");
 
 class HttpError extends Error {
   /** @param {number} status @param {string} message @param {object} [headers] */
@@ -37,7 +37,7 @@ async function authenticate(req, options) {
   // Storefront: Shopify signs the query string of every App Proxy request
   if (options.auth === "proxy") {
     const app = verifyProxy(req.query);
-    if (!app || !isValidShopDomain(req.query.shop)) {
+    if (!app || !isAllowedShop(req.query.shop)) {
       throw new HttpError(403, "Invalid signature");
     }
     return { kind: "proxy", app, shop: req.query.shop, token: "" };
@@ -61,7 +61,7 @@ async function authenticate(req, options) {
   // clients reach for. Only on functions that opted in.
   if (options.apiKey) {
     const key = await apiKeys.verify(req.headers["x-api-key"] || bearer, options.apiKey);
-    if (key) {
+    if (key && isAllowedShop(key.shop)) {
       return { kind: "apiKey", app: key.app, shop: key.shop, apiKey: key, token: "" };
     }
   }

@@ -80,6 +80,32 @@ test("a secret stored with a trailing newline still verifies", async () => {
   }
 });
 
+// ─── Tenancy ─────────────────────────────────────────────────────────────
+test("a single-tenant app serves its store and refuses every other", async (t) => {
+  process.env.ALLOWED_SHOPS = "Only-Store.myshopify.com, second.myshopify.com";
+  t.after(() => delete process.env.ALLOWED_SHOPS);
+
+  const token = (shop) => h.sessionToken(h.APP, { iss: `https://${shop}/admin`, dest: `https://${shop}` });
+  assert.equal(verify.verifySessionToken(token("only-store.myshopify.com")).shop, "only-store.myshopify.com");
+  assert.ok(verify.verifySessionToken(token("second.myshopify.com")));
+  assert.equal(verify.verifySessionToken(token(h.SHOP)), null);
+
+  const signedWebhook = await webhook("orders/create", { hmac: h.webhookHmac({ id: 1 }) });
+  assert.equal(signedWebhook.statusCode, 401);
+
+  const query = { shop: h.SHOP, path_prefix: "/apps/x", timestamp: "1" };
+  assert.equal((await h.call(proxy, { path: "/proxy/hello", query: h.proxyQuery(query) })).statusCode, 403);
+
+  assert.equal((await h.call(authHandler, { path: "/auth", query: { shop: h.SHOP } })).statusCode, 400);
+  assert.equal((await h.call(authHandler, { path: "/auth", query: { shop: "only-store.myshopify.com" } })).statusCode, 302);
+});
+
+test("a multi-tenant app serves any shop", () => {
+  delete process.env.ALLOWED_SHOPS;
+  assert.ok(verify.isAllowedShop("anyone.myshopify.com"));
+  assert.ok(!verify.isAllowedShop("anyone.example.com"));
+});
+
 // ─── Session tokens ──────────────────────────────────────────────────────
 test("valid session token resolves shop and app", () => {
   const verified = verify.verifySessionToken(h.sessionToken());

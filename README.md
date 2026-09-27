@@ -54,7 +54,7 @@ The **Firebase alternative** to `shopify app init`. Instead of Remix + Prisma + 
 - **Polaris web components + App Bridge** — 5 pages, no React, no build step
 - **Theme App Extension** for storefront UI (works on all Shopify plans)
 - **Shopify API 2026-07** — token exchange, OAuth, session tokens, webhooks, GDPR handlers
-- **Multi-tenant** — many shops per app, and several Shopify apps on one backend
+- **Single- or multi-tenant** — locked to one store, open to many, or several Shopify apps on one backend
 - **API keys** for callers outside Shopify — hashed at rest, scoped, per tenant
 - **A test suite in every generated project** — `npm test` covers auth, webhooks, routing and wiring
 
@@ -122,6 +122,7 @@ The CLI walks the entire flow:
 
   ? Language for Cloud Functions        › TypeScript
   ? What API access does your app need? › read_products
+  ? Who is this app for?                › Many stores (multi-tenant)
 
   === Create Your Shopify App ===
 
@@ -472,7 +473,18 @@ Also:
 
 ## Multi-tenancy
 
-There are two axes, and they are different things.
+The wizard asks **who the app is for**:
+
+| Answer | What you get |
+|---|---|
+| One store (single-tenant) | The app is locked to that store. Any other shop is refused at install, on the API, on webhooks and on the storefront proxy. |
+| Many stores (multi-tenant) | Any shop that installs the app is served, each with its own isolated data. |
+
+The answer is `ALLOWED_SHOPS` in `functions/.env`: empty for multi-tenant, one
+domain for single-tenant, or several separated by commas. Change it and redeploy
+the functions to switch.
+
+Beyond that there are two axes, and they are different things.
 
 **Shops.** One app, many stores. Every document is keyed by the shop, and the shop
 always comes from a verified credential. This is on from the first install.
@@ -726,6 +738,7 @@ npx @mksd0398/nitrogen --help
 |---|---|
 | `--region=REGION` | Region the functions run in. The wizard asks, offering the region next to the database first. In CI it follows the Firestore location. |
 | `--firestore-region=LOC` | Where to create Firestore. The wizard asks, with nothing preselected for you. Cannot be changed later. |
+| `--shop=STORE` | Make a single-tenant app locked to this store. The wizard asks if omitted; in CI the app is multi-tenant without it. |
 | `--no-deploy` | Scaffold only. |
 | `--skip-shopify` | Do not create or link a Shopify app. |
 | `--skip-provision` | Do not provision Firebase services. |

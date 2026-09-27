@@ -22,7 +22,7 @@ import type { Response } from "express";
 import type { Request } from "firebase-functions/v2/https";
 import * as apiKeys from "./api-keys";
 import { ShopifyApp, tenantId } from "./config";
-import { isValidShopDomain, verifyProxy, verifySessionToken } from "./verify";
+import { isAllowedShop, verifyProxy, verifySessionToken } from "./verify";
 
 export class HttpError extends Error {
   constructor(
@@ -82,7 +82,7 @@ async function authenticate(
   if (options.auth === "proxy") {
     const app = verifyProxy(req.query);
     const shop = req.query.shop;
-    if (!app || !isValidShopDomain(shop)) {
+    if (!app || !isAllowedShop(shop)) {
       throw new HttpError(403, "Invalid signature");
     }
     return { ...anonymous, kind: "proxy", app, shop };
@@ -107,7 +107,7 @@ async function authenticate(
   // clients reach for. Only on functions that opted in.
   if (options.apiKey) {
     const key = await apiKeys.verify(req.headers["x-api-key"] || bearer, options.apiKey);
-    if (key) {
+    if (key && isAllowedShop(key.shop)) {
       return { ...anonymous, kind: "apiKey", app: key.app, shop: key.shop, apiKey: key };
     }
   }
