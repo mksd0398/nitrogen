@@ -7,7 +7,7 @@
     "rootDir": "src",
     "sourceMap": true,
     "strict": true,
-    "target": "es2023",
+    "target": "es2024",
     "esModuleInterop": true,
     "resolveJsonModule": true
   },

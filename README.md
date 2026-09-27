@@ -15,7 +15,7 @@ npx @mksd0398/nitrogen my-app
 <p align="center">
   <img src="https://img.shields.io/badge/Shopify-2026--07-7AB55C?logo=shopify&logoColor=white" />
   <img src="https://img.shields.io/badge/Firebase-v2%20Functions-FFCA28?logo=firebase&logoColor=black" />
-  <img src="https://img.shields.io/badge/Node-22-339933?logo=nodedotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/Node-24-339933?logo=nodedotjs&logoColor=white" />
   <img src="https://img.shields.io/badge/TypeScript-Functions-3178C6?logo=typescript&logoColor=white" />
 </p>
 
@@ -48,7 +48,7 @@ npx @mksd0398/nitrogen my-app
 
 The **Firebase alternative** to `shopify app init`. Instead of Remix + Prisma + a server, you get:
 
-- **Firebase v2 Cloud Functions** (gen 2, Node 22) — one function per API resource, each scaling on its own
+- **Firebase v2 Cloud Functions** (gen 2, Node 24) — one function per API resource, each scaling on its own
 - **Cloud Firestore** for sessions and app data
 - **Firebase Hosting** for the embedded admin dashboard
 - **Polaris web components + App Bridge** — 5 pages, no React, no build step
@@ -73,7 +73,7 @@ The CLI checks all of these before it does anything, and offers to install what'
 
 | Tool | Install | Required? |
 |------|---------|-----------|
-| Node.js 20+ | [nodejs.org](https://nodejs.org/) | Yes — Cloud Functions run on Node 22 |
+| Node.js 20+ | [nodejs.org](https://nodejs.org/) | Yes — Cloud Functions run on Node 24 |
 | Firebase CLI | `npm i -g firebase-tools` | Yes — offered automatically if missing |
 | Shopify CLI | `npm i -g @shopify/cli` | Yes — offered automatically if missing |
 | git | [git-scm.com](https://git-scm.com/) | Optional — only for the initial commit |
@@ -134,9 +134,11 @@ The CLI walks the entire flow:
   ? Select a Firebase project
     ❯ [create a new project]
 
-  ✔ Firestore: asia-south1
+  ? Where should your database live?       › europe-west1
+  ✔ Firestore: europe-west1
   ✔ Hosting: https://my-store-app.web.app
-  ℹ Functions region: asia-south1
+  ? Where should your app's functions run? › europe-west1  (next to your database)
+  ✔ Functions region: europe-west1
   ✔ App config written — https://my-store-app.web.app
 
   === Going Live ===
@@ -371,8 +373,8 @@ if it is not exported there, it does not exist.
 **3. The rewrites — `firebase.json`**
 
 ```json
-{ "source": "/api/orders", "run": { "serviceId": "orders", "region": "asia-south1" } },
-{ "source": "/api/orders/**", "run": { "serviceId": "orders", "region": "asia-south1" } }
+{ "source": "/api/orders", "run": { "serviceId": "orders", "region": "europe-west1" } },
+{ "source": "/api/orders/**", "run": { "serviceId": "orders", "region": "europe-west1" } }
 ```
 
 Then:
@@ -713,7 +715,7 @@ npx @mksd0398/nitrogen my-app \
   --api-secret=secret \
   --project-id=my-firebase-project \
   --create-project \
-  --firestore-region=asia-south1 \
+  --firestore-region=europe-west1 \
   --scopes=read_products,write_products
 
 # Help
@@ -722,8 +724,8 @@ npx @mksd0398/nitrogen --help
 
 | Flag | |
 |---|---|
-| `--region=REGION` | Region the functions run in. Defaults to the Firestore location, so they sit next to the database. |
-| `--firestore-region=LOC` | Where to create Firestore. Cannot be changed later. |
+| `--region=REGION` | Region the functions run in. The wizard asks, offering the region next to the database first. In CI it follows the Firestore location. |
+| `--firestore-region=LOC` | Where to create Firestore. The wizard asks, with nothing preselected for you. Cannot be changed later. |
 | `--no-deploy` | Scaffold only. |
 | `--skip-shopify` | Do not create or link a Shopify app. |
 | `--skip-provision` | Do not provision Firebase services. |

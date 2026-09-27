@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.1.2
+
+### Changed
+
+- The wizard asks where the functions should run, offering the region next to
+  the database first. `--region` skips the question.
+- No Firestore region is preselected. `asia-south1` used to be highlighted, so
+  pressing Enter put the database in Mumbai.
+- Generated projects run on Node.js 24, the newest runtime Cloud Functions
+  supports.
+
 ## 3.1.1
 
 ### Changed

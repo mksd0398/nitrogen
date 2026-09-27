@@ -10,7 +10,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { after, test } from "node:test";
-import { functionsRegionFor, scaffold } from "../lib/index.js";
+import { functionsRegionFor, regionChoices, scaffold } from "../lib/index.js";
 
 const E2E = process.env.NITROGEN_E2E === "1";
 const SECRET = "shpss_scaffold_test_secret";
@@ -30,6 +30,18 @@ test("functions region follows the Firestore location", () => {
   assert.equal(functionsRegionFor("asia-south1"), "asia-south1");
   assert.equal(functionsRegionFor("nam5"), "us-central1");
   assert.equal(functionsRegionFor("eur3"), "europe-west1");
+});
+
+test("the region next to the database is offered first, and only once", () => {
+  const known = regionChoices("europe-west3");
+  assert.equal(known[0].value, "europe-west3");
+  assert.match(known[0].title, /next to your database/);
+  assert.equal(known.filter((choice) => choice.value === "europe-west3").length, 1);
+  assert.equal(known.filter((choice) => /next to/.test(choice.title)).length, 1);
+
+  const unlisted = regionChoices("me-central1");
+  assert.equal(unlisted[0].value, "me-central1");
+  assert.equal(unlisted.length, known.length + 1);
 });
 
 for (const language of ["javascript", "typescript"]) {
@@ -91,6 +103,11 @@ for (const language of ["javascript", "typescript"]) {
       const exported = [...index.matchAll(/^(?:exports\.|export const )(\w+) = onRequest/gm)].map((m) => m[1].toLowerCase());
       const routed = new Set(JSON.parse(read("firebase.json")).hosting.rewrites.map((r) => r.run.serviceId));
       assert.deepEqual([...routed].sort(), exported.sort());
+    });
+
+    await t.test("targets the Node.js 24 runtime", () => {
+      assert.equal(JSON.parse(read("firebase.json")).functions[0].runtime, "nodejs24");
+      assert.equal(JSON.parse(read("functions/package.json")).engines.node, "24");
     });
 
     await t.test("a TypeScript project builds before it deploys", () => {
