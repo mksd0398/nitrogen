@@ -24,7 +24,7 @@ The workflow can only publish once npm trusts it. On npmjs.com →
 | Organization or user | `mksd0398` |
 | Repository | `nitrogen` |
 | Workflow filename | `publish.yml` |
-| Environment | *(leave blank)* |
+| Environment | `Production`, the same value as `environment:` in the workflow |
 
 Without it npm answers the upload with a bare `404`. The workflow's last step
 prints what npm logged about the identity exchange when that happens.
