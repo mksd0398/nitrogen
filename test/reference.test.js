@@ -27,6 +27,9 @@ test("the agent skill's references cover every component and API", () => {
   const polaris = files["skills/shopify-firebase-app/references/polaris.md"];
   const appBridge = files["skills/shopify-firebase-app/references/app-bridge.md"];
   assert.ok(polaris && appBridge, "build() writes both skill references");
+  const guide = files["skills/shopify-firebase-app/references/app-guide.md"];
+  assert.ok(guide, "build() writes the app guide for apps without an AGENTS.md");
+  assert.doesNotMatch(guide, /\{\{[A-Z_]+\}\}/, "app-guide.md has an unrendered placeholder");
   for (const entry of components) assert.ok(polaris.includes(`\`<${entry.tag}>\``), `polaris.md lacks <${entry.tag}>`);
   for (const entry of apis) assert.ok(appBridge.includes(`\`${entry.call}\``), `app-bridge.md lacks ${entry.call}`);
 });
@@ -66,6 +69,19 @@ test("every page loads the same scripts and carries the same navigation", () => 
     assert.equal(nav(page), nav("index.html"), `${page} has a different navigation`);
     assert.match(read(page), /shopifycloud\/app-bridge\.js/, page);
     assert.match(read(page), /shopifycloud\/polaris-1\.js/, `${page} should load the stable Polaris channel`);
+  }
+});
+
+test("every responsive @container value sits inside an <s-query-container>", () => {
+  // With no query container around it, the condition never matches, so the
+  // layout meant for narrow screens never applies
+  for (const file of fs.readdirSync(WEB, { recursive: true }).filter((f) => /\.(html|js)$/.test(f))) {
+    const source = read(file).replaceAll("&lt;", "<").replaceAll("&gt;", ">");
+    for (const { index } of source.matchAll(/@container/g)) {
+      const before = source.slice(0, index);
+      const open = before.split("<s-query-container").length - before.split("</s-query-container").length;
+      assert.ok(open > 0, `${file}: @container at offset ${index} has no <s-query-container> around it`);
+    }
   }
 });
 

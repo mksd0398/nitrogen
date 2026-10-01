@@ -37,72 +37,76 @@
 
     <!-- Stats row -->
     <s-section>
-      <s-grid gridTemplateColumns="@container (inline-size <= 400px) 1fr, 1fr 1fr 1fr" gap="base">
-        <s-box border="base" borderRadius="base" padding="base">
-          <s-stack gap="small-200">
-            <s-text color="subdued">Products</s-text>
-            <s-heading id="stat-products" fontSize="large-200">--</s-heading>
-          </s-stack>
-        </s-box>
-        <s-box border="base" borderRadius="base" padding="base">
-          <s-stack gap="small-200">
-            <s-text color="subdued">Store Plan</s-text>
-            <s-heading id="stat-plan" fontSize="large-200">--</s-heading>
-          </s-stack>
-        </s-box>
-        <s-box border="base" borderRadius="base" padding="base">
-          <s-stack gap="small-200">
-            <s-text color="subdued">App Status</s-text>
-            <s-badge tone="success">Active</s-badge>
-          </s-stack>
-        </s-box>
-      </s-grid>
+      <s-query-container>
+        <s-grid gridTemplateColumns="@container (inline-size <= 400px) 1fr, 1fr 1fr 1fr" gap="base">
+          <s-box border="base" borderRadius="base" padding="base">
+            <s-stack gap="small-200">
+              <s-text color="subdued">Products</s-text>
+              <s-heading id="stat-products" fontSize="large-200">--</s-heading>
+            </s-stack>
+          </s-box>
+          <s-box border="base" borderRadius="base" padding="base">
+            <s-stack gap="small-200">
+              <s-text color="subdued">Store Plan</s-text>
+              <s-heading id="stat-plan" fontSize="large-200">--</s-heading>
+            </s-stack>
+          </s-box>
+          <s-box border="base" borderRadius="base" padding="base">
+            <s-stack gap="small-200">
+              <s-text color="subdued">App Status</s-text>
+              <s-badge tone="success">Active</s-badge>
+            </s-stack>
+          </s-box>
+        </s-grid>
+      </s-query-container>
     </s-section>
 
     <!-- Quick links -->
     <s-section heading="Quick Links">
-      <s-grid gridTemplateColumns="@container (inline-size <= 480px) 1fr, 1fr 1fr 1fr" gap="base">
-        <s-box border="base" borderRadius="base" padding="base">
-          <s-clickable href="/products">
-            <s-stack gap="small-200">
-              <s-heading>Products</s-heading>
-              <s-text color="subdued">Search and browse products</s-text>
-            </s-stack>
-          </s-clickable>
-        </s-box>
-        <s-box border="base" borderRadius="base" padding="base">
-          <s-clickable href="/settings">
-            <s-stack gap="small-200">
-              <s-heading>Settings</s-heading>
-              <s-text color="subdued">Configure your app</s-text>
-            </s-stack>
-          </s-clickable>
-        </s-box>
-        <s-box border="base" borderRadius="base" padding="base">
-          <s-clickable href="/polaris">
-            <s-stack gap="small-200">
-              <s-heading>Components</s-heading>
-              <s-text color="subdued">Every Polaris component</s-text>
-            </s-stack>
-          </s-clickable>
-        </s-box>
-        <s-box border="base" borderRadius="base" padding="base">
-          <s-clickable href="/apis">
-            <s-stack gap="small-200">
-              <s-heading>App Bridge</s-heading>
-              <s-text color="subdued">Every admin API, runnable</s-text>
-            </s-stack>
-          </s-clickable>
-        </s-box>
-        <s-box border="base" borderRadius="base" padding="base">
-          <s-clickable href="/keys">
-            <s-stack gap="small-200">
-              <s-heading>API keys</s-heading>
-              <s-text color="subdued">Access from outside Shopify</s-text>
-            </s-stack>
-          </s-clickable>
-        </s-box>
-      </s-grid>
+      <s-query-container>
+        <s-grid gridTemplateColumns="@container (inline-size <= 480px) 1fr, 1fr 1fr 1fr" gap="base">
+          <s-box border="base" borderRadius="base" padding="base">
+            <s-clickable href="/products">
+              <s-stack gap="small-200">
+                <s-heading>Products</s-heading>
+                <s-text color="subdued">Search and browse products</s-text>
+              </s-stack>
+            </s-clickable>
+          </s-box>
+          <s-box border="base" borderRadius="base" padding="base">
+            <s-clickable href="/settings">
+              <s-stack gap="small-200">
+                <s-heading>Settings</s-heading>
+                <s-text color="subdued">Configure your app</s-text>
+              </s-stack>
+            </s-clickable>
+          </s-box>
+          <s-box border="base" borderRadius="base" padding="base">
+            <s-clickable href="/polaris">
+              <s-stack gap="small-200">
+                <s-heading>Components</s-heading>
+                <s-text color="subdued">Every Polaris component</s-text>
+              </s-stack>
+            </s-clickable>
+          </s-box>
+          <s-box border="base" borderRadius="base" padding="base">
+            <s-clickable href="/apis">
+              <s-stack gap="small-200">
+                <s-heading>App Bridge</s-heading>
+                <s-text color="subdued">Every admin API, runnable</s-text>
+              </s-stack>
+            </s-clickable>
+          </s-box>
+          <s-box border="base" borderRadius="base" padding="base">
+            <s-clickable href="/keys">
+              <s-stack gap="small-200">
+                <s-heading>API keys</s-heading>
+                <s-text color="subdued">Access from outside Shopify</s-text>
+              </s-stack>
+            </s-clickable>
+          </s-box>
+        </s-grid>
+      </s-query-container>
     </s-section>
 
     <!-- Quick actions -->

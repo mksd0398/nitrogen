@@ -168,7 +168,8 @@
     var html = '<s-stack gap="base">';
 
     // Image + info grid
-    html += '<s-grid gridTemplateColumns="@container (inline-size <= 400px) 1fr, 200px 1fr" gap="base" alignItems="start">';
+    // The responsive columns apply only inside a query container
+    html += '<s-query-container><s-grid gridTemplateColumns="@container (inline-size <= 400px) 1fr, 200px 1fr" gap="base" alignItems="start">';
 
     // Image
     if (image) {
@@ -187,7 +188,7 @@
     html += infoRow("Price", "<s-text>" + escapeHtml(getProductPrice(p)) + "</s-text>");
     if (p.totalInventory !== undefined) html += infoRow("Total inventory", "<s-text>" + escapeHtml(String(p.totalInventory)) + "</s-text>");
     html += "</s-stack></s-stack>";
-    html += "</s-grid>";
+    html += "</s-grid></s-query-container>";
 
     // Description
     var desc = p.description || p.body_html || "";
@@ -271,13 +272,12 @@
     return null;
   }
 
+  // A search result carries price and currency; a product's details carry
+  // its variants and price range
   function getProductPrice(product) {
+    if (product.price) return formatCurrency(product.price, product.currency);
     if (product.variants && product.variants.edges && product.variants.edges.length > 0) {
       var price = product.variants.edges[0].node.price;
-      if (price) return formatCurrency(price);
-    }
-    if (product.variants && product.variants.length > 0) {
-      var price = product.variants[0].price;
       if (price) return formatCurrency(price);
     }
     if (product.priceRangeV2) {
