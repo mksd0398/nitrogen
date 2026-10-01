@@ -1,6 +1,6 @@
 {
   "name": "@mksd0398/nitrogen",
-  "version": "3.3.3",
+  "version": "3.4.0",
   "description": "Scaffold, deploy and install a Shopify app on Firebase in one command. Cloud Functions, Firestore and Hosting; Polaris web components and App Bridge; TypeScript or JavaScript. No framework, no server. Not affiliated with or endorsed by Shopify.",
   "keywords": [
     "shopify",
@@ -26,7 +26,11 @@
     "serverless",
     "typescript",
     "multi-tenant",
-    "nitrogen"
+    "nitrogen",
+    "agent-skills",
+    "claude-code",
+    "ai-agents",
+    "agents-md"
   ],
   "homepage": "https://mksd0398.github.io/nitrogen/",
   "repository": {

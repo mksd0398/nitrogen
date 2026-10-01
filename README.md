@@ -14,7 +14,7 @@ Cloud Functions, Firestore and Hosting. Polaris web components and App Bridge. N
 npx @mksd0398/nitrogen my-app
 ```
 
-**[Website](https://mksd0398.github.io/nitrogen/)** · **[Will it be free for my app? Try the cost calculator](https://mksd0398.github.io/nitrogen/#calculator)**
+**[Website](https://mksd0398.github.io/nitrogen/)** · **[Will it be free for my app? Try the cost calculator](https://mksd0398.github.io/nitrogen/#calculator)** · **[Build it with an AI agent](#build-with-an-ai-agent)**
 
 <p align="center">
   <img src="https://img.shields.io/badge/Shopify-2026--07-7AB55C?logo=shopify&logoColor=white" />
@@ -29,6 +29,7 @@ npx @mksd0398/nitrogen my-app
 
 - [What is this?](#what-is-this)
 - [Quick Start](#quick-start)
+- [Build with an AI agent](#build-with-an-ai-agent)
 - [Why Firebase?](#why-firebase)
 - [What's Inside](#whats-inside)
 - [Architecture](#architecture)
@@ -178,6 +179,45 @@ cd my-store-app
 # edit web/ or functions/src/
 cd functions && npm test && cd ..
 firebase deploy --force
+```
+
+---
+
+## Build with an AI agent
+
+Nitrogen ships an [agent skill](skills/shopify-firebase-app/SKILL.md) that
+teaches an AI coding agent how a Nitrogen app fits together. With it, an agent can:
+
+- scaffold an app without a terminal;
+- add an API, a webhook or a page;
+- call Shopify;
+- test and deploy;
+
+without breaking the security and tenancy rules.
+
+```bash
+npx skills add mksd0398/nitrogen
+```
+
+That installs it for Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI and
+the [other agents](https://github.com/vercel-labs/skills) the `skills` CLI
+supports. In Claude Code you can add it as a plugin instead:
+
+```
+/plugin marketplace add mksd0398/nitrogen
+/plugin install nitrogen@nitrogen
+```
+
+Every generated app also carries an `AGENTS.md`, plus a `CLAUDE.md` that imports
+it. An agent opened inside the project follows the same rules with nothing installed.
+
+An agent has no terminal to answer the wizard's questions in, so it passes the
+answers as flags. The client secret goes in `SHOPIFY_API_SECRET`, which keeps it
+out of the command line and out of the agent's transcript:
+
+```bash
+SHOPIFY_API_SECRET="$(cat secret.txt)" npx @mksd0398/nitrogen my-app \
+  --api-key=CLIENT_ID --project-id=FIREBASE_PROJECT_ID
 ```
 
 ---
@@ -727,10 +767,9 @@ npx @mksd0398/nitrogen my-app --no-deploy
 # Auto-install any missing CLI tools without asking
 npx @mksd0398/nitrogen my-app --yes
 
-# Non-interactive (CI/CD)
-npx @mksd0398/nitrogen my-app \
+# Non-interactive (CI/CD, AI agents). The secret can be --api-secret instead.
+SHOPIFY_API_SECRET="$(cat secret.txt)" npx @mksd0398/nitrogen my-app \
   --api-key=abc123 \
-  --api-secret=secret \
   --project-id=my-firebase-project \
   --create-project \
   --firestore-region=europe-west1 \
@@ -748,7 +787,11 @@ npx @mksd0398/nitrogen --help
 | `--no-deploy` | Scaffold only. |
 | `--skip-shopify` | Do not create or link a Shopify app. |
 | `--skip-provision` | Do not provision Firebase services. |
+| `--overwrite` | Non-interactive only: replace a project folder that already has files. Without it the run stops. The folder you run from is never replaced. |
 | `--distribute` | Open the distribution page for an existing app. |
+
+Run without a terminal and without those flags, as an AI agent's shell does, the
+CLI stops with exit code 1 and names the flags it needs. It never waits on a question.
 
 The region is written to two places that must agree: `APP_REGION` in
 `functions/.env`, and every rewrite in `firebase.json`.
