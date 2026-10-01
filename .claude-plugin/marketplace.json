@@ -1,0 +1,20 @@
+{
+  "name": "nitrogen",
+  "description": "Nitrogen: Shopify apps on Firebase. Its skill teaches Claude Code to scaffold, extend, test and deploy them.",
+  "owner": {
+    "name": "Mayank",
+    "url": "https://github.com/mksd0398"
+  },
+  "plugins": [
+    {
+      "name": "nitrogen",
+      "source": ".",
+      "description": "Build Shopify apps on Firebase with Nitrogen: scaffold without a terminal, add APIs, webhooks and Polaris pages, call the Admin API, then test and deploy.",
+      "homepage": "https://mksd0398.github.io/nitrogen/",
+      "repository": "https://github.com/mksd0398/nitrogen",
+      "license": "MIT",
+      "keywords": ["shopify", "shopify-app", "firebase", "cloud-functions", "firestore", "polaris", "app-bridge"],
+      "category": "development"
+    }
+  ]
+}

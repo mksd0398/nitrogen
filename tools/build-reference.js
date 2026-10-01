@@ -271,6 +271,18 @@ function apisMarkdown() {
   );
 }
 
+// The guide every generated app carries as AGENTS.md, for apps made before
+// it existed. Written for TypeScript; a JavaScript app has the same files in .js.
+function appGuide() {
+  const agents = fs.readFileSync(path.join(WEB, "..", "shared", "AGENTS.md"), "utf8").replaceAll("\r\n", "\n");
+  return agents
+    .replace(
+      "# AGENTS.md\n",
+      "# App guide\n\n<!-- Generated from templates/shared/AGENTS.md by `npm run build:reference`. Do not edit. -->\n",
+    )
+    .replaceAll("{{EXT}}", "ts");
+}
+
 export function build() {
   return {
     "templates/web/polaris.html": componentsPage(),
@@ -278,6 +290,7 @@ export function build() {
     "templates/web/js/pages/apis.js": apisScript(),
     "skills/shopify-firebase-app/references/polaris.md": componentsMarkdown(),
     "skills/shopify-firebase-app/references/app-bridge.md": apisMarkdown(),
+    "skills/shopify-firebase-app/references/app-guide.md": appGuide(),
   };
 }
 
