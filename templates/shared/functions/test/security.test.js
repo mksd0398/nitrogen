@@ -69,6 +69,16 @@ test("shop/redact deletes the tenant's data", async () => {
   assert.ok(!h.store.has(`appSettings/${h.SHOP}`));
 });
 
+test("shop/redact deletes the tenant's API keys, and no one else's", async () => {
+  h.store.set("apiKeys/mine", { tenant: h.SHOP, name: "mine" });
+  h.store.set("apiKeys/other-app", { tenant: `${h.SHOP}__other`, name: "other app" });
+  h.store.set("apiKeys/other-shop", { tenant: "other.myshopify.com", name: "other shop" });
+  await webhook("shop/redact", { hmac: h.webhookHmac({ id: 1 }) });
+  assert.ok(!h.store.has("apiKeys/mine"));
+  assert.ok(h.store.has("apiKeys/other-app"));
+  assert.ok(h.store.has("apiKeys/other-shop"));
+});
+
 test("a secret stored with a trailing newline still verifies", async () => {
   const stored = process.env.SHOPIFY_API_SECRET;
   process.env.SHOPIFY_API_SECRET = stored + "\r\n";
