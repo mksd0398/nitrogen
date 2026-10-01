@@ -3,13 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nitrogen: Shopify apps on Firebase, in one command</title>
-  <meta name="description" content="Nitrogen scaffolds a Shopify app, deploys it to Firebase, and hands you an install link. See what your app would cost with the free tier calculator.">
+  <title>Nitrogen: Shopify app template for Firebase, in one command</title>
+  <meta name="description" content="One command scaffolds a Shopify app on Firebase, deploys it and hands you an install link. Polaris web components, Cloud Functions, Firestore. Agent-ready.">
+  <meta name="theme-color" content="#0b1220">
+  <meta property="og:site_name" content="Nitrogen">
   <meta property="og:title" content="Nitrogen: Shopify apps on Firebase, in one command">
-  <meta property="og:description" content="One command scaffolds a Shopify app, deploys it to Firebase, and hands you an install link. No framework, no server. Work out your cost before you start.">
+  <meta property="og:description" content="One command scaffolds a Shopify app, deploys it to Firebase, and hands you an install link. No framework, no server, and an AI agent can drive it.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mksd0398.github.io/nitrogen/">
+  <meta property="og:image" content="https://mksd0398.github.io/nitrogen/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Nitrogen: Shopify apps on Firebase, in one command. npx @mksd0398/nitrogen">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://mksd0398.github.io/nitrogen/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Nitrogen",
+    "url": "https://mksd0398.github.io/nitrogen/",
+    "description": "An open-source CLI that scaffolds a Shopify embedded app on Firebase (Cloud Functions, Firestore and Hosting, with Polaris web components and App Bridge), deploys it and returns an install link. It ships an agent skill for Claude Code, Cursor, Codex and other AI coding agents.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Windows, macOS, Linux",
+    "image": "https://mksd0398.github.io/nitrogen/og.png",
+    "license": "https://opensource.org/license/mit",
+    "isAccessibleForFree": true,
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "downloadUrl": "https://www.npmjs.com/package/@mksd0398/nitrogen",
+    "sameAs": ["https://github.com/mksd0398/nitrogen", "https://www.npmjs.com/package/@mksd0398/nitrogen"]
+  }
+  </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1220'/%3E%3Ctext x='32' y='45' font-family='system-ui,sans-serif' font-size='38' font-weight='700' text-anchor='middle' fill='%237dd3fc'%3EN%3C/text%3E%3C/svg%3E">
   <style>
     :root {
@@ -115,7 +139,9 @@
       border-radius: var(--radius); padding: 14px 16px;
       font-family: var(--mono); font-size: 15.5px;
     }
-    .command .line { overflow-x: auto; white-space: nowrap; }
+    /* Scrolls on a phone; the Copy button is the way to take it */
+    .command .line { overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+    .command .line::-webkit-scrollbar { display: none; }
     .command .prompt { color: var(--code-dim); margin-right: 10px; user-select: none; }
     button.copy {
       font: inherit; font-size: 13px; cursor: pointer; flex-shrink: 0;
@@ -226,9 +252,31 @@
     .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
     table { width: 100%; border-collapse: collapse; font-size: 15.5px; min-width: 560px; background: var(--bg); }
     th, td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
-    th { background: var(--surface); font-size: 13px; letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted); }
+    thead th, thead td { background: var(--surface); font-size: 13px; letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted); }
     tr:last-child td { border-bottom: 0; }
-    td:first-child { font-weight: 600; white-space: nowrap; }
+    tbody th { font-weight: 600; white-space: nowrap; }
+
+    /* ── AI agents: a dark band, like the terminal ──────────── */
+    section.band {
+      background: radial-gradient(1100px 420px at 88% 0%, #10263d 0%, #0b1220 70%);
+      color: var(--code-text); border-top-color: #1c2740;
+    }
+    .band h2 { color: #e8eef9; }
+    .band .kicker { color: var(--code-accent); }
+    .band .sub, .band .note { color: var(--code-dim); }
+    .band .command { background: #060b16; border: 1px solid #24304a; }
+    .band .note { font-size: 15px; margin: 16px 0 0; }
+    .band code { background: #121b2e; border-color: #24304a; color: var(--code-text); }
+    .agents { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: start; }
+    .agents > * { min-width: 0; }
+    .agents .sub { margin-bottom: 26px; }
+    .agent-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+    .agent-points li {
+      padding: 18px 20px; border: 1px solid #24304a; border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.02); color: var(--code-dim); font-size: 15.5px;
+    }
+    .agent-points strong { display: block; color: #e8eef9; margin-bottom: 4px; }
+    .agent-points code { white-space: nowrap; }
 
     /* ── FAQ ────────────────────────────────────────────────── */
     .faq { display: grid; gap: 10px; max-width: 820px; }
@@ -250,7 +298,7 @@
     footer .wrap { display: grid; gap: 10px; }
 
     @media (max-width: 900px) {
-      .hero, .calc, .split { grid-template-columns: 1fr; }
+      .hero, .calc, .split, .agents { grid-template-columns: 1fr; }
       .hero { padding-top: 48px; padding-bottom: 48px; gap: 32px; }
       section { padding: 52px 0; }
     }
@@ -267,6 +315,7 @@
       <nav>
         <a class="optional" href="#calculator">Cost calculator</a>
         <a class="optional" href="#get">What you get</a>
+        <a class="optional" href="#agents">AI agents</a>
         <a class="optional" href="#faq">Questions</a>
         <a class="optional" href="https://github.com/mksd0398/nitrogen">GitHub</a>
         <a class="button primary small" href="#start">Get started</a>
@@ -295,6 +344,7 @@
           <li><strong>Open source, MIT.</strong> Use it for client and commercial apps.</li>
           <li><strong>No framework, no server.</strong> Plain HTML and Cloud Functions.</li>
           <li><strong>Tested.</strong> Every project ships with its own test suite.</li>
+          <li><strong>Ready for AI agents.</strong> <a href="#agents">A skill</a> for Claude Code, Cursor, Codex and more.</li>
         </ul>
       </div>
 
@@ -461,6 +511,31 @@
       </div>
     </section>
 
+    <!-- ── AI agents ─────────────────────────────────────────── -->
+    <section class="band" id="agents">
+      <div class="wrap agents">
+        <div>
+          <p class="kicker">AI agents</p>
+          <h2>Let your AI agent build it</h2>
+          <p class="sub">
+            Install the Nitrogen skill and your agent knows how a Nitrogen app fits together:
+            how to create one, add an API, a webhook or a page, and test before it deploys.
+            It works in Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI and other agents.
+          </p>
+          <div class="command">
+            <span class="line"><span class="prompt">$</span><span class="command-text">npx skills add mksd0398/nitrogen</span></span>
+            <button class="copy" type="button">Copy</button>
+          </div>
+          <p class="note">In Claude Code you can add it as a plugin instead: <code>/plugin marketplace add mksd0398/nitrogen</code></p>
+        </div>
+        <ul class="agent-points">
+          <li><strong>Every app explains itself.</strong> Each generated app carries an AGENTS.md, so an agent opened in the project follows its rules with nothing installed.</li>
+          <li><strong>No question it cannot answer.</strong> Without a terminal the command takes flags, reads the client secret from an environment variable, and stops with a clear error instead of waiting.</li>
+          <li><strong>Components it will not invent.</strong> A reference for all 50 Polaris web components and 26 App Bridge APIs, so the agent writes <code>&lt;s-page&gt;</code>, not React it would have to throw away.</li>
+        </ul>
+      </div>
+    </section>
+
     <!-- ── Compare ───────────────────────────────────────────── -->
     <section class="tinted" id="compare">
       <div class="wrap">
@@ -469,14 +544,14 @@
         <p class="sub">Shopify's own template is built on React Router. Both are good choices, for different apps.</p>
         <div class="table-scroll">
           <table>
-            <thead><tr><th></th><th>Official template</th><th>Nitrogen</th></tr></thead>
+            <thead><tr><td></td><th scope="col">Official template</th><th scope="col">Nitrogen</th></tr></thead>
             <tbody>
-              <tr><td>Backend</td><td>One React Router server</td><td>Cloud Functions, one per API resource</td></tr>
-              <tr><td>Database</td><td>Prisma with SQL</td><td>Cloud Firestore</td></tr>
-              <tr><td>Frontend</td><td>React</td><td>Polaris web components, no build step</td></tr>
-              <tr><td>When idle</td><td>A server stays on</td><td>Nothing runs</td></tr>
-              <tr><td>Deploy</td><td>You choose and set up a host</td><td>Done by the command</td></tr>
-              <tr><td>Best for</td><td>Rich admin interfaces, teams already on React</td><td>Custom apps, small public apps, teams on Google Cloud</td></tr>
+              <tr><th scope="row">Backend</th><td>One React Router server</td><td>Cloud Functions, one per API resource</td></tr>
+              <tr><th scope="row">Database</th><td>Prisma with SQL</td><td>Cloud Firestore</td></tr>
+              <tr><th scope="row">Frontend</th><td>React</td><td>Polaris web components, no build step</td></tr>
+              <tr><th scope="row">When idle</th><td>A server stays on</td><td>Nothing runs</td></tr>
+              <tr><th scope="row">Deploy</th><td>You choose and set up a host</td><td>Done by the command</td></tr>
+              <tr><th scope="row">Best for</th><td>Rich admin interfaces, teams already on React</td><td>Custom apps, small public apps, teams on Google Cloud</td></tr>
             </tbody>
           </table>
         </div>
@@ -505,6 +580,10 @@
           <details>
             <summary>What do I need installed?</summary>
             <p>Node.js 20 or newer. The command checks for the Firebase CLI and the Shopify CLI and offers to install them. You also need a Shopify Partner account and a Google account.</p>
+          </details>
+          <details>
+            <summary>Can an AI coding agent build a Nitrogen app?</summary>
+            <p>Yes. Install the skill with <code>npx skills add mksd0398/nitrogen</code>, then ask for the app you want. The agent passes the setup answers as flags, keeps the client secret in an environment variable, and follows the AGENTS.md that every generated app carries. You still sign in to Shopify and Firebase yourself.</p>
           </details>
           <details>
             <summary>Can I use it for client work or a commercial app?</summary>

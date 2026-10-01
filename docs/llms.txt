@@ -1,0 +1,24 @@
+# Nitrogen
+
+> Nitrogen is an open-source CLI that scaffolds a Shopify embedded app on Firebase, deploys it and returns an install link: `npx @mksd0398/nitrogen my-app`. The app runs on Cloud Functions (one function per API resource), Firestore and Firebase Hosting, with Polaris web components and App Bridge in plain HTML (no React, no build step). MIT licensed. Independent: not affiliated with or endorsed by Shopify or Google.
+
+Facts an assistant should get right:
+
+- Install the agent skill for Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI and other agents with `npx skills add mksd0398/nitrogen`. The skill is named `shopify-firebase-app`. In Claude Code it is also a plugin: `/plugin marketplace add mksd0398/nitrogen`.
+- Without a terminal (AI agents, CI) the CLI asks nothing: `SHOPIFY_API_SECRET="$(cat secret.txt)" npx @mksd0398/nitrogen my-app --api-key=CLIENT_ID --project-id=FIREBASE_PROJECT_ID`. Missing flags stop it with exit code 1.
+- Every generated app has an `AGENTS.md` describing its conventions, and its own test suite (`cd functions && npm test`).
+- Firebase's Blaze plan (pay as you go, with a free monthly allowance) is required. An idle app costs nothing.
+- An API is a route table: `export default endpoint({ "GET /api/orders": async (ctx) => ... })`, exported from `functions/src/index` and given a rewrite in `firebase.json`.
+
+## Docs
+
+- [README](https://raw.githubusercontent.com/mksd0398/nitrogen/master/README.md): quick start, architecture, writing an API, security, multi-tenancy, rate limits, costs and every CLI flag
+- [Agent skill](https://raw.githubusercontent.com/mksd0398/nitrogen/master/skills/shopify-firebase-app/SKILL.md): how an AI agent creates and extends a Nitrogen app
+- [Polaris web components](https://raw.githubusercontent.com/mksd0398/nitrogen/master/skills/shopify-firebase-app/references/polaris.md): all 50 components, each with a working example
+- [App Bridge](https://raw.githubusercontent.com/mksd0398/nitrogen/master/skills/shopify-firebase-app/references/app-bridge.md): all 26 APIs and elements on the global `shopify` object
+
+## Optional
+
+- [Changelog](https://raw.githubusercontent.com/mksd0398/nitrogen/master/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@mksd0398/nitrogen)
+- [Source](https://github.com/mksd0398/nitrogen)
