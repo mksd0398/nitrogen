@@ -49,7 +49,10 @@ function query(collection, filters, max = Infinity) {
         .filter(([key]) => key.startsWith(`${collection}/`))
         .filter(([, data]) => filters.every(([field, value]) => data[field] === value))
         .slice(0, max)
-        .map(([key, data]) => ({ id: key.slice(collection.length + 1), data: () => data })),
+        .map(([key, data]) => {
+          const id = key.slice(collection.length + 1);
+          return { id, data: () => data, ref: doc(collection, id) };
+        }),
     }),
   };
 }

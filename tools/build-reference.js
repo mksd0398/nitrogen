@@ -221,17 +221,84 @@ ${demos}
 `;
 }
 
+// ─── Agent skill references ───────────────────────────────────────────────
+// The same entries as Markdown, for AI agents: skills/shopify-firebase-app/references/
+
+const fence = (language, code) => `\`\`\`${language}\n${code}\n\`\`\``;
+
+function markdown(title, intro, groups, entries, section) {
+  const toc = groups.map((group) => {
+    const names = entries.filter((entry) => entry.group === group.id).map((entry) => entry.title);
+    return `- **${group.title}:** ${names.join(", ")}`;
+  });
+  const body = groups.map((group) =>
+    [`## ${group.title}`, ...entries.filter((entry) => entry.group === group.id).map(section)].join("\n\n"),
+  );
+  return `# ${title}
+
+<!-- Generated from tools/reference/ by \`npm run build:reference\`. Do not edit. -->
+
+${intro}
+
+${toc.join("\n")}
+
+${body.join("\n\n")}
+`;
+}
+
+function componentsMarkdown() {
+  return markdown(
+    "Polaris web components",
+    "Every component a Nitrogen page can use, each with a working example. They are custom elements loaded by `<script src=\"https://cdn.shopify.com/shopifycloud/polaris-1.js\">` in `web/*.html`: plain HTML, no React, no build step, no imports. Polaris React (`<Page>`, `<Card>`, `@shopify/polaris`) does not apply here. Inside an app, the same examples render live on its Components page (`web/polaris.html`).",
+    componentGroups,
+    components,
+    (entry) => `### ${entry.title}: \`<${entry.tag}>\`\n\n${entry.summary}\n\n${fence("html", entry.html)}`,
+  );
+}
+
+function apisMarkdown() {
+  return markdown(
+    "App Bridge",
+    "Everything a Nitrogen page can ask of the Shopify admin. `<script src=\"https://cdn.shopify.com/shopifycloud/app-bridge.js\">` in `web/*.html` puts it all on one global object, `shopify`, so there is nothing to import and no `createApp`. It only works inside the Shopify admin. Inside an app, each example runs from its App Bridge page (`web/apis.html`).",
+    apiGroups,
+    apis,
+    (entry) => {
+      const blocks = [];
+      if (entry.html) blocks.push(fence("html", entry.html));
+      blocks.push(fence(isMarkup(entry) ? "html" : "js", entry.code.replaceAll("show(", "console.log(")));
+      return `### ${entry.title}: \`${entry.call}\`\n\n${entry.summary}\n\n${blocks.join("\n\n")}`;
+    },
+  );
+}
+
+// The guide every generated app carries as AGENTS.md, for apps made before
+// it existed. Written for TypeScript; a JavaScript app has the same files in .js.
+function appGuide() {
+  const agents = fs.readFileSync(path.join(WEB, "..", "shared", "AGENTS.md"), "utf8").replaceAll("\r\n", "\n");
+  return agents
+    .replace(
+      "# AGENTS.md\n",
+      "# App guide\n\n<!-- Generated from templates/shared/AGENTS.md by `npm run build:reference`. Do not edit. -->\n",
+    )
+    .replaceAll("{{EXT}}", "ts");
+}
+
 export function build() {
   return {
-    "polaris.html": componentsPage(),
-    "apis.html": apisPage(),
-    "js/pages/apis.js": apisScript(),
+    "templates/web/polaris.html": componentsPage(),
+    "templates/web/apis.html": apisPage(),
+    "templates/web/js/pages/apis.js": apisScript(),
+    "skills/shopify-firebase-app/references/polaris.md": componentsMarkdown(),
+    "skills/shopify-firebase-app/references/app-bridge.md": apisMarkdown(),
+    "skills/shopify-firebase-app/references/app-guide.md": appGuide(),
   };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const root = path.join(WEB, "..", "..");
   for (const [file, content] of Object.entries(build())) {
-    fs.writeFileSync(path.join(WEB, file), content);
-    console.log(`wrote templates/web/${file}`);
+    fs.mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
+    fs.writeFileSync(path.join(root, file), content);
+    console.log(`wrote ${file}`);
   }
 }

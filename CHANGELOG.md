@@ -1,5 +1,45 @@
 # Changelog
 
+## 3.4.0
+
+### Added
+
+- An agent skill, `shopify-firebase-app`, that teaches AI coding agents to
+  create, extend and deploy Nitrogen apps. Install it for Claude Code, Cursor,
+  Codex, GitHub Copilot, Gemini CLI and other agents with
+  `npx skills add mksd0398/nitrogen`, or in Claude Code as a plugin with
+  `/plugin marketplace add mksd0398/nitrogen`. Its references for every
+  Polaris web component and App Bridge API are generated from the same data
+  as the in-app reference pages.
+- Every generated app carries an `AGENTS.md`, which agents read on their own,
+  and a `CLAUDE.md` that imports it. It covers the layout, the commands, how
+  to add an API, a page, a webhook, a scope or a collection, and the rules
+  that keep the app safe. A test fails if it names a file the app lacks.
+- The client secret can come from `SHOPIFY_API_SECRET` instead of
+  `--api-secret`, which keeps it out of the command line.
+- `--overwrite` lets a non-interactive run replace a project folder that
+  already has files.
+
+### Fixed
+
+- Run without a terminal, as by an AI agent, the wizard printed its first
+  question and exited 0 with nothing built. It now exits 1 and names the flags
+  it needs.
+- A non-interactive run deleted an existing project folder without asking.
+  Given `.`, that was the folder it ran from. It now refuses a folder with
+  files in it unless `--overwrite` is passed, and never replaces the folder it
+  runs from.
+- `shop/redact` now deletes the shop's API keys too. They outlived the GDPR
+  deletion because they are found by a `tenant` field, not by document id. The
+  collections to delete are now two lists, `TENANT_DOCS` and `TENANT_FIELD`,
+  that new collections join.
+- The webhook how-to comment now says a new topic needs `shopify app deploy`,
+  and no longer shows a `{{APP_URL}}` placeholder.
+- On phones, the dashboard and the product details kept the three-column
+  desktop layout. Their responsive grids had no `<s-query-container>` around
+  them, so the narrow layout never applied.
+- Product search cards showed `--` for every price.
+
 ## 3.3.3
 
 ### Fixed

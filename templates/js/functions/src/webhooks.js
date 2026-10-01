@@ -4,6 +4,11 @@ const { db } = require("./firebase");
 const { API_VERSION } = require("./shopify");
 const { isAllowedShop, verifyWebhook } = require("./verify");
 
+// Every collection that holds a tenant's data. shop/redact deletes it all, so
+// add each collection you create to one of these lists.
+const TENANT_DOCS = ["shopSessions", "appSettings"]; // the document id is the tenant id
+const TENANT_FIELD = ["apiKeys"]; // each document has a `tenant` field
+
 /**
  * Standalone webhook handler.
  *
@@ -71,14 +76,18 @@ async function webhookHandler(req, res) {
     }
 
     case "shop/redact": {
-      // 48h after uninstall. Delete ALL of this tenant's data — add every
-      // collection you create to this list.
+      // 48h after uninstall. Delete ALL of this tenant's data: every
+      // collection in TENANT_DOCS and TENANT_FIELD.
+      // ponytail: one delete per document. A collection with thousands of
+      // documents per shop wants db.bulkWriter(); Shopify retries a slow reply.
       const id = tenantId(app, shop);
-      await Promise.all(
-        ["shopSessions", "appSettings"].map((name) =>
-          db.collection(name).doc(id).delete(),
-        ),
+      const owned = await Promise.all(
+        TENANT_FIELD.map((name) => db.collection(name).where("tenant", "==", id).get()),
       );
+      await Promise.all([
+        ...TENANT_DOCS.map((name) => db.collection(name).doc(id).delete()),
+        ...owned.flatMap((snapshot) => snapshot.docs.map((doc) => doc.ref.delete())),
+      ]);
       console.log(`Shop redacted: ${shop}`);
       break;
     }
@@ -97,7 +106,7 @@ async function webhookHandler(req, res) {
 //   1. Register the topic in shopify.app.toml:
 //      [[webhooks.subscriptions]]
 //      topics = [ "orders/create" ]
-//      uri = "{{APP_URL}}/webhooks"
+//      uri = "https://YOUR-PROJECT.web.app/webhooks"   (the same uri as the others)
 //
 //   2. Add a case to the switch above:
 //      case "orders/create": {
@@ -106,7 +115,9 @@ async function webhookHandler(req, res) {
 //        break;
 //      }
 //
-//   3. Deploy: firebase deploy --only functions:webhooks
+//   3. Deploy the handler, then register the topic with Shopify:
+//      firebase deploy --only functions:webhooks
+//      shopify app deploy
 // ──────────────────────────────────────────────────────────────────────────
 
 module.exports = { webhookHandler };

@@ -98,11 +98,20 @@ for (const language of ["javascript", "typescript"]) {
     });
 
     await t.test("no rendered file still holds a placeholder", () => {
-      // Source comments that show users a placeholder to type are exempt
-      const rendered = all.filter((f) => !f.startsWith("functions/src/") && !f.startsWith("extensions/"));
-      for (const file of rendered) {
+      for (const file of all) {
         assert.doesNotMatch(read(file), /\{\{[A-Z_]+\}\}/, `${file} has an unrendered placeholder`);
       }
+    });
+
+    await t.test("AGENTS.md guides AI agents, and every file it names exists", () => {
+      assert.equal(read("CLAUDE.md").trim(), "@AGENTS.md");
+      const guide = read("AGENTS.md");
+      const named = [...guide.matchAll(/`((?:functions|web|extensions)\/[\w./-]+\.\w+|[\w.-]+\.(?:json|toml|rules|example))`/g)].map((m) => m[1]);
+      assert.ok(named.length >= 10, `AGENTS.md names only ${named.length} files`);
+      for (const file of named) {
+        assert.ok(all.includes(file) || file === ".env.example", `AGENTS.md names ${file}, which the scaffold lacks`);
+      }
+      assert.ok(named.includes(`functions/src/index.${ext}`), "AGENTS.md names this language's files");
     });
 
     await t.test("the client secret is only in the emulator's secret file", () => {
