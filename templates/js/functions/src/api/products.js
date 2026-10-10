@@ -18,7 +18,7 @@ module.exports = endpoint({
               title
               handle
               status
-              featuredImage { url }
+              featuredMedia { preview { image { url(transform: { maxWidth: 600, maxHeight: 600 }) } } }
               variants(first: 1) {
                 edges { node { id price } }
               }
@@ -37,7 +37,9 @@ module.exports = endpoint({
       title: node.title,
       handle: node.handle,
       status: node.status,
-      image: node.featuredImage?.url || null,
+      // Resized by Shopify: the original can be several megabytes. A product
+      // with no media has no image; media still processing has no preview.
+      image: node.featuredMedia?.preview?.image?.url || null,
       variantId: node.variants.edges[0]?.node.id || null,
       price: node.priceRangeV2?.minVariantPrice?.amount,
       currency: node.priceRangeV2?.minVariantPrice?.currencyCode,
@@ -68,9 +70,9 @@ module.exports = endpoint({
             maxVariantPrice { amount currencyCode }
             minVariantPrice { amount currencyCode }
           }
-          featuredImage { url altText }
-          images(first: 5) {
-            edges { node { url altText } }
+          featuredMedia { preview { image { url(transform: { maxWidth: 800 }) altText } } }
+          media(first: 5) {
+            edges { node { mediaContentType preview { image { url(transform: { maxWidth: 800 }) altText } } } }
           }
           variants(first: 20) {
             edges {

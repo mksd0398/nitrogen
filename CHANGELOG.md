@@ -1,5 +1,32 @@
 # Changelog
 
+## 3.5.1
+
+### Fixed
+
+- Product search cards never showed an image. The search route returns the
+  image as a URL, and the page looked for an object. Cards now show it.
+- Product images are requested at the size they are shown: 600 pixels for a
+  search card and 800 for the detail view. They were the originals, which can
+  be several megabytes each.
+
+### Changed
+
+- The templates no longer ask Shopify for four deprecated fields, which a
+  later API version will remove. New apps use the replacement on the right:
+
+  | Deprecated | Replacement |
+  |---|---|
+  | `Product.featuredImage` | `featuredMedia` |
+  | `Product.images` | `media` |
+  | `ShopPlan.displayName` | `publicDisplayName` |
+  | `Shop.billingAddress` | `shopAddress` |
+
+  `GET /api/shop` and `GET /api/products/:id` return the new field names, and
+  the Dashboard and Products pages read them. Apps you already generated keep
+  working as they are; `npm run check:graphql` in this repository shows the
+  queries to change when you want to follow.
+
 ## 3.5.0
 
 ### Changed

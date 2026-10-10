@@ -12,10 +12,10 @@ export default endpoint({
           myshopifyDomain
           url
           primaryDomain { url host }
-          plan { displayName partnerDevelopment shopifyPlus }
+          plan { publicDisplayName partnerDevelopment shopifyPlus }
           currencyCode
           ianaTimezone
-          billingAddress { country countryCodeV2 }
+          shopAddress { country countryCodeV2 }
         }
         productCount: productsCount { count }
       }`,
