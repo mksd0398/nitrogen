@@ -54,8 +54,8 @@
       { label: "Store name", value: shop.name || "--" },
       { label: "Domain", value: (shop.primaryDomain && shop.primaryDomain.host) || shop.myshopifyDomain || "--" },
       { label: "Email", value: shop.email || "--" },
-      { label: "Plan", value: (shop.plan && shop.plan.displayName) || "--" },
-      { label: "Country", value: (shop.billingAddress && shop.billingAddress.country) || "--" },
+      { label: "Plan", value: (shop.plan && shop.plan.publicDisplayName) || "--" },
+      { label: "Country", value: (shop.shopAddress && shop.shopAddress.country) || "--" },
       { label: "Currency", value: shop.currencyCode || "--" },
       { label: "Shopify domain", value: shop.myshopifyDomain || "--" },
     ];
@@ -85,7 +85,7 @@
     }
 
     if (planEl) {
-      planEl.textContent = (shop.plan && shop.plan.displayName) || "--";
+      planEl.textContent = (shop.plan && shop.plan.publicDisplayName) || "--";
     }
   }
 

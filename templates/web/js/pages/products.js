@@ -263,13 +263,11 @@
   };
 
   // ── Helpers ─────────────────────────────────────────────────────
+  // A search result carries the image URL; a product's details carry its media
   function getProductImage(product) {
-    if (product.image && product.image.src) return product.image.src;
-    if (product.images && product.images.length > 0) {
-      return product.images[0].src || product.images[0];
-    }
-    if (product.featuredImage && product.featuredImage.url) return product.featuredImage.url;
-    return null;
+    if (typeof product.image === "string") return product.image;
+    var preview = product.featuredMedia && product.featuredMedia.preview;
+    return (preview && preview.image && preview.image.url) || null;
   }
 
   // A search result carries price and currency; a product's details carry

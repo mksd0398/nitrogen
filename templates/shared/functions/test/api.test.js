@@ -164,6 +164,24 @@ test("product routes: search, detail by id, invalid id, not found", async (t) =>
   assert.equal((await h.call(products, { path: "/api/products/404", headers })).statusCode, 404);
 });
 
+test("a search result's image is its featured media's preview, or null without one", async (t) => {
+  h.store.set(`shopSessions/${h.SHOP}`, { accessToken: "shpat_x" });
+  const edges = [
+    { node: { id: "gid://shopify/Product/1", title: "Hat", variants: { edges: [] }, featuredMedia: { preview: { image: { url: "https://cdn.example/hat.png" } } } } },
+    // A product with no media, and one whose media has no preview yet
+    { node: { id: "gid://shopify/Product/2", title: "Scarf", variants: { edges: [] }, featuredMedia: null } },
+    { node: { id: "gid://shopify/Product/3", title: "Video", variants: { edges: [] }, featuredMedia: { preview: { image: null } } } },
+  ];
+  const calls = h.stubFetch(t, () => ({ json: { data: { products: { edges } } } }));
+
+  const res = await h.call(products, { path: "/api/products/search", query: { q: "" }, headers: asDefault() });
+  assert.deepEqual(res.body.products.map((product) => product.image), ["https://cdn.example/hat.png", null, null]);
+  // The deprecated fields this replaced are no longer asked for
+  assert.doesNotMatch(calls[0].body.query, /featuredImage|\bimages\b/);
+  // A card is a few hundred pixels wide; the original can be several megabytes
+  assert.match(calls[0].body.query, /url\(transform: \{ maxWidth: \d+/);
+});
+
 // ─── API keys ────────────────────────────────────────────────────────────
 const keys = h.load("api/keys");
 const status = h.load("api/status");
