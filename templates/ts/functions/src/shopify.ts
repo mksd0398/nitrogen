@@ -4,7 +4,7 @@ import { Context, HttpError } from "./http";
 // Shopify API version — update when Shopify releases new versions
 // (quarterly: January, April, July, October)
 // Docs: https://shopify.dev/docs/api/usage/versioning
-export const API_VERSION = "2026-07";
+export const API_VERSION = "2026-10";
 
 /**
  * Run an Admin API GraphQL query as the calling tenant and return `data`.

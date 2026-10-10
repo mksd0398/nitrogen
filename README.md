@@ -17,7 +17,7 @@ npx @mksd0398/nitrogen my-app
 **[Website](https://mksd0398.github.io/nitrogen/)** · **[Will it be free for my app? Try the cost calculator](https://mksd0398.github.io/nitrogen/#calculator)** · **[Build it with an AI agent](#build-with-an-ai-agent)**
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Shopify-2026--07-7AB55C?logo=shopify&logoColor=white" />
+  <img src="https://img.shields.io/badge/Shopify-2026--10-7AB55C?logo=shopify&logoColor=white" />
   <img src="https://img.shields.io/badge/Firebase-v2%20Functions-FFCA28?logo=firebase&logoColor=black" />
   <img src="https://img.shields.io/badge/Node-24-339933?logo=nodedotjs&logoColor=white" />
   <img src="https://img.shields.io/badge/TypeScript-Functions-3178C6?logo=typescript&logoColor=white" />
@@ -59,7 +59,7 @@ The **Firebase alternative** to `shopify app init`. Instead of Remix + Prisma + 
 - **Polaris web components + App Bridge** — 6 pages, no React, no build step
 - **A complete reference inside your app** — every Polaris component and every App Bridge API, each with a working example to copy
 - **Theme App Extension** for storefront UI (works on all Shopify plans)
-- **Shopify API 2026-07** — token exchange, OAuth, session tokens, webhooks, GDPR handlers
+- **Shopify API 2026-10** — token exchange, OAuth, session tokens, webhooks, GDPR handlers
 - **Single- or multi-tenant** — locked to one store, open to many, or several Shopify apps on one backend
 - **API keys** for callers outside Shopify — hashed at rest, scoped, per tenant
 - **A test suite in every generated project** — `npm test` covers auth, webhooks, routing and wiring
@@ -262,7 +262,7 @@ app with no traffic costs nothing, and a small app fits inside the free tier.
 
 ```
 my-app/
-├── shopify.app.toml              # Shopify app config (API 2026-07)
+├── shopify.app.toml              # Shopify app config (API 2026-10)
 ├── firebase.json                 # Hosting rewrites, headers, functions, Firestore
 ├── firestore.rules               # Deny-all: only Cloud Functions touch the data
 │
