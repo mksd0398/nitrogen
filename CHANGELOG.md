@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.5.0
+
+### Changed
+
+- New apps use Shopify API version 2026-10, the latest stable release, in
+  place of 2026-07. It applies to Admin API calls and webhooks from the
+  functions, to `shopify.app.toml` and to the theme block. Apps you already
+  generated keep their version until you change it.
+
 ## 3.4.0
 
 ### Added
