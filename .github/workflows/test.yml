@@ -1,0 +1,36 @@
+name: Test
+
+# Runs on every pull request and on master. The weekly update routine merges
+# its own pull request only when this passes (see RELEASING.md).
+#
+# The templates' tests stub Shopify, so they cannot notice a query that a new
+# Shopify API version no longer accepts. check:graphql can: it validates every
+# query against the real schema of the version the templates pin.
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Scaffolds both templates, installs them, builds and runs their tests
+      - name: Test the CLI and the templates
+        run: npm run test:e2e
+
+      - name: Check the templates' queries against Shopify's schema
+        run: npm run check:graphql

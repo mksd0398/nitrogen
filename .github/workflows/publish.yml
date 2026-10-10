@@ -1,9 +1,14 @@
 name: Publish to npm
 
-# Releases are explicit. Pushing to master does not publish — tag it, or run
-# this workflow by hand from the Actions tab.
+# Three things start a release:
 #
-#   git tag v2.1.0 && git push origin v2.1.0
+#   - a new version in package.json reaching master, by merging a pull request
+#   - pushing a tag:  git tag v2.1.0 && git push origin v2.1.0
+#   - running this workflow by hand from the Actions tab, on master
+#
+# All three are safe to repeat: a version that is already on npm is skipped.
+# The first exists for the weekly update routine, which can merge its own pull
+# request but cannot push a tag (see RELEASING.md).
 #
 # Authentication uses npm Trusted Publishing (OIDC). There is no NPM_TOKEN:
 # GitHub mints a short-lived identity token per run and npm verifies it came
@@ -15,19 +20,31 @@ name: Publish to npm
 #   Repository           : nitrogen            <- the GitHub repo
 #   Package on npm       : @mksd0398/nitrogen
 #   Workflow filename    : publish.yml     <- must match THIS file's name
-#   Environment          : (leave blank)
+#   Environment          : Production      <- must match `environment:` below
 #   Allowed actions      : npm publish
 #
 on:
   push:
     tags: ["v*"]
+    # Path filters are not applied to tags, so a tag always starts a run
+    branches: [master]
+    paths: [package.json]
   workflow_dispatch:
+
+# One at a time: a merge and a tag for the same version would otherwise both
+# find it unpublished and both try to publish it
+concurrency:
+  group: publish
+  cancel-in-progress: false
 
 jobs:
   publish:
-    # Only run in the original repo — forks cannot publish
-    if: github.repository == 'mksd0398/nitrogen'
+    # Only in the original repo (forks cannot publish), and only from master
+    # or a tag: a run started by hand on another branch publishes nothing
+    if: github.repository == 'mksd0398/nitrogen' && (github.ref_type == 'tag' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.publish.outcome == 'success' }}
     # Must equal the Environment of the Trusted Publisher on npmjs.com, letter
     # for letter. npm compares it with the identity token GitHub mints, and
     # answers a mismatch with a bare 404.
@@ -75,6 +92,11 @@ jobs:
       - name: Test the templates
         run: npm run test:e2e
 
+      # The tests stub Shopify. This checks the templates' queries against the
+      # real schema of the API version they pin.
+      - name: Check the templates' queries against Shopify's schema
+        run: npm run check:graphql
+
       - name: Refuse to ship template build artifacts
         # copyDirSync copies templates verbatim, so a stray node_modules/ or
         # lib/ here would be shipped into every scaffolded project
@@ -102,6 +124,7 @@ jobs:
       # No NODE_AUTH_TOKEN, and no --provenance flag: trusted publishing
       # authenticates via OIDC and attaches provenance automatically.
       - name: Publish to npm
+        id: publish
         if: steps.check.outputs.skip != 'true'
         run: npm publish --access public
 
@@ -115,3 +138,23 @@ jobs:
           echo "workflow:   $GITHUB_WORKFLOW_REF"
           echo "ref:        $GITHUB_REF"
           grep -hiE "oidc|trusted|exchange|http fetch (PUT|POST)" ~/.npm/_logs/*-debug-*.log || echo "npm logged nothing about OIDC"
+
+  # A release that did not start from a tag has none yet, and every version on
+  # npm should have one. This is its own job so that the token which can write
+  # to the repository is never present while dependencies are installed and run.
+  # A tag pushed with this token does not start the workflow again.
+  tag:
+    needs: publish
+    if: needs.publish.outputs.published == 'true' && github.ref_type != 'tag'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Tag the published version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          git tag "v$VERSION"
+          # Someone may have pushed the same tag by hand in the meantime
+          git push origin "v$VERSION" || git ls-remote --exit-code --tags origin "v$VERSION"
