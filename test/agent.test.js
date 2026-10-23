@@ -33,7 +33,7 @@ function folderWithFile(name) {
   return dir;
 }
 
-const CI = ["--api-key=test-client-id", "--api-secret=test-secret", "--project-id=nitrogen-agent-test", "--language=javascript", "--skip-provision"];
+const CI = ["--api-key=test-client-id", "--api-secret=example-client-secret", "--project-id=nitrogen-agent-test", "--language=javascript", "--skip-provision"];
 
 test("without a terminal or flags, it fails and names the flags to pass", () => {
   const { status, output } = cli(["agent-app", "--skip-shopify"]);
@@ -47,7 +47,7 @@ test("without a terminal or flags, it fails and names the flags to pass", () => 
 test("the client secret can come from SHOPIFY_API_SECRET instead of the command line", () => {
   folderWithFile("from-env");
   const { status, output } = cli(["from-env", "--api-key=test-client-id", "--project-id=nitrogen-agent-test", "--skip-shopify"], {
-    env: { SHOPIFY_API_SECRET: "test-secret" },
+    env: { SHOPIFY_API_SECRET: "example-client-secret" },
   });
   // Reaching the folder check means the flags and the variable were accepted
   assert.equal(status, 1);

@@ -1,0 +1,12 @@
+# Keeps the GitHub Actions in .github/workflows current, which are pinned to
+# commit SHAs. npm dependencies, the Shopify API version and the runtime are
+# kept current by the weekly routine described in RELEASING.md instead.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]

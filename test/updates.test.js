@@ -64,6 +64,11 @@ test("the actions a workflow uses are read with their major", () => {
   ]);
 });
 
+test("an action pinned to a commit is read with the version its comment names", () => {
+  const workflow = "steps:\n  - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1\n";
+  assert.deepEqual(workflowActions(workflow), [{ action: "actions/checkout", major: 7, line: 2 }]);
+});
+
 // ─── The whole check, against this repository with every source faked ────
 const pinnedApi = read("templates/ts/functions/src/shopify.ts").match(/API_VERSION = "(\d{4}-\d{2})"/)[1];
 const pinnedNode = Number(json("templates/shared/firebase.json").functions[0].runtime.replace("nodejs", ""));
