@@ -83,3 +83,10 @@ test("a project folder is new, occupied, or holds the current directory", async 
   assert.equal(outputDirState(parent, parent), "holds-cwd");
   assert.equal(outputDirState(parent, child), "holds-cwd");
 });
+
+// GitHub Copilot installs the plugin from plugin.json and refuses a listing
+// whose version differs from the release. npm version keeps it in step.
+test("plugin.json has the package's version", () => {
+  const read = (file) => JSON.parse(fs.readFileSync(path.join(BIN, "..", "..", file), "utf8"));
+  assert.equal(read("plugin.json").version, read("package.json").version);
+});
