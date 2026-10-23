@@ -90,8 +90,9 @@ export function runtimes(source) {
 /** The actions a workflow file uses, with the major each is held at. */
 export function workflowActions(text) {
   return text.split("\n").flatMap((content, i) => {
-    const used = content.match(/uses:\s*([\w.-]+\/[\w.-]+)@v(\d+)/);
-    return used ? [{ action: used[1], major: Number(used[2]), line: i + 1 }] : [];
+    // Either @v7, or a commit SHA followed by a comment naming its version
+    const used = content.match(/uses:\s*([\w.-]+\/[\w.-]+)@(?:v(\d+)|[0-9a-f]{40}\s*#\s*v(\d+))/);
+    return used ? [{ action: used[1], major: Number(used[2] ?? used[3]), line: i + 1 }] : [];
   });
 }
 

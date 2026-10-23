@@ -14,7 +14,7 @@ import prompts from "prompts";
 import { askTenancy, functionsRegionFor, normalizeShop, regionChoices, scaffold } from "../lib/index.js";
 
 const E2E = process.env.NITROGEN_E2E === "1";
-const SECRET = "shpss_scaffold_test_secret";
+const SECRET = "example-scaffold-secret";
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "nitrogen-"));
 after(() => fs.rmSync(tmp, { recursive: true, force: true }));
 
@@ -74,7 +74,7 @@ for (const language of ["javascript", "typescript"]) {
       appName: "Demo App",
       language,
       scopes: "read_products",
-      apiKey: "test-client-id",
+      apiKey: "example-client-id",
       apiSecret: SECRET,
       projectId: "demo-nitrogen",
       appUrl: "https://demo-nitrogen.web.app",
@@ -153,7 +153,7 @@ for (const language of ["javascript", "typescript"]) {
 
     await t.test("every page carries the client id and the navigation", () => {
       for (const page of all.filter((f) => /^web\/[^/]+\.html$/.test(f))) {
-        assert.match(read(page), /<meta name="shopify-api-key" content="test-client-id">/, page);
+        assert.match(read(page), /<meta name="shopify-api-key" content="example-client-id">/, page);
         assert.match(read(page), /<s-app-nav>[\s\S]*<s-link href="\/keys">/, page);
         assert.doesNotMatch(read(page), /<ui-(nav-menu|modal|title-bar)/, page);
       }

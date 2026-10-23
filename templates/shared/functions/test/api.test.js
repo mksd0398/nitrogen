@@ -99,7 +99,7 @@ test("first call exchanges the ID token, the next reuses the stored token", asyn
   await h.uninstall();
   const calls = h.stubFetch(t, (url) =>
     url.endsWith("/admin/oauth/access_token")
-      ? { json: { access_token: "shpat_exchanged", scope: "read_products" } }
+      ? { json: { access_token: "example-exchanged-token", scope: "read_products" } }
       : { json: { data: { shop: { name: "Demo" }, productCount: { count: 3 } } } },
   );
 
@@ -122,7 +122,7 @@ test("a stale ID token asks App Bridge to retry", async (t) => {
 });
 
 test("a revoked access token is dropped and retried", async (t) => {
-  h.store.set(`shopSessions/${h.SHOP}`, { accessToken: "shpat_revoked" });
+  h.store.set(`shopSessions/${h.SHOP}`, { accessToken: "example-revoked-token" });
   h.stubFetch(t, () => ({ status: 401 }));
   const res = await h.call(shop, { path: "/api/shop", headers: asDefault() });
   assert.equal(res.statusCode, 401);

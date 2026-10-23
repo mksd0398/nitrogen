@@ -9,8 +9,8 @@ const path = require("node:path");
 const root = path.join(__dirname, "..");
 const codeDir = path.join(root, fs.existsSync(path.join(root, "tsconfig.json")) ? "lib" : "src");
 
-const APP = { clientId: "test-client-id", secret: "test-secret" };
-const OTHER = { clientId: "other-client-id", secret: "other-secret" };
+const APP = { clientId: "test-client-id", secret: "example-client-secret" };
+const OTHER = { clientId: "other-client-id", secret: "example-other-secret" };
 const SHOP = "demo.myshopify.com";
 
 process.env.SHOPIFY_API_KEY = APP.clientId;

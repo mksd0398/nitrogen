@@ -53,8 +53,8 @@ test("signed app/uninstalled deletes the session", async () => {
 });
 
 test("one app's webhook cannot delete another app's session", async () => {
-  h.store.set(SESSION, { accessToken: "shpat_default" });
-  h.store.set(OTHER_SESSION, { accessToken: "shpat_other" });
+  h.store.set(SESSION, { accessToken: "example-default-token" });
+  h.store.set(OTHER_SESSION, { accessToken: "example-other-token" });
   const res = await webhook("app/uninstalled", { hmac: h.webhookHmac({ id: 1 }, h.OTHER.secret) });
   assert.equal(res.statusCode, 200);
   assert.ok(h.store.has(SESSION));
@@ -195,20 +195,20 @@ test("OAuth start redirects to the shop with the app's client id", async () => {
 
 test("OAuth callback stores the token, and the nonce cannot be replayed", async (t) => {
   await h.uninstall();
-  h.stubFetch(t, () => ({ json: { access_token: "shpat_new", scope: "read_products" } }));
+  h.stubFetch(t, () => ({ json: { access_token: "example-new-token", scope: "read_products" } }));
   const { state } = await startOAuth();
   const query = h.oauthQuery({ shop: h.SHOP, code: "abc", state, timestamp: "1" });
 
   const first = await h.call(authHandler, { path: "/auth/callback", query });
   assert.equal(first.statusCode, 302);
-  assert.equal(h.store.get(SESSION).accessToken, "shpat_new");
+  assert.equal(h.store.get(SESSION).accessToken, "example-new-token");
 
   const replay = await h.call(authHandler, { path: "/auth/callback", query });
   assert.equal(replay.statusCode, 403);
 });
 
 test("OAuth callback refuses a bad signature, a missing state and an expired nonce", async (t) => {
-  const calls = h.stubFetch(t, () => ({ json: { access_token: "shpat_new" } }));
+  const calls = h.stubFetch(t, () => ({ json: { access_token: "example-new-token" } }));
   const { state } = await startOAuth();
   const base = { shop: h.SHOP, code: "abc", timestamp: "1" };
   const callback = (query) => h.call(authHandler, { path: "/auth/callback", query });
@@ -226,7 +226,7 @@ test("OAuth callback refuses a bad signature, a missing state and an expired non
 });
 
 test("OAuth callback signed by another app cannot use this app's nonce", async (t) => {
-  const calls = h.stubFetch(t, () => ({ json: { access_token: "shpat_new" } }));
+  const calls = h.stubFetch(t, () => ({ json: { access_token: "example-new-token" } }));
   const { state } = await startOAuth();
   const query = h.oauthQuery({ shop: h.SHOP, code: "abc", state }, h.OTHER.secret);
   const res = await h.call(authHandler, { path: "/auth/callback", query });
