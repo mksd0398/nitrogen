@@ -13,6 +13,9 @@ npm version patch --no-git-tag-version   # or minor / major
 # commit it, open a pull request, merge it
 ```
 
+`npm version` also sets the version in `plugin.json`, the manifest GitHub
+Copilot installs the plugin from; a test fails if the two differ.
+
 Pushing a `v*` tag, or running the workflow by hand on `master`, starts the same
 release. All three are safe to repeat: the workflow skips a version that is
 already on npm.

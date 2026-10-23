@@ -48,7 +48,8 @@
     "test:e2e": "node -e \"process.env.NITROGEN_E2E='1';require('child_process').execSync('npm test',{stdio:'inherit'})\"",
     "build:reference": "node tools/build-reference.js",
     "check:updates": "node tools/check-updates.js",
-    "check:graphql": "node tools/check-graphql.js"
+    "check:graphql": "node tools/check-graphql.js",
+    "version": "node tools/sync-plugin-version.js"
   },
   "publishConfig": {
     "access": "public"
