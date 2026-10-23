@@ -244,16 +244,16 @@ console.log(extensions);</code></pre>
           <span>JavaScript</span>
           <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
         </div>
-        <pre><code>shopify.toast.console.log("Product saved");
+        <pre><code>shopify.toast.show("Product saved");
 
-shopify.toast.console.log("Product archived", {
+shopify.toast.show("Product archived", {
   duration: 5000,
   action: "Undo",
-  onAction: () =&gt; shopify.toast.console.log("Restored"),
+  onAction: () =&gt; shopify.toast.show("Restored"),
 });
 
 // For a failure
-shopify.toast.console.log("Could not save", { isError: true });</code></pre>
+shopify.toast.show("Could not save", { isError: true });</code></pre>
       </div>
     </s-section>
 
@@ -295,7 +295,7 @@ shopify.loading(false);</code></pre>
           <span>JavaScript</span>
           <button class="btn-copy" type="button" onclick="copyCode(this)">Copy</button>
         </div>
-        <pre><code>await shopify.modal.console.log("api-modal");
+        <pre><code>await shopify.modal.show("api-modal");
 
 // await shopify.modal.hide("api-modal");
 // await shopify.modal.toggle("api-modal");</code></pre>
@@ -559,7 +559,7 @@ console.log("Registered get_app_status");
 
 &lt;!-- From JavaScript --&gt;
 &lt;script&gt;
-  document.getElementById("editor").console.log();
+  document.getElementById("editor").show();
 &lt;/script&gt;</code></pre>
       </div>
     </s-section>

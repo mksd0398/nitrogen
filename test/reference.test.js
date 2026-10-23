@@ -92,3 +92,12 @@ test("no page uses an element or attribute Polaris has replaced", () => {
     assert.doesNotMatch(source, outdated, file);
   }
 });
+
+test("copyable code keeps App Bridge's own show() calls", () => {
+  // Only the demos' show() helper becomes console.log(): shopify.toast.show()
+  // and element.show() are real calls that copied code has to keep
+  for (const [file, content] of Object.entries(build())) {
+    assert.doesNotMatch(content, /\.console\.log\(/, `${file} turns a real show() call into console.log()`);
+  }
+  assert.match(build()["skills/shopify-firebase-app/references/app-bridge.md"], /shopify\.toast\.show\("Product saved"\)/);
+});
