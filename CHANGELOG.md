@@ -1,5 +1,23 @@
 # Changelog
 
+## 3.5.3
+
+### Fixed
+
+- The App Bridge page (`web/apis.html`) showed six examples that throw when
+  copied: `shopify.toast.console.log(...)`, `shopify.modal.console.log(...)`
+  and `element.console.log()` instead of `.show(...)`. The page's Run buttons
+  were never affected. The agent skill's App Bridge reference had the same
+  six lines, so an agent following it wrote broken calls. Both are corrected.
+  In an app you already generated, change `.console.log(` back to `.show(` on
+  those lines in `web/apis.html`.
+
+### Added
+
+- `plugin.json` at the repository root, so GitHub Copilot can install the
+  agent skill as a plugin. `npm version` keeps its version in step with the
+  package.
+
 ## 3.5.2
 
 ### Changed

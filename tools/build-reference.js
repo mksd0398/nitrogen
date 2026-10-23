@@ -128,6 +128,9 @@ ${components.map(componentSection).join("\n\n")}
 // ─── App Bridge ───────────────────────────────────────────────────────────
 const isMarkup = (entry) => entry.code.trimStart().startsWith("<");
 const runs = (entry) => entry.run !== false && !isMarkup(entry);
+// The demos print through a show() helper; copied code logs instead. A
+// method named show, such as shopify.toast.show(), is a real call and stays.
+const forCopy = (code) => code.replace(/(?<![\w.])show\(/g, "console.log(");
 
 function apiSection(entry) {
   const demo = entry.html
@@ -144,7 +147,7 @@ ${indent(entry.html, 8)}
       <pre class="demo-output" id="output-${entry.id}" hidden></pre>
 `
     : "";
-  const shown = entry.code.replaceAll("show(", "console.log(");
+  const shown = forCopy(entry.code);
   return `    <s-section heading="${entry.title}">
       <span id="${entry.id}" class="anchor"></span>
       <s-paragraph color="subdued"><code>${escapeHtml(entry.call)}</code> ${prose(entry.summary)}</s-paragraph>
@@ -265,7 +268,7 @@ function apisMarkdown() {
     (entry) => {
       const blocks = [];
       if (entry.html) blocks.push(fence("html", entry.html));
-      blocks.push(fence(isMarkup(entry) ? "html" : "js", entry.code.replaceAll("show(", "console.log(")));
+      blocks.push(fence(isMarkup(entry) ? "html" : "js", forCopy(entry.code)));
       return `### ${entry.title}: \`${entry.call}\`\n\n${entry.summary}\n\n${blocks.join("\n\n")}`;
     },
   );
