@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.5.2
+
+### Changed
+
+- The summary at the end of a run now links to the GitHub repository and asks,
+  once, for a star if Nitrogen saved you time. Stars are how other developers
+  find it. Nothing else changes, and nothing is sent anywhere.
+
 ## 3.5.1
 
 ### Fixed
