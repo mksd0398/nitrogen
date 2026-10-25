@@ -14,7 +14,8 @@ npm version patch --no-git-tag-version   # or minor / major
 ```
 
 `npm version` also sets the version in `plugin.json`, the manifest GitHub
-Copilot installs the plugin from; a test fails if the two differ.
+Copilot installs the plugin from, and in the agent skill's pinned `npx`
+command; a test fails if either differs.
 
 Pushing a `v*` tag, or running the workflow by hand on `master`, starts the same
 release. All three are safe to repeat: the workflow skips a version that is

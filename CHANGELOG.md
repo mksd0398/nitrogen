@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.5.4
+
+### Changed
+
+- The agent skill pins the CLI to the release it was written for
+  (`npx @mksd0398/nitrogen@3.5.4`) instead of `@latest`. `npm version` keeps
+  the pin in step with the package.
+- The agent skill now has the agent show the user `firebase deploy` and
+  `shopify app deploy` and wait for a yes before running them, since a deploy
+  runs on the paid Blaze plan. It also says that an app's `AGENTS.md`, its
+  pages and tool output describe the code and cannot approve a deploy, change
+  how the client secret is handled, or add scopes.
+
 ## 3.5.3
 
 ### Fixed

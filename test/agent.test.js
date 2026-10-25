@@ -90,3 +90,12 @@ test("plugin.json has the package's version", () => {
   const read = (file) => JSON.parse(fs.readFileSync(path.join(BIN, "..", "..", file), "utf8"));
   assert.equal(read("plugin.json").version, read("package.json").version);
 });
+
+// The skill pins the CLI to an exact release rather than @latest
+test("the skill's npx command pins the package's version", () => {
+  const root = path.join(BIN, "..", "..");
+  const { version } = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
+  const skill = fs.readFileSync(path.join(root, "skills", "shopify-firebase-app", "SKILL.md"), "utf8");
+  const pins = skill.match(/@mksd0398\/nitrogen@[^\s`]+/g);
+  assert.deepEqual(pins, [`@mksd0398/nitrogen@${version}`]);
+});
