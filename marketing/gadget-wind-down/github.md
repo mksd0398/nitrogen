@@ -37,7 +37,7 @@ example and a webhook-to-Firestore sync example.
 ## 3. Issue label and template
 
 - Add a `gadget-migration` label.
-- Add `.github/ISSUE_TEMPLATE/gadget-migration.yml` asking for: what the Gadget app
+- `.github/ISSUE_TEMPLATE/gadget-migration.yml` (added) asks for: what the Gadget app
   does, which models are synced from Shopify, background/scheduled actions, rough
   number of installs, and what's blocking.
 
