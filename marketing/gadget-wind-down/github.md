@@ -21,7 +21,7 @@ until **March 31, 2027**, no new apps can be started, and first-time production
 deploys close at the **end of November 2026**.
 
 If you're moving a Gadget Shopify app to Firebase, the
-[migration guide](../blob/main/marketing/gadget-wind-down/migration-guide.md) covers:
+[migration guide](../blob/master/marketing/gadget-wind-down/migration-guide.md) covers:
 
 - which Gadget features map to what (models, actions, webhooks, scheduled and background actions, secrets)
 - keeping your existing Shopify app, so merchants don't reinstall

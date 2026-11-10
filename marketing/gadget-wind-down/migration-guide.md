@@ -2,7 +2,7 @@
 title: "Gadget is shutting down. Here's how to move your Shopify app to Firebase"
 description: "Gadget's platform goes offline on March 31, 2027. A practical, concept-by-concept guide to rebuilding a Gadget Shopify app on Firebase Cloud Functions and Firestore with Nitrogen, and what it costs."
 tags: shopify, firebase, gadget, serverless
-canonical_url: https://github.com/mksd0398/nitrogen/blob/main/marketing/gadget-wind-down/migration-guide.md
+canonical_url: https://github.com/mksd0398/nitrogen/blob/master/marketing/gadget-wind-down/migration-guide.md
 ---
 
 # Gadget is shutting down. Here's how to move your Shopify app to Firebase

@@ -81,7 +81,7 @@ It creates the Shopify app and the Firebase project, stores the secret, deploys,
 
 7/ Cost: $0 idle. ~1,200 daily active stores fit in Firebase's free tier (working in the README).
 
-Full guide: https://github.com/mksd0398/nitrogen/blob/main/marketing/gadget-wind-down/migration-guide.md
+Full guide: https://github.com/mksd0398/nitrogen/blob/master/marketing/gadget-wind-down/migration-guide.md
 
 ---
 
@@ -99,7 +99,7 @@ Firebase. It costs nothing when idle, and every line of code is in your own
 repository, so a vendor decision can't switch it off. I've written a step-by-step
 migration guide that's useful whichever platform you choose:
 
-https://github.com/mksd0398/nitrogen/blob/main/marketing/gadget-wind-down/migration-guide.md
+https://github.com/mksd0398/nitrogen/blob/master/marketing/gadget-wind-down/migration-guide.md
 
 #Shopify #ShopifyApps #Firebase #Ecommerce
 
@@ -113,7 +113,7 @@ Only where people are asking where to move. One message, then answer replies.
 > `npx @mksd0398/nitrogen my-app`. It sets up a Shopify app on Cloud Functions +
 > Firestore with auth, webhooks, GDPR and an admin UI, and deploys it. I wrote a
 > Gadget → Firebase concept map and cutover checklist:
-> https://github.com/mksd0398/nitrogen/blob/main/marketing/gadget-wind-down/migration-guide.md
+> https://github.com/mksd0398/nitrogen/blob/master/marketing/gadget-wind-down/migration-guide.md
 > Happy to help anyone mid-migration, whatever stack you pick.
 
 ---

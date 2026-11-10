@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Start with the [migration guide](https://github.com/mksd0398/nitrogen/blob/main/marketing/gadget-wind-down/migration-guide.md). The most common gaps become examples or features in the next release.
+        Start with the [migration guide](https://github.com/mksd0398/nitrogen/blob/master/marketing/gadget-wind-down/migration-guide.md). The most common gaps become examples or features in the next release.
   - type: textarea
     id: app
     attributes:

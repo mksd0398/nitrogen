@@ -66,7 +66,7 @@ the free tier (the README shows the working).
 Where it's weaker than Gadget: no managed data sync, no generated client, no hosted
 editor, and Firestore isn't relational.
 
-Full guide (dates, mapping, data move, cutover checklist): https://github.com/mksd0398/nitrogen/blob/main/marketing/gadget-wind-down/migration-guide.md
+Full guide (dates, mapping, data move, cutover checklist): https://github.com/mksd0398/nitrogen/blob/master/marketing/gadget-wind-down/migration-guide.md
 
 Happy to answer questions about any stack, not just mine. What's everyone else
 planning to move to?
@@ -132,7 +132,7 @@ function/rewrite region mismatch deploys fine and serves 404; dropping
 `invoker: "public"` gives you a Google 403 that looks exactly like a CORS bug;
 Hosting cuts rewritten requests at 60s whatever `timeoutSeconds` says.
 
-Gadget → Firebase guide: https://github.com/mksd0398/nitrogen/blob/main/marketing/gadget-wind-down/migration-guide.md
+Gadget → Firebase guide: https://github.com/mksd0398/nitrogen/blob/master/marketing/gadget-wind-down/migration-guide.md
 
 Feedback from people who run Firebase at scale is very welcome.
 
@@ -162,7 +162,7 @@ Not the only answer: Shopify's own template and Cloudflare-based starters have t
 same property. The point is to pick something you could keep running without the
 vendor.
 
-Migration guide if you're affected: https://github.com/mksd0398/nitrogen/blob/main/marketing/gadget-wind-down/migration-guide.md
+Migration guide if you're affected: https://github.com/mksd0398/nitrogen/blob/master/marketing/gadget-wind-down/migration-guide.md
 
 ---
 
@@ -178,4 +178,4 @@ Use only where it answers the question asked. Edit it to fit the thread.
 >
 > Disclosure: I maintain Nitrogen, an open-source scaffold for exactly this
 > (`npx @mksd0398/nitrogen`). I wrote up a concept map and cutover checklist here:
-> https://github.com/mksd0398/nitrogen/blob/main/marketing/gadget-wind-down/migration-guide.md
+> https://github.com/mksd0398/nitrogen/blob/master/marketing/gadget-wind-down/migration-guide.md
