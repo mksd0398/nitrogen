@@ -1,0 +1,34 @@
+name: Migrating from Gadget
+description: Moving a Gadget Shopify app to Nitrogen and hit a gap or a question
+title: "[Gadget migration] "
+labels: ["gadget-migration"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Start with the [migration guide](https://github.com/mksd0398/nitrogen/blob/master/marketing/gadget-wind-down/migration-guide.md). The most common gaps become examples or features in the next release.
+  - type: textarea
+    id: app
+    attributes:
+      label: What does your Gadget app do?
+    validations:
+      required: true
+  - type: textarea
+    id: sync
+    attributes:
+      label: Which Shopify models does Gadget sync for you?
+      description: e.g. products, orders, customers. Write "none" if you don't use data sync.
+  - type: textarea
+    id: background
+    attributes:
+      label: Scheduled or background actions
+  - type: input
+    id: installs
+    attributes:
+      label: Roughly how many stores have it installed?
+  - type: textarea
+    id: blocker
+    attributes:
+      label: What's blocking you?
+    validations:
+      required: true
