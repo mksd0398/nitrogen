@@ -28,6 +28,7 @@ npx @mksd0398/nitrogen my-app
 ## Table of Contents
 
 - [What is this?](#what-is-this)
+- [Coming from Gadget?](#coming-from-gadget)
 - [Quick Start](#quick-start)
 - [Build with an AI agent](#build-with-an-ai-agent)
 - [Why Firebase?](#why-firebase)
@@ -46,6 +47,17 @@ npx @mksd0398/nitrogen my-app
 - [Contributing](#contributing)
 - [Related](#related)
 - [License](#license)
+
+---
+
+## Coming from Gadget?
+
+Gadget is [shutting down](https://gadget.dev/blog/gadget-wind-down): apps keep
+running until March 31, 2027. Nitrogen also scales to zero with no server to
+manage, and all the code lives in your repository. The
+[migration guide](marketing/gadget-wind-down/migration-guide.md) maps Gadget's
+models, actions, webhooks and background jobs to their Firebase equivalents. It
+also shows how to keep your existing Shopify app so merchants don't reinstall.
 
 ---
 
