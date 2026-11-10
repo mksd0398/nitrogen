@@ -34,3 +34,4 @@ npm-debug.log*
 
 # Outreach lead list: kept local, not published in this public repo
 marketing/gadget-wind-down/leads.csv
+marketing/gadget-wind-down/outreach-tracker.csv
