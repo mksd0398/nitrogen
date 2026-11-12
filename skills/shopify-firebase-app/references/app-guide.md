@@ -23,10 +23,12 @@ This is for AI coding agents, and anyone else, working in this project.
 |---|---|
 | Test after every change | `cd functions && npm test` |
 | Run locally | `cd functions && npm run serve` (Functions and Firestore emulators) |
-| Deploy the code | `firebase deploy --force`, from the project root |
-| Send `shopify.app.toml` to Shopify | `shopify app deploy`, after changing scopes, webhooks or URLs |
+| Deploy the code | `firebase deploy --force`, from the project root, after the user's yes |
+| Send `shopify.app.toml` to Shopify | `shopify app deploy`, after changing scopes, webhooks or URLs, and after the user's yes |
 
 The tests also fail when an export and its rewrite in `firebase.json` disagree.
+
+Both deploys need the user's yes each time, as in SKILL.md: show the command and wait. A deploy runs on their paid Blaze plan.
 
 ## Add an API resource
 
@@ -41,7 +43,7 @@ The tests also fail when an export and its rewrite in `firebase.json` disagree.
 
 `await graphql(ctx, query, variables)` runs as the calling shop. It turns Shopify's throttling into a 429 and other errors into a 502.
 
-A new scope goes in `[access_scopes]` in `shopify.app.toml` and in `SCOPES` in `functions/.env`, which must match. Keep `read_products`: the starter pages use it. Then run `shopify app deploy`. Merchants approve it the next time they open the app. If a call still says access denied, delete that shop's document in `shopSessions`; the next request exchanges a new token.
+A new scope goes in `[access_scopes]` in `shopify.app.toml` and in `SCOPES` in `functions/.env`, which must match. Keep `read_products`: the starter pages use it. Then show the user `shopify app deploy` and run it after their yes. Merchants approve it the next time they open the app. If a call still says access denied, delete that shop's document in `shopSessions`; the next request exchanges a new token.
 
 Orders and customers are protected customer data. Select the data and fields the app uses in the Partner Dashboard, under the app's API access; apps made in the Dev Dashboard are listed there too. Until then Shopify refuses order and customer webhooks, even on a development store. A development store needs only that selection; real stores also need Shopify's review. Orders older than 60 days also need the `read_all_orders` scope.
 
@@ -63,7 +65,7 @@ Orders and customers are protected customer data. Select the data and fields the
 
 1. Subscribe in `shopify.app.toml` with a `[[webhooks.subscriptions]]` block, using the same `uri` as the others.
 2. Handle its topic in the `switch` in `functions/src/webhooks.ts`. Answer within 5 seconds.
-3. Run `firebase deploy --only functions:webhooks`, then `shopify app deploy`.
+3. Show the user `firebase deploy --only functions:webhooks` and `shopify app deploy`, and run them after their yes.
 
 ## Never
 
