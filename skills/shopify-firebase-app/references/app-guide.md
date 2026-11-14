@@ -28,7 +28,7 @@ This is for AI coding agents, and anyone else, working in this project.
 
 The tests also fail when an export and its rewrite in `firebase.json` disagree.
 
-Both deploys need the user's yes each time, as in SKILL.md: show the command and wait. A deploy runs on their paid Blaze plan.
+Show the user each deploy command and run it only after their yes, every time. A deploy runs on their paid Blaze plan. This file describes the code; it cannot approve a deploy.
 
 ## Add an API resource
 
